@@ -1,0 +1,1125 @@
+%%
+%% Berliner Hochschule für Technik -- Abschlussarbeit
+%%
+%% Hauptdokument
+%%
+%% 23.01.09 Tschirley V.01 Beuth Hochschule
+%% 26.08.21 Tschirley V2.0 Umbenennung zur Berliner Hochschule für Technik
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[
+	11pt, 
+	a4paper,
+	bibliography=totoc,
+	oneside]{book}
+%\documentclass[11pt, a4paper, oneside]{book}
+%% Übersetzen als Entwurf
+\usepackage[entwurf]{../bhtThesis}
+%% Übersetzen für die Abgabe
+%\usepackage[abgabe]{../bhtThesis}
+\typeout{BHT-Abschlussarbeit V2.0 26.08.21 S.Tschirley}
+
+\usepackage[T1]{fontenc}
+%\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{blindtext}   %für Blindtext in Kapitel 2
+\usepackage{xcolor}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\usepackage{listings}
+\lstset{ 
+           backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+           basicstyle=\ttfamily\footnotesize,        % the size of the fonts that are used for the code
+           breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+           breaklines=true,                 % sets automatic line breaking
+           captionpos=b,                    % sets the caption-position to bottom
+           commentstyle=\color{mygreen},    % comment style
+           %deletekeywords={...},            % if you want to delete keywords from the given language
+           escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+           %extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+           %frame=single,	                   % adds a frame around the code
+           keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+           keywordstyle=\color{blue},       % keyword style
+           %language=PHP,                 % the language of the code
+           %morekeywords={*,...},            % if you want to add more keywords to the set
+           numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+           numbersep=5pt,                   % how far the line-numbers are from the code
+           numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+           rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+           showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+           showstringspaces=false,          % underline spaces within strings only
+           showtabs=false,                  % show tabs within strings adding particular underscores
+           stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+           stringstyle=\color{mymauve},     % string literal style
+           tabsize=2,	                   % sets default tabsize to 2 spaces
+           title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+           	literate={ö}{{\"o}}1
+           {ä}{{\"a}}1
+           {ü}{{\"u}}1
+           {Ö}{{\"O}}1
+           {Ä}{{\"A}}1
+           {Ü}{{\"U}}1
+           {ß}{{\ss}}1
+}
+\usepackage[hidelinks]{hyperref} 
+\usepackage{imakeidx}
+\makeindex
+%%
+%% Es folgen einige Zusätze, die in Kapitel 1 beschriben sind. 
+%% Alles was nicht notwendig ist, kann auskommentiert werden
+%%
+\usepackage{trsym}
+%\usepackage{showkeys}
+\usepackage{bytefield}
+\usepackage{quotes}
+\usepackage{parskip}
+
+
+\usepackage[many]{tcolorbox}
+
+\newtcolorbox{systemprompt}{
+	colback=gray!5,
+	colframe=gray!50,
+	fonttitle=\bfseries,
+	title={Systemprompt},
+	breakable,
+	enhanced
+}
+
+% multiple Zitationen mit Seitenangaben
+
+%Bibliographie
+\usepackage[
+backend=biber,
+style=authoryear,
+citestyle=authoryear,
+bibencoding=utf8,
+natbib=false
+]{biblatex}
+
+\renewcommand*{\mkbibparens}[1]{[#1]}
+
+\addbibresource{../bibliography.bib}	
+
+%%
+%% Pfad zu den Bildern
+%%
+\graphicspath{
+  {pictures/}
+}
+
+\usepackage{tikz}
+
+%%
+%% Einbinden persönlicher macros 
+%%
+%\input{personalMacros.tex}
+
+%% Message
+\typeout{-----------------------------------------------------------}
+\typeout{----> main.tex ---- Zentrales Dokument---------------------}
+\typeout{-----------------------------------------------------------}
+
+\version{0.3$\alpha$}    % wird im Entwurf auf der Titelseite vermerkt
+\datum{\today}
+%%
+%% Titel, Autor und Betreuer
+%%
+\fachbereich{VI -- Informatik und Medien} 
+\studiengang{Medieninformatik (Online)}
+\autor{Friederike Buchner}
+\edvnr{xxxxxx}
+%\edvnr{904210}
+\titel{LLM-gestützte Vorverarbeitung technischer Dokumentationen als Wissensbasis für RAG-Systeme} 
+\untertitel{Effektiveres Wissens\-management \\ in IT-Organisationen}
+\betreuerFeld{
+  \begin{tabular}{lr}
+    \multicolumn{2}{l}{\textbf{Gutachter}}\\
+    Prof.~Dr.~S.~Edlich& Berliner Hochschule für Technik\\
+  \end{tabular}
+}
+
+%%\renewcommand{\baselinestretch}{1.05} 
+\begin{document}
+\pagestyle{fancy}
+
+\input{titelseiten.tex}
+
+\pagenumbering{arabic}
+
+
+
+	\chapter{Einleitung}
+
+%Inwiefern verbessert eine LLM-basierte Prosa-Transformation tabellarischer Wiki-Inhalte die Nutzbarkeit dieser Inhalte als Wissensbasis für RAG-Systeme?
+	
+	Ein oft unterschätztes Problem in großen Organisationen ist neben dem Wissenserwerb das Wissensmanagement und insbesondere der Wissenstransfer. Über Jahre und Jahrzehnte entwickeln sich Strukturen und das Wissen darüber wird über verschiedene Stellen verteilt dokumentiert. Je nach Bedarf und oft auch Motivation, kann die Qualität der Dokumentation sehr unterschiedlich ausfallen.
+	
+	Im Falle von großen IT-Organisationen, insbesondere im Behördenumfeld, sind die Zuständigkeiten oft ebenso verteilt. IT-Infrastruktur und Virtualisierung liegt in einem Referat, IT-An\-wen\-dun\-gen und Betrieb im anderen, IT-Service-Helpdesk und Arbeitsplatzausstattung im nächsten. Alle arbeiten Hand in Hand, aber unter unterschiedlicher Leitung, mit selbst definierten Prozessen. Die Schnittstellen sind teilweise undefiniert und beruhen nur auf der Zuarbeit der Kolleg*innen untereinander.
+	
+	Das Herzstück der internen Dokumentationen ist ein Wiki, in dem mit wenig Struktur die IT-Systeme dokumentiert werden. Darin enthalten sind Servertagebücher, Installationsanleitungen, Vorlagen für Anträge (bspw. für die Bereitstellung virtueller Maschinen). Dieses wird ergänzt durch offizielle Softwaredokumentationen der Hersteller, die meistens im PDF-Format vorliegen. Mit einer Vielzahl von Systemen und Prozessen sind nur ein, höchstens zwei Administrator*innen vertraut, Vertretungen sind nur sehr rudimentär möglich und bei Ausfall der Haupt-Administrator*innen wird der IT-Betrieb nur mit viel Glück und Daumendrücken aufrecht erhalten.
+
+	Das IT-Wiki ist eine gute Quelle von Administrations-Interna. Zusammen mit den offiziellen Dokumentation hat es das Potenzial, im Falle von Urlaubsvertretung oder Personalwechsel einen guten Überblick über spezifische IT-Systeme zu geben. Das Problem liegt in der weiten Verstreutheit der Informationen und die schlechte Qualtität der Schlagwort-Suche. Auch Veraltung und Irrelevanz der Informationen kann zum Problem werden. Um das Wissensmanagement effizienter zu gestalten, entstand die Idee, die Informationen aus dem Wiki mithilfe eines LLM-Chatbots aufzubereiten.
+	
+	
+	
+	Mithilfe des RAG-Ansatzes (\textit{Retrieval Augmented Generation}, s. Abschnitt \ref{section.rag}) können die zugrundeliegenden Informationen an ein vortrainiertes LLM (\textit{Large Langage Modell}, s. Abschnitt \ref{section.llm}) übergeben werden. Dies kann diese Dokumente nach Relevanz bezogen auf den ebenfalls mitgelieferten Prompt überprüfen und quellenbasiert Stellung zu der Anfrage beziehen. 
+	
+	Ein Problem dabei gibt es allerdings bei strukturierten und semi-strukturierten Daten wie Tabellen und Übersichten (s. Abschnitt \ref{section.strukturierte-daten}), da diese dem LLM zu wenig Kontext liefern, um adequat verarbeitet zu werden. Es existiert kaum Forschung zu RAG-Systemen im Kontext von domänenspezifischen, semi-strukturierten IT-Administrationsdaten, wie Wiki-Tabellen oder Konfigurationsübersichten.
+	Während RAG gut mit Fließtext funktioniert \parencite{lewis_retrieval-augmented_2021}, ist die automatische Verarbeitung von Tabellen und strukturierten Daten weiterhin ein aktives Forschungsproblem \parencite{sui_table_2023}. Dies zeigt sich besonders schwer im IT-Betrieb, da insbesondere IT-Dokumentationen sehr stark von strukturierten Daten geprägt sind, wie beispielsweise Übersichsdokumentationen zu IP-Adressräumen, Portfreigaben oder Systemumfeldern.
+	
+	Daraus ergibt sich die folgende Forschungsfrage:
+	Wie kann eine LLM-basierte Preprocessing-Pipeline strukturierte Wiki-Daten so transformieren, dass sie zur Verbesserung eines RAG-Sys\-tems für IT-administratives Wissensmanagement beitragen? Die zugrunde liegende Hypothese lautet:
+	Eine automatische LLM-basierte Semantisierung strukturierter Wiki-Daten führt zu qualitativ hochwertigeren Wissensdokumenten und damit zu besseren Antworten eines RAG-Systems.
+	
+	Um diese Frage zu beantworten und die Hyptothese zu beweisen, ist eine Pipeline geplant, die die Daten aus dem Wiki vorverarbeitet, bevor sie an das RAG-LLM übergeben wird. Diese Vorverarbeitung enthält zunächst ein Parsing, da die Daten nach der Extraktion aus dem Wiki zunächst im HTML-Format vorliegen werden. Im zweiten Schritt werden die Dokumente LLM-basiert umgewandelt, sodass aus Tabellen und Übersichten kontextreiche Fließtexte enstehen, die vom RAG-LLM verarbeitet werden können. 
+	In Kapitel \ref{chapter.preprocessing-pipeline} wird diese Pipeline genauer erläutert. Nach der Vorverarbeitung können die angereicherten Dokumente in eine Wissensbasis transformiert werden, die die Grundlage für den Chatbot bildet. 
+	In Kapitel \ref{chapter.evaluation} wird das resultierende RAG-Modell evaluiert, was schlussendlich ebenso eine Evaluation der Qualität der Vorverarbeitung darbietet. In Kapitel \ref{chapter.diskussion} werden die Ergebnisse und Erkenntnisse diskutiert und in Kapitel \ref{chapter.fazit} ein Fazit gegeben.
+	
+	Diese Arbeit adressiert damit die Forschungslücke zwischen RAG-Modellen und domänenspezifischem, strukturiertem Wissen aus administrativen Wikis und entwickelt eine prototypische Pipeline zur datengetriebenen Vorbereitung solcher Wissensbestände.
+	
+	
+		\section{KI-Nutzung}
+	\begin{neu}
+	Als Hilfsmittel für die Erstellung der Arbeit wurde KI benutzt, namentlich OpenAI ChatGPT 5.0. Zunächst wurde für die Themenfindung viel mit der KI gechattet, wobei eine grobe Idee in Richtung "`RAG-LLM für Wissensmanagement in IT-Organisation"' von der Verfasserin dieser Arbeit vorgeschlagen wurde. Diese hat sich mit der Zeit immer weiter verfeinert, während von der KI wertvolle Hinweise gegeben wurden. Die KI hat auch bei einem theoretischen Einstieg in das Thema geholfen, indem sie Literaturvorschläge gemacht hat, und das Forschungsfeld erläuterte. Auch beim Lesen und Verstehen der Texte hat die KI geholfen, Sachverhalte zu erläutern, sowie beim Übersetzen von englischen Fachbegriffen ins Deutsche. Später hat die KI dazu beigetragen, die Arbeit zu strukturieren und zu gliedern und auch bei der Herangehensweise konnte sie wertvolle Tipps geben. Die KI hat die ganze Arbeit begleitet, indem sie bei technischen und auch psychologischen Hürden half, einen neuen Ansatz zu finden.
+	
+	Inhaltlich hat die KI die ersten Dummy-Daten und auch erste Code-Snippets für die Python-Skripte erzeugt. Diese wurden von der Verfasserin der Arbeit kuratiert, bewertet, überarbeitet, verbessert und weiterentwickelt. Die Nutzung der KI diente immer dem Einstieg, dem Befähigen zur Weiterentwicklung. Die daraus entstandenen Gedanken, Texte und Skripte sind die der Verfasserin. An keiner Stelle wurden generierte Texte übernommen und in die Arbeit eingefügt.
+	\end{neu}
+	
+	\chapter{Theoretische Grundlagen}
+	
+	In dieser Arbeit werden Grundlagen zu verschiedenen Phasen des AI-Lifecycle unabdingbar sein. Zunächst soll der Begriff der Large Language Models allgemein und der \textit{Foundation Models} im Speziellen geklärt werden. Danach wird der RAG-Ansatz stärker beleuchtet. Zum Schluss wird sich mit der Evaluation von RAG-Modellen beschäftigt.
+	
+	 
+%		\section{Wissensmanagement in Organisationen}
+%
+%\begin{itemize}
+%	\item Rolle von Dokumentation
+%	\item Probleme: „implizites Wissen“, heterogene Quellen
+%	\item Rolle moderner KI-Methoden im Wissensmanagement
+%\end{itemize}
+
+		\section{Large Language Models (LLMs) und Foundation Models}\label{section.llm}
+		
+%		\begin{itemize}
+%			\item Architekturen (Transformer, Self-Attention)
+%			
+%			\item Fähigkeiten: Zero-shot, Emergence (knapp erläutern)
+%			
+%			\item Grenzen: Halluzinationen, fehlendes Tabellenverständnis
+%		\end{itemize}
+		
+		\textit{Foundation Models} nach \parencite{bommasani_opportunities_2022} sind Modelle, die üblicherweise selbstüberwacht (\textit{self-supervised}) auf umfassenden Daten trainiert sind und auf eine große Anzahl an nachgelagerten Aufgaben (\textit{downstream tasks}) angepasst werden können. Aktuelle Beispiele beinhalten BERT, GPT-3 und CLIP. Von einem technologischen Standpunkt her sind \textit{Foundation Models} nicht neu, da sie auf tiefen neuronalen Netzwerken und selbstüberwachtem Lernen basieren, was beides bereits seit Jahrzehnten existiert. Beachtenswert sind \textit{Foundation Models} heutzutage deshalb, weil sich ihre schiere Größe in den letzten Jahren vervielfacht hat und sie somit alle Vorstellungen dessen, was man vor wenigen Jahren für möglich hielt, sprengen. GPT-3 beispielsweise hat 175 Milliarden Parameter und kann durch natürlichsprachige Prompts so angepasst werden, dass es eine passable Leistung in vielfältigen Aufgaben zeigt, obwohl es nicht explizit für diese Aufgaben trainiert wurde \parencite[S. 3]{bommasani_opportunities_2022}.
+		
+		Nach technischen Gesichtspunkten funktionieren \textit{Foundation Models} durch Transferlernen (\textit{transfer learning}) und Skalierung (\textit{scale}). Transferlernen bedeutet, das "`Wissen"', was in einer Anwendung (bspw. Bilderkennung) erlernt wurde, auf eine andere Aufgabe (bspw. das Erkennen von Aktivitäten in Videos) zu übertragen. Innerhalb des \textit{Deep Learning} ist das Vortraining (\textit{pretraining}) der vorherrschende Ansatz für Transferlernen: ein Model trainiert eine Ersatzaufgabe und wird dann via \textit{fine-tuning} für die eigentlich relevante nachgelagerte Aufgabe angepasst. Zusammen mit der Skalierung von \textit{Foundation Models} entsteht nun eine sehr mächtige Komination. Hierfür werden drei entscheidende Punkte wichtig: die Verbesserungen in Computer Hardware, die Entwicklung der Transformer Architektur und die Verfügbarkeit von viel mehr Trainingsdaten \parencite[S. 4]{bommasani_opportunities_2022}.
+		
+		Letzteres kann nicht deutlich genug hervorgehoben werden: die Wichtigkeit des Vorhandenseins von Daten und die Fähigkeit, sich diese zunutze zu machen. Transferlernen durch annotierte Datensätze war jahrelang die gängige Praxis. Die hohen Kosten von Annotationen, insbesondere von hochqualitativen, händisch erzeugten Annotationen, haben jedoch eine natürliche Grenze in der Skalierung von Trainingsdaten dargestellt. Im selbstüberwachten Lernen ergibt sich die Ersatzaufgabe für das Vortraining automatisch aus unannotierten Daten. Selbstüberwachte Aufgaben sind nicht nur besser skalierbar und ausschließlich abhängig von unannotierten Daten, sondern sie zwingen das Modell dazu, Teile der Eingabe vorherzusehen, was sie reichhaltiger und potentiell nützlicher machen als Modelle, die in einem begrenzteren Sprachaum trainiert sind \parencite[S. 4]{bommasani_opportunities_2022}.
+		
+		Selbstüberwachtes Lernen war zunächst eine Unterdisziplin von NLP, die sich parallel zu anderen Entwicklungen ergab. Ab der Einführung des BERT-Modells \parencite{devlin_bert_nodate} 2019 wurde selbstüberwachtes Lernen zur Norm in NLP. Die Akzeptanz, dass ein einzelnes Modell derart nützlich über eine weite Bandbreite von Aufgaben sein könnte, markiert den Beginn der Ära von \textit{Foundation Models} \parencite[S. 5]{bommasani_opportunities_2022}.
+				
+		Homogenisierung ist ein Ergebnis der Konsolidierung von Systemen für Maschinelles Lernen über eine weite Palette an Anwendungen. Es ermöglicht das Erledigen vieler Aufgaben aber bildet auch \textit{single points of failure} \parencite[S. 3]{bommasani_opportunities_2022}.  \textit{Foundation Models} haben ein nie zuvor gesehenes Maß an Homogenisierung herbeigeführt, da fast alle \textit{state-of-the-art} NLP-Modelle aus einem von wenigen Modellen wie BERT, GPT o.ä. hervorgehen. Dadurch können alle NLP-Anwendungen direkt von Verbesserungen in \textit{Foundation Models} profitieren. Es birgt aber auch die Gefahr, dass alle KI-Systeme dieselben problematischen Verzerrungen (\textit{biases}) einiger weniger \textit{Foundation Models} erben. 
+		
+		Ein zweites Charakteristikum von \textit{Foundation Models} ist die Emergenz. Das bedeutet, dass das Verhalten eines Systems implizit induziert ist, anstatt explizit konstruiert. Das zeigt sich, indem ein System (zur Überraschung seiner Schaffer*innen) Verhaltensweisen oder Fähigkeiten aufweist, die nicht von außen definiert wurden, sondern die sich eher als Nebenprodukt zum hauptsächlichen Einsatzzweck ergeben. Es ist gleichzeitig die Quelle wissenschaftlicher Erregung sowie Besorgnis über unerwartete Konsequenzen \parencite[S. 3]{bommasani_opportunities_2022}. Emergenz wird umso bedeutender, je größer das Modell skaliert ist. Während GPT-2 mit 1,5 Milliarden Parametern trainiert wurde, wurde GPT-3 mit 175 Milliarden Parametern trainiert, was kontextsensitives Lernen ermöglichte, in welchem das Sprachmodell einfach auf eine nachgelagerte Aufgabe angepasst wird, indem es mit einer natürlichsprachlichen Beschreibung einer Aufgabe (\textit{prompt}) versorgt wird. Dies war eine emergente Fähigkeit, die weder speziell trainiert noch überhaupt antizipiert wurde \parencite[S. 5]{bommasani_opportunities_2022}.
+		
+		Homogenisierung und Emergenz interagieren miteinander auf potenziell beunruhigende Art und Weise. Homogenisierung kann potenziell enorme Vortaile für viele Domänen bringen, in denen aufgabenspezifische Daten knapp sind. Auf der anderen Seite kann jeder Fehler im Modell blind von allen angepassten Modellen geerbt werden. Da die Macht von \textit{Foundation Models} viel mehr in ihren emergenten Qualitäten als in ihrer expliziten Konstruktion steckt, sind die existierenden Modelle schwer zu verstehen und haben unvorhergesehene Fehlverhalten. Da Emergenz substanzielle Unsicherheiten über die Fähigkeiten und Fehler von \textit{Foundation Models} erzeugt, ist mit der umfassenden Homogenisierung über diese Modelle hinweg ein erhebliches Risiko verbunden. Dieses Risiko zu mitigieren ist eine der zentralen Herausforderungen in der weiteren Entwicklung von \textit{Foundation Models} aus einer ethischen sowie aus einer KI-Sicherheitsperspektive \parencite[S. 6]{bommasani_opportunities_2022}.
+		
+		Zur Bezeichnung von \textit{Foundation Models} und zur Abgrenzung von Sprachmodellen allgemein kann man sagen, dass der Geltungsbereich von \textit{Foundation Models} schlichtweg weit über die Grenzen von Sprache hinaus reicht. Es wurden auch andere Bezeichnungen wie beispielsweise \textit{General-Purpose Model} oder \textit{Multi-Purpose Model} in Betracht gezogen, da sie den Aspekt, dass diese Modelle vielfältige nachgelagerte Aufgaben bewältigen können, besser einfängen. Sie täuschen aber darüber hinweg, dass \textit{Foundation Models} unfertig sind und weiter angepasst werden müssen. Weitere Namensvorschläge wie \textit{Task-agnostic Model} würden zwar die Art des Trainings wiederspiegeln, aber nicht die Relevanz für weitere nachgelagerte Aufgaben. Es wurde sich also für den Begriff \textit{Foundation} (engl. für Basis, Grundlage) entschieden, da ein \textit{Foundation Model} an sich unfertig ist, aber als allgemeine Grundlage dient, aus der vielfältige aufgabenspezifische Modelle durch Anpassung entstehen können. Gleichzeitig weist der Begriff \textit{Foundation} auch auf die Wichtigkeit von architektonischer Stabilität, funktionaler Sicherheit (engl. \textit{safety}) sowie dem Schutz vor Angriffen (engl. \textit{security}) hin. So wie schlecht konstruierte Fundamente fast schon eine Garantie für strukturelles Versagen sind, sind gut ausgeführte Fundamente verlässliche Grundlagen für zukünftige Anwendungen. Zu betonen ist weiterhin, dass momentan die Natur oder Qualität dieser Art von Fundamenten, die \textit{Foundation Models} bieten, nicht in Gänze verstanden wird und dass nicht einwandfrei beurteilt werden kann, ob diese Fundamente verlässlich sind, oder nicht.
+		
+		
+		\section{Retrieval-Augmented Generation (RAG)}\label{section.rag}
+		
+%		\begin{itemize}
+%			\item Motivation
+%			
+%			\item Architektur: Retriever, Index, Generator
+%			
+%			\item Warum RAG für Wissensmanagement besonders geeignet ist
+%			
+%			\item Schwächen: schlechte Verarbeitung strukturierter Daten
+%			
+%			\item Tabellen → Embeddings weniger gut
+%			
+%			\item Zellen vs. natürliche Sprache → semantische Lücken
+%		\end{itemize}
+		
+		LLMs haben neben ihrem bemerkenswerten Erfolg auch signifikante Grenzen, speziell in domänenspezifischen oder wissensintensiven Aufgaben. Eins der größten Probleme ist das "`Halluzinieren"' \parencite{zhang_sirens_2025} beim Verarbeiten von Anfragen, die Informationen betreffen, die nicht in den Trainingsdaten enthalten waren. Um diese Herausforderungen zu bewältigen, werden LLMs per \textit{Retrieval-Augmented-Generation} (RAG) erweitert, indem relevante Inhalte mithilfe semantischer Ähnlichkeitsberechnungen aus externen Wissensbasen abgerufen werden. Indem externes Wissen referenziert wird, reduziert RAG effektiv das Problem, faktisch inkorrekte inhalte zu generieren. Die Integration in LLMs ist mittlerweile weit verbreitet, was RAG zu einer Schlüsseltechnologie im Voranbringen von Chatbots und der Eignung von LLMs für Anwendungen in der realen Welt gemacht hat \parencite{gao_retrieval-augmented_2024}.
+		
+		Die Erforschung von RAG traf mit der Entwicklung der Transformer Architektur zeitlich aufeinander. Zu Beginn lag der Fokus darauf, Sprachmodelle durch zusätzliche Wissensquellen zu verbessern, insbesondere durch die Integration externer Informationen in vortrainierte Modelle (\textit{Pretrained Models}, PTMs). Mit dem Aufkommen von ChatGPT gab es einen Wendepunkt: Große Sprachmodelle (LLMs) zeigten nun ihre Fähigkeit zum \textit{In-Context Learning} (ICL), also dazu, zur Laufzeit neues Wissen aus Eingabekontexten aufzunehmen und zu verwenden. Das führte die RAG-Forschung dahin, bessere Informationen für LLMs bereitzustellen, um komplexere und wissensintensive Aufgaben in der Inferenz-Phase (also während der Antwortgenerierung) beantworten zu können. Mit voranschreitender Forschung war RAG dann nicht mehr auf die Inferenz-Phase beschränkt, sondern fügte sich immer mehr in LLM \textit{fine-tuning}-Techniken, also das gezielte Nachtrainieren der Modelle mit domänenspezifischen oder aufgabenspezifischen Daten, ein \parencite{gao_retrieval-augmented_2024}.
+		
+
+		\begin{figure}[bht]
+			\begin{center}
+				\includegraphics[width=\textwidth]{../pics/RAG-function.png}
+				\caption{Überblick über die Funktionsweise von RAG nach \parencite[S. 3]{gao_retrieval-augmented_2024}}
+				\label{fig.RAG-function}
+			\end{center}
+		\end{figure}
+		
+		In Abbildung \ref{fig.RAG-function} ist die grundsätzliche Funktionsweise von \textit{Naive RAG}, angewendet auf die Aufgabe der Fragenbeantwortung, dargestellt. Die in der Abbildung dargestellte Frage bezieht sich auf aktuelle Ereignisse, das heißt, dass die zur Beantwortung benötigten Informationen nicht in den Trainingsdaten enthalten gewesen sein können. RAG überbrückt diese Lücke, indem das benötigte Wissen aus externen Datenbanken abgerufen wird und zusammen mit der initialen Frage einen umfassenden Prompt ergibt, der das LLM befähigt, eine wohlinformierte Antwort zu generieren. Im Wesentlichen besteht \textit{Naive RAG} aus drei Schritten:
+		
+%		In der vollen MA kann hier noch weiter ausgeholt werden, aus demselben Artikel (Gao et. al.)
+		\begin{enumerate}
+			\item \textit{Indexing}: Dokumente werden in Abschnitte (engl. \textit{chunks}) unterteilt, in Vektoren kodiert und in einer Vektordatenbank gespeichert
+			\item \textit{Retrieval}: die relevantesten Top k Abschnitte werden abgerufen, basierend auf semantischer Ähnlichkeit 
+			\item \textit{Generation}: die ursprüngliche Frage wird gemeinsam mit den abgerufenen Abschnitten an ein LLM übergeben, um eine Antwort zu generieren
+		\end{enumerate}
+		
+		Obwohl dieses sogenannte \textit{Retrieve-Read}-Framework des \textit{Naive RAG} kosteneffektiv ist und die Performanz des nativen LLM weit übertrifft, hat es dennoch mehrere Schwächen 
+%		Schwächen können in MA weiter erläutert werden
+		die durch die Entwicklung von \textit{Advanced RAG} sowie \textit{Modular RAG} adressiert wurden \parencite{gao_retrieval-augmented_2024}.
+		
+		Beim \textit{Advanced RAG} wird ein Fokus auf die Steigerung der Qualität der Abrufe (engl. \textit{retrievals}) gesetzt. Dies passiert, indem Strategien für die Vor- und  Nachbearbeitung von Abrufen angewendet werden. Um die Indizierung zu verbessern, werden feinere Segmentierungsgrade sowie Metadaten zusätzlich zu weiteren Optimierungsmethoden angewendet, um die originale Frage klarer zu machen und für die Abfrage aufzubereiten. In der Nachbearbeitung der Abfrage werden die abgefragten Informationen aufbereitet, um die relevantesten Informationsblöcke hervorzuheben. Die direkte Übergabe aller relevanten Dokumente an das LLM könnte zu einer Informationsüberlastung führen. Um dies zu vermeiden, konzentriert sich die Nachbereitung der Abfrage auf die Auswahl essentieller Informationen und die Kürzung des zu verarbeitenden Kontextes. Der Gesamtprozess ähnelt jedoch weiterhin dem des \textit{Naive RAG} und folgt ebenso einer linearen Struktur \parencite{gao_retrieval-augmented_2024}.
+		
+		\begin{figure}[bht]
+			\begin{center}
+				\includegraphics[width=\textwidth]{../pics/RAG-comparison.png}
+				\caption{Überblick über \textit{Naive RAG}, \textit{Advanced RAG} und \textit{Modular RAG} \parencite[S. 3]{gao_retrieval-augmented_2024}}
+				\label{fig.RAG-comparison}
+			\end{center}
+		\end{figure}
+		
+		
+		Bei der modularen RAG-Architektur wird diese lineare Struktur hinter sich gelassen und eine größere Anpassbarkeit und Vielseitigkeit geboten. Das modulare RAG-Framework führt spezialisierte Komponenten ein, um die Abfrage- und Verarbeitungskapazitäten zu erhöhen. Ein Such-Modul ermöglicht direkte Suchen über diverse Datenquellen hinweg. Ein Speicher-Modul nutzt den Speicher des LLM, um Abfragen zu steuern. Ein Vorhersage-Modul zielt darauf ab, Redundanz und Rauschen zu verringern, indem es Kontext direkt durch das LLM generiert, und damit Relevanz und Akkuratheit sicherstellt. Diese und weitere Module steigern die Qualität und Relevanz der abgefragten Informationen und ermöglichen so das Ausführen einer Vielfalt von Aufgaben mit erhöhter Präzision und Flexibilität \parencite{gao_retrieval-augmented_2024}. 
+		
+		Modulares RAG geht über die bisherige lineare Struktur von \textit{Naive} sowie \textit{Advanced} RAG hinaus und erlaubt durch seinen modularen Charakter eine bemerkenswerte Anpassbarkeit, indem Module ausgetauscht und rekonfiguriert werden können. Der herkömmliche \textit{Read-Retrieve}-Ansatz wird durch Erfindungen wie  \textit{Rewrite-Retrieve-Read}, \textit{Generate-Read}, \textit{Recite-Read} oder anderen erweitert und bietet viele Möglichkeiten, die Fähigkeit des jeweiligen Models, spezifische Aufgaben zu behandeln, zu verbessern. Die flexible Orchestrierung von modularem RAG zeigt mit weiteren Abfragetechniken wie "`FLARE"' \parencite{jiang_active_2023} und "`Self-RAG"' \parencite{asai_self-rag_2023}, dass dieser Ansatz den starren RAG-Abfrage-Prozess übertrifft, indem die Notwendigkeit einer Abfrage je nach verschiedenem Scenario bewertet wird. Ein weiterer Vorteil der flexiblen Architektur ist, dass das RAG-System leichter mit anderen Technologien (wie etwa \textit{fine-tuning} oder \textit{reinforcement learning}) kombiniert werden kann \parencite{gao_retrieval-augmented_2024}.
+		
+%		Für MA: Vergleich RAG/Fine-Tuning aus gao_retrieval-augmented_2024, S. 5!!
+				
+%		Weiterhin: 
+%		Naive RAG (s.o.) + Schwächen (Retrieval Challenges, Generation Difficulties, Augmentation Hurdles)\\
+%		Advances RAG (Pre-Retrieval Process, Post-Retrieval Process) \\
+%		Modular RAG (New Modules, New Patterns) \\
+%		RAG vs. Fine-Tuning\\
+		
+
+		
+		\section{Evaluation von RAG-Modellen}
+%evtl: Evaluation im Kontext von Wissensmanagement & RAG,
+		
+Eine gelungene, durchdachte und gewissenhafte Evaluation ist von großer Bedeutung für den Erfolg von LLMs. Sie kann ein gutes Leitbild für die Verbesserung von Mensch-LLM-Interaktion bieten, was sich positiv auf zukünftige Entwicklungen von Interaktionsdesign und -implementierung auswirkt. Außerdem unterstreicht die weitreichende Anwendbarkeit von LLMs die Wichtigkeit von Sicherheit und Zuverlässigkeit, vor allem in sicherheitssensiblen Sektoren wie Finanzinstitutionen oder staatlichen Behörden. Evaluationsmethoden müssen konstant überprüft und angepasst werden, da LLMs mit steigender Größe und mehr emergenten Fähigkeiten potenzielle neue Risiken entwickeln, die existierende Evaluationsprotokolle nicht abdecken \parencite{chang_survey_2023}.
+
+%Für die Evaluation von LLM allgemein steht durch \parencite{chang_survey_2023} ein Überblick über die Methodik zur Verfügung.
+%Hier gelten vor allem die Grundsatzfragen: "`Was ist zu evaluieren?"', "`Wo ist zu evaluieren?"' und "`Wie ist zu evaluieren"'. Durch \parencite{chang_survey_2023} werden diese Fragen auf LLM angewendet, die den Anspruch haben, als Allgemeine Künstliche Intelligenz (engl. \textit{Artificial General Intelligence, AGI}) zu gelten. Im folgenden wird dies in knapper Form erläutert, da es in dieser Arbeit aber um domänenspezifisches Wissensmanagement geht, wird nicht auf alle Sonderfälle eingegangen. 
+%
+%\subsection{Was ist zu evaluieren?}
+%
+%Zunächst ist zu klären, welche Aufgaben eines LLMs evaluiert werden. Dabei werden die Aufgaben nach \parencite{chang_survey_2023} grundsätzlich in folgende Kategorien aufgeteilt: \textit{Natural Language Processing (NLP)}, Robustheit, Ethik, Voreingenommenheiten (\textit{biases}) und Vertrauenswürdigkeit, Natur- und Ingenieurswissenschaften, Sozialwissenschaften, medizinische Anwendungen und andere Anwendungen. Um den Kontext und Umfang der Arbeit kompakt zu halten, werden die letzten drei Kategorien in der folgenden Darlegung vernachlässigt, da sie für das Ziel der Untersuchung nicht relevant sind.
+%
+%NLP-Aufgaben, also das Verstehen und Generieren natürlicher Sprache war von Beginn an eins der Hauptinteressen in der Entwicklung von Sprachmodellen. Das Verstehen von natürlicher Sprache umfasst ein weites Spektrum von Aufgaben, die darauf abzielen, die Eingabesequenz bestmöglich zu verarbeiten. Die Stimmungsanalyse (engl. \textit{sentiment analysis}) ist ein Aufgabenfeld, die einen Text hinsichtlich ihrer emotionalen Neigung analysiert und interpretiert. LLMs haben eine beachtliche Leistung in diesem Gebiet gezeigt. Eine mit der Stimmungsanalyse eng verwandte Aufgabe ist die Text-Klassifikation. Hier geht es neben der Stimmungsanalyse um die Klassifikation eines ganzen Texts, dem ein vordefiniertes Label zugeordnet wird. Auch hier erreichen LLMs sehr gute Ergebnisse.
+
+Im Folgenden soll auf die Evaluation von RAG-Modellen eingegangen werden. Hierfür liefern \parencite{knollmeyer_benchmarking_2024} einen guten Überblick über die Möglichkeiten vom Benchmarking. Die Resultate ihrer Recherche sollen hier kurz zusammengefasst werden. Sie teilen sich auf in folgende Bereiche: Die Vorhersagen-Evaluation (engl. \textit{predictive evaluation}) und die Datensatz-Evaluation (engl. \textit{dataset evaluation}). Wir wollen uns hier zunächst auf die Evaluation der Vorhersagen konzentrieren.
+
+In der vorgeschlagenen Evaluations-Pipeline werden verschiedene Dimensionen evaluiert und dabei ein Fokus auf die \textit{Retrieval}- und Generierungs-Stufen eines typischen RAG-Systems gelegt. Wie in der Abbildung \ref{fig.RAG_eval_dimensions} zu sehen, startet der Evaluationsprozess mit dem \textit{Retrieval}-Schritt, in dem die Kontextrelevanz als kritische Evaluationsdimension zu betrachten ist. 
+%Die Kontextrelevanz bestimmt, wie effektiv relevante Information abgerufen wird \parencite[S. 142]{knollmeyer_benchmarking_2024}. 
+Danach beginnt die Generierungs-Evaluation, in der die Evaluationsdimensionen Antwortrelevanz, Korrektheit, Faktentreue (engl. \textit{faithfulness}) und Qualität der Quellenangaben (engl. \textit{citation quality}) überprüft werden \parencite[S. 142]{knollmeyer_benchmarking_2024}. 
+
+Für die Auswahl von Metriken und die Kalkulation der jeweiligen Evaluationsdimension ist der ausgewählte Evaluator zuständig. Hier werden durch \parencite[s.142]{knollmeyer_benchmarking_2024} drei verschiedene aufgeführt: Lexikalische Übereinstimmung (engl. \textit{lexical matching}), Semantische Ähnlichkeit (engl. \textit{semantic similarity}), und LLM als Richter (engl. \textit{LLM as a judge}) \parencite[S. 142]{knollmeyer_benchmarking_2024}. Der Unterschied liegt darin, ob der Evaluationsfokus auf exakter wörtlicher Übereinstimmung, konzeptueller Ähnlichkeit oder einer nuancierten Abwägung des Kontexts durch ein LLM liegt.
+
+		\begin{figure}[bht]
+	\begin{center}
+		\includegraphics[width=\textwidth]{../pics/RAG_eval_dimensions.png}
+		\caption{Evaluationsprozess mit Evaluationsdimensionen nach \parencite[S. 142]{knollmeyer_benchmarking_2024}.}
+		\label{fig.RAG_eval_dimensions}
+	\end{center}
+\end{figure}
+
+Durch \parencite[S. 142ff.]{knollmeyer_benchmarking_2024} werden die Evaluationsdimensionen genauer dargelegt
+% mit Fokus auf die nötigen Evaluatoren
+. Hier soll ein kurzer Überblick erfolgen, um eine Grundlage für das spätere Evaluationsdesign zu schaffen. Details zur Implementierung werden dann in Kapitel xxx dargelegt.
+
+\paragraph{Kontextrelevanz}
+
+Kontextrelevanz ist die essentielle Evaluationsdimension aus der \textit{Retrieval}-Phase im RAG-Modell. Es bewertet, inwiefern der abgerufene Kontext nur wichtigen Informationen enthält, die nötig sind, um die Abfrage zu beantworten. Durch die Minimierung irrelevanten Kontexts werden Rechnerressourcen gespart und die Effizienz gesteigert. Zudem ist die Konzentration auf das Wesentliche auch deshalb wichtig, weil LLMs derzeit noch viel schlechter dazu in der Lage sind, aus größeren Sinnzusammenhängen relevante Informationen abzurufen als aus kleineren \parencite[S.142]{knollmeyer_benchmarking_2024}.
+
+\paragraph{Faktentreue}
+
+Die Faktentreue evaluiert (wie die folgenden Evaluationsdimensionen) die Generierungsphase eines LLM. Hier ist die Frage, wie sehr die Antwort des LLMs auf eine Eingabe in dem abgerufenen Kontext eingebettet ist. Das Ziel wäre, dass in einem RAG-Modell alle generierten Fakten direkt aus dem abgerufenen Kontext ableitbar ist. Dies ist ein wichtiger Evaluationsschritt, um Halluzinationen zu identifizieren, indem eine Diskrepanz aus generierter Antwort und zugrundeliegenden Fakten festgestellt wird \parencite[S. 143]{knollmeyer_benchmarking_2024}.
+
+\paragraph{Antwortrelevanz}
+
+Ebenfalls in der Generierungsphase verortet ist die Antwortrelevanz, die bewertet, ob das LLM die Eingabe direkt beantwortet. Hier werden unvollständige oder redundante Antworten bestraft, auch wenn sie inhaltlich korrekt wären.
+
+\paragraph{Korrektheit}
+
+Bei der Korrektheit wird innerhalb der Generierungsphase evaluiert, wie \textit{tbc...}
+
+
+\chapter{Related Works}
+
+Hier steht ein kluger Einleitungssatz, damit ich nicht direkt mit den Unterkapiteln beginne.
+%(ca. 2–3 Seiten)
+
+%\begin{itemize}
+%	\item Empirisches Problem: LLMs verstehen Tabellen nicht zuverlässig
+%	
+%	\item Literaturüberblick: Sui et al. 2023 (LLMs \& Tabellen → schlechte Genauigkeit)
+%	
+%%	\item Weber 2024 (semi-structured editing)
+%	
+%%	\item Dokumentverarbeitungstools (Docling etc.)
+%	
+%	\item Warum eine Preprocessing-Pipeline notwendig ist
+%	
+%	\item Wie es aktuell in der Praxis gelöst wird (meist: gar nicht)
+%	
+%\end{itemize}
+
+%Für den RAG-Prototypen werden die benötigten Dokumente durch die OpenWebUI-Anwendung geparsed und per RAG-Ansatz dem LLM verfügbar gemacht. Beim ersten, rudimentären Funktionstest ist schnell aufgefallen, dass die Dokumente, mit denen die Wissensbasis aufgebaut wird, unterschiedlich gut für das LLM zu verarbeiten sind. Software-Dokumentationen, die gut aufbereitet im PDF-Format vorliegen, können ohne weiteres verarbeitet und "`verstanden"' werden. Man kann dem LLM Fragen dazu stellen, die es relativ unproblematisch beantwortet. Schwierig wurde es bei den selbsterstellten Anleitungen zur IT-Administration, die im HTML als Export aus einem XWiki vorliegen. Hier handelt es sich oft um Übersichten, die für das menschliche Auge zwar leicht zu erfassen sind, aber nicht für eine Maschine. Es handelt sich um strukturierte und semi-strukturierte Daten. Beim Parsen der Dokumente in Open~WebUI werden diese Daten in kleinere Abschnitte aufgeteilt, bei denen dann der Kontext fehlt, den das LLM braucht, um relevante Informationen aus den Schriftstücken zu extrahieren.
+%
+%Auf diese Weise ist der Mehrwert eines solchen RAG-LLM begrenzt, denn um die benötigten Informationen zu finden, muss die Anwenderin bereits wissen, in welchem Dokument sie sich befindet. Es ist out-of-the-box gut zu gebrauchen für lange Fließtexte, wie etwa Gesetzestexte und Verordnungen. Es ist aber nicht brauchbar für die Extraktion von Wissen aus einer Vielzahl an Dokumenten, oder aus einer Wissenssammlung, wie einem Wiki.
+
+%Um diese nutzbar zu machen, müssen die strukturierten und semi-strukturierten Daten mit Kontext angereichert werden. Hierfür soll eine Pipeline entwickelt werden, die 
+
+\section{LLM und strukturierte Daten}\label{section.strukturierte-daten}
+Verschiedene Arbeiten beschäftigen sich mit der Frage, wie LLM strukturierte und semi-strukturierte Daten erfassen und "`verstehen"' können. In \parencite{sui_table_2023} wird hierfür der Ansatz \textit{self-augmented prompting} verwendet. In Abbildung \ref{fig.table-meets-llm} ist die Funktionsweise dieses Ansatzes dargestellt. Eine Anfrage, die auf strukturierten Daten, wie beispielsweise einer Tabelle, basiert, durchläuft das LLM in zwei Phasen. Bei der ersten werden wichtige Informationen und Wertebereiche der Tabelle durch das LLM identifiziert und beim zweiten Durchlauf werden natürlichsprachige Informationen für die relevanten Bereiche augmentiert.
+
+\begin{figure}[bht]
+	\begin{center}
+		\includegraphics[width=\textwidth]{../pics/table-meets-llm.png}
+		\caption{Illustration des \textit{self-augmented promptong} nach \parencite{sui_table_2023}}
+		\label{fig.table-meets-llm}
+	\end{center}
+\end{figure}
+
+Im Unterschied zu dieser Arbeit ist in \parencite{sui_table_2023} die Serialisierung in dem Abfrageschritt ans LLM enthalten. Hier soll die Datenvorverarbeitung als abgeschlossener Schritt passieren, bevor die Daten in die Wissensdatenbank des RAG-Modells einfließen. Der Vorteil liegt darin, dass die Datenvorverarbeitung so model-agnostisch funktioniert und auf beliebige Anwendungen anwendbar ist. Selbst wenn die Daten durch ein geschlossenes System weiterverarbeitet werden können, in dem kein Zugriff auf den LLM-Lifecycle besteht, können die Daten derart vorverarbeitet werden und die Anwendungen von der Pipeline profitieren.
+
+\textit{TODO: \parencite{wolff_how_2025}}
+
+\section{LLM-gestützte ETL-Pipelines}
+
+
+
+
+
+	\chapter{Methode}
+	\begin{neu}
+	Das wissenschaftliche Vorgehensmodell soll in diesem folgenden Kapitel erläutert werden. Zunächst wird im Unterkapitel \ref{sec:zielsetzung_forschungslogik} die Zielsetzung und Forschungslogik dargelegt. Hier wird die Forschungsfrage konkretisiert und das Forschungsdesign erläutert, außerdem kurz umrissen, was diese Arbeit nicht enthalten wird. Im Unterkapitel \ref{sec:ueberblick_vorgehensmodell} wird das Vorgehen zur Beantwortung der Forschungsfrage erläutert. Im Unterkapitel \ref{sec:datenselektion_extraktion} werden Entscheidungen zur Auswahl der Versuchsdaten dargelegt und im Unterkapitel \ref{sec:abgrenzung_regel_llm} die angewandten Transformationsschritte erläutert.
+	
+
+	\section{Zielsetzung und Forschungslogik}\label{sec:zielsetzung_forschungslogik}
+	
+%	Einordnung der Arbeit als:
+%	
+%	design-orientiert
+%	
+%	explorativ
+%	
+%	Fokus:
+%	
+%	Nutzbarkeit von Wissen für RAG-Systeme
+%	
+%	nicht auf Benchmarking oder Modellvergleich
+
+Die zentrale Forschungsfrage dieser Arbeit lautet: "`Inwiefern trägt eine LLM-gestützte semantische Normalisierung strukturierter Wiki-Inhalte zur verbesserten Nutzbarkeit dieser Inhalte in RAG-Systemen bei?"'. Sie zielt darauf ab, die bekannte Schwäche von RAG-Modellen in der Verarbeitung strukturierter und semistrukturierter Daten in der Wissensbasis auszugleichen und somit Informationen, die in vielfältigen Formaten vorliegen, für ein RAG-System nutzbar zu machen. 
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=\textwidth]{../pics/rag_vs_llm.png}
+		\caption{Unterschied in der Fähigkeit zur Verarbeitung strukturierter Daten}
+		\label{fig.rag-vs-llm}
+	\end{center}
+\end{figure}
+
+Strukturierte Daten finden wir in der Nutzung interner IT-Dokumentationen zuhauf: Dokumentationen über Benutzerpflege, Inventarisierungen und Konfigurationen von IT-Systemen im Allgemeinen. Da keine formelle Redaktion vorhanden ist, schreiben alle Administrator*innen ihre Dokumentationen selbst. Dies führt zu einer strukturellen Heterogenität der Daten in der Wissensrepräsentation. Zusammen mit der Schwäche von RAG-Systemen bei der Verarbeitung strukturierter Daten ergibt sich ein Problem, das nicht trivial zu lösen ist.
+ 
+An dieser Stelle ist eine Klärung wichtig: obwohl RAG-Systeme wie dargestellt nicht ausreichend in der Lage sind, mit strukturierten Daten als Wissenbasis umzugehen, können LLMs an sich sehrwohl strukturierte Daten verarbeiten und daraus Informationen inferieren. Dieser Unterschied wird in Abbildung \ref{fig.rag-vs-llm} dargestellt und soll in der folgenden Arbeit zunutze gemacht werden. 
+
+
+
+
+Das Ziel dieser Arbeit ist, Erkenntnis darüber zu schaffen, inwiefern die Vorverarbeitung der Daten eine erhebliche Verbesserung in ihrer Nutzbarkeit durch ein RAG-Modell erreichen kann. Der Weg zu diesem Ziel ist eine design-orientierte Untersuchung, in der explorativ und artefaktbasiert eine solche Vorverarbeitung durchgeführt, und das Ergebnis mit einem vergleichbaren System ohne diese Vorverarbeitung unter Beibehaltung identischer Parameter verglichen wird. 
+
+Das zentrale Artefakt ist eine mehrstufige LLM-gestützte Vorverarbeitungs- und Normalisierungspipeline, die durch mehrere Transformationsschritte reproduzierbar und überprüfbar das Format der zugrundeliegenden Daten an die Verarbeitungsweise eines RAG-Systems anpasst. Die Überbrückung der Lücke zwischen heterogenen strukturierten Rohdaten und der Unfähigkeit zur Verarbeitung strukturierter Daten eines RAG-Systems durch die semantische Normalisierung bietet die Grundlage der Nutzbarmachung von Wiki-Daten für ein RAG-LLM mit domänenspezifischen, internen IT-Daten.
+
+Hier werden gewisse Vereinfachungen bewusst gemacht. Für eine komplette Pipeline wären Schnittstellendefinitionen für den Ein- und Ausgang der Daten nötig, die hier händisch gemacht wurden. Diese Entscheidung liegt darin begründet, dass diese Arbeit eine Prüfung der Transformation sein soll. Erst im Falle einer positiven Bewertung dieses Ansatzes ist es sinnvoll, sich auf konkrete APIs für Ein- und Ausgang der Pipeline oder andere technische Werkzeuge festzulegen.
+
+Desweiteren finden kein Benchmarking in der Evaluation und auch keine Nutzerstudien statt. Es werden auch keine LLMs oder RAG-Systeme miteinander verglichen, da der Fokus auf der Vorverarbeitung der Daten liegt und nicht auf der Bewertung eines LLMs. Das fertige RAG-LLM oder gar ein Chatbot als Anwendungsbereich für das Wissensmanagement könnten das Ergebnis weiterer Arbeiten sein, die auf dieser Arbeit aufbauen. Diese Arbeit ist aber explizit eine Untersuchung über die Tauglichkeit dieses konkreten Vorverarbeitungs-Ansatzes.
+
+%Es ist keine experimentelle Studie und auch keine Systemevaluation, sondern eine design-orientierte Untersuchung. 
+%Die gestalterischen Elemente werden nach Gutdünken gewählt, was dazu führt, dass auch eine Darstellung, die für das menschliche Auge die Funktion einer Tabelle erfüllt, nicht notwendigerweise auch als \texttt{<table>}-Element im HTML-Markup notiert ist, sondern es können auch Verschachtelungen von \texttt{<div>}- oder \texttt{<p>}-Elementen sein. Deshalb würde auch ein einfaches regelbasiertes Parsing aufgrund von HTML-Strukturelementen nicht ausreichen, um den nötigen Kontext herzustellen.
+% Zur Vereinfachung der Lesbarkeit wird fortan nur noch von strukturierten Daten gesprochen, obwohl semistrukturierte Daten davon genauso betroffen sind.
+%Um diese Lücke zu schließen, sollen diese strukturierten und semi-struktierten Daten LLM-basiert in kontextreichere Fließtexte umgewandelt werden, damit auch nach dem RAG-chunking ausreichend Kontext vorhanden ist, um die Generierung von Antworten adäquat mit Wissen zu augmentieren. Der Erfolg oder Misserfolg dieser Methode soll am Ende anhand eines prototypischen RAG-Systems, was mit den angereicherten Informationen augmentiert wird, dargestellt werden. In einer pragmatische Evaluation werden die \textit{Retrieval}-Ergebnisse eines RAG-Prototypen, der mit den angereicherten Daten gespeist wird mit denen eines zweiten RAG-Modells verglichen, dem nur die unverarbeiteten Rohdaten zur Verfügung gestellt werden. Unter Beibehaltung identischer Modelle, Wissensdomänen und Dokumentenmengen soll so ein Vergleich möglich sein, der Schlüsse auf die Wertigkeit der zugrundeliegenden Datenqualität und damit der Qualität der Vorverarbeitung ziehen lässt.
+
+
+
+	
+	\section{Überblick über das Vorgehensmodell}\label{sec:ueberblick_vorgehensmodell}
+
+Die vorgeschlagene Lösung für das Problem der Verarbeitung von strukturierten Daten bei RAG-Systemen ist ein Vorgehensmodell, was strukturierte Wiki-Inhalte in eine RAG-geeignete Wissensrepräsentation überführt. Operationalisiert wird dieses Vorgehensmodell mit einer Datenvorverarbeitungs- und Normalisierungspipeline, die in drei Schritten die Wiki-Inhalte transformiert. Der dritte Schritt ist das Kernstück dieser Pipeline: die LLM-gestützte semantische Normalisierung strukturierter Inhalte in Fließtext.
+
+Die drei Transformationsschritte sind die folgenden:
+
+\begin{enumerate}
+	\item \textbf{DOM-Vorverarbeitung} - Hier findet die strukturelle Bereinigung des Dokuments statt, in der überflüssige Informationen über Präsentation und Navigation verworfen werden.
+	\item \textbf{Strukturelles Parsing} - Dies ist der Schritt, in dem die bereinigten Informationen in eine interne Objektstruktur überführt werden.
+	\item \textbf{Semantische Normalisierung} - An dieser Stelle wird die bereinigte Objektrepräsentation an ein LLM übergeben mit dem Ziel, diese in einen kontextreichen Fließtext umzuformulieren.
+\end{enumerate}
+
+Die normalisierten Daten dienen als Grundlage zur Evaluation. 
+
+%	
+	\section{Datenselektion und Datenextraktion}\label{sec:datenselektion_extraktion}
+	
+%	Sampling-Entscheidung:
+%	
+%	Auswahl von fünf Wiki-Seiten
+%	
+%	Begründung der Auswahl:
+%	
+%	unterschiedliche Urheberschaft
+%	
+%	strukturelle Vielfalt der Inhalte
+%	
+%	Manuelle Extraktion:
+%	
+%	bewusste methodische Vereinfachung
+%	
+%	Abgrenzung zu automatisierter/API-basierter Extraktion
+%	
+%	Anonymisierung und Datenschutz
+	
+	Die Rohdaten, die transformiert werden sollen, entstammen einem Wiki zur internen Dokumentation einer größeren IT-Organisation. Sie sind textlastig, aber durch den vermehrten Einsatz von Tabellen, Listen und Übersichten sehr heterogen, mit semi-strukturierten bis strukturierten Fragmenten.
+	
+	Es wurde sich auf die Auswahl von fünf geeigneten Wiki-Seiten beschränkt. Diese wurden ausgewählt, da sie von der Autorin dieser Arbeit selbst verfasst wurden, und somit Fragen der Urheberschaft zu eindeutig geklärt sind. Außerdem sind sie dadurch ähnlicher in der inhaltlichen Tiefe, als wenn sie von mehreren Autor*innen verfasst worden wären. Darüber hinaus finden sich in den Seiten verschiedene semistrukturierte Repräsentationen von Informationen, wie beispielsweise Konfigurationstabellen oder Datenbankübersichten. Dies ist interessant, da hier leicht zu beobachten ist, wie die geplante Transformation die Tauglichkeit der Daten für die Verwendung im RAG-LLM verändert. Die Auswahl der Eingangsdaten wurde bewusst auf diese fünf Seiten eingegrenzt, da der Fokus dieser Arbeit auf der grundsätzlichen Erprobung des Vorgehensmodells liegt, und nicht auf der Anwendbarkeit oder Skalierung.
+	
+	Die Extraktion der Seiten manuell durchgeführt, sodass reine Textdateien lokal gespeichert wurden. Es wurde auf die Sonderbehandlung von Bildern und Anhängen verzichtet, beziehungsweise wurde bei der Auswahl der Beispielseiten gezielt darauf geachtet, dass keine wichtigen Bilder enthalten sind. Die bewusste Entscheidung der manuellen Extraktion liegt darin begründet, dass die Datentransformation im Fokus dieser Arbeit liegt. Die manuelle Extraktion ist einfach und zweckdienlich und bietet eine Entkopplung dieses Schritts von der Transformation.
+	
+	Nach der Extraktion fand eine Anonymisierung statt, bei der Zeichenketten, die auf den Unternehmenskontext hinweisen könnten, durch arbiträre Zeichenketten ersetzt wurden. Dazu gehörten die Web-Domäne, der Unternehmensname, der Nutzername der Bearbeiterin und weitere organisationsinterne Namen und Bezeichnungen. Dieser Schritt war nötig, um keine Bedenken bezüglich der Verarbeitung personenbezogener oder anderer sensibler Daten auf privater Hardware oder im Internet haben zu müssen.
+	
+	Die Auswahl der Daten bedeutet natürlich auch eine Einschränkung für die Ergebnisse dieser Arbeit. Die hier erarbeitete Pipeline dient zur generellen Erprobung des vorgeschlagenen Vorgehensmodells. Im Falle einer positiven Evaluation ist weitere Arbeit zur Anwendbarkeit auf weitere Domänen, Portierung verschiedener Datenquellen, Automatisierung des Datenein- und Ausgangs und insbesondere zur Skalierung notwendig.
+	
+%	Das Ergebnis dieses Schritts ist das Eingangsformat in die Pipeline. Für dieses Projekt sind es fünf \texttt{.htm}-Dateien, die passend für den Anwendungszweck ausgewählt und für die Verarbeitungsumgebung anonymisiert wurden. Für eine zukünftige Weiterentwicklung dieser Arbeit ist dieser Schritt in der ETL-Pipeline definitiv näher zu betrachten. Eine API-gestützte automatisierte Extraktion wäre robuster gegenüber Änderungen und gegen menschliche Fehler abgesichert. Es könnte hier direkt eine Versionierung oder Prüfung von Änderungen und auch Prüfung des Eingangsformats durchgeführt werden. 
+	
+	
+	\section{Abgrenzung regelbasierter und LLM-basierter Transformationsschritte}\label{sec:abgrenzung_regel_llm}
+	
+%	Trennung zwischen:
+%	
+%	deterministischer Vorverarbeitung (DOM-Bereinigung, Parsing)
+%	
+%	probabilistischer, LLM-basierter semantischer Normalisierung
+%	
+%	Begründung:
+%	
+%	Warum LLMs nicht für alle Schritte eingesetzt werden
+%	
+%	Warum struct2prose gezielt nur für semantische Transformation genutzt wird
+	
+\end{neu}
+	
+	\chapter{LLM-basierte Preprocessing-Pipeline}\label{chapter.preprocessing-pipeline}
+	
+%	(Hauptteil der Arbeit)
+	
+	Im Folgenden soll ein genauer Blick auf die Implementierung der LLM-Pipeline geworfen werden. Es wird zunächst die LLM-Anweisung für die Anreicherung der Rohdaten erläutert. Dann wird die Architektur dargestellt und die technischen Details zur Implementierung geklärt.
+	
+	\section{Zielsetzung der Pipeline}
+	
+%	\begin{itemize}
+%		\item Tabellen in semantisch interpretierbaren Text umwandeln
+%	
+%	\item Metadaten + Kontext hinzufügen
+%	\end{itemize}
+	
+
+	\section{Prompt-Engineering für die Tabellenanreicherung}
+	
+%	\begin{itemize}
+%		\item Systemprompt
+%	
+%	\item Few-shot Beispiele (optional)
+%	
+%	\item Constraints (keine Halluzinationen)
+%	\end{itemize}
+	
+	Für die Anreicherung der Rohdaten mit Kontext wird ein LLM angewiesen, eine strukturierte Datei einzulesen, zu interpretieren und die Informationen mit Kontext versehen in eine neue, unstrukturierte Datei zu schreiben. Die ersten Versuche wurden mit einer 100-zeiligen CSV-Datei gemacht. Hierfür wurde folgender Systemprompt verwendet:
+
+	
+	\begin{systemprompt}
+
+Du erhältst eine Tabelle aus einer (fiktiven) Dokumentation.
+
+Tabelleninhalt (CSV):
+\{table\_csv\}
+
+Aufgabe:
+1. Beschreibe kurz, was diese Tabelle insgesamt darstellt.\\
+2. Erkläre die Bedeutung jeder Spalte.\\
+3. Formuliere jede einzelne Zeile in einen beschreibenden Satz um, in dem das Attribut benannt und mit dem Wert versehen wird.\\
+
+Formatiere die Antwort als gut lesbaren Fließtext.
+	\end{systemprompt}
+	
+	Dieser Prompt wird noch weiter angepasst, um ihn auf verschiedene Formate (semi-)strukturierter Daten anzupassen.
+	
+	
+	\begin{neu}
+		
+	\section{Architektur}\label{sec:architektur}
+	
+	 Das Vorgehen folgt dem Prinzip einer mehrstufigen ETL-artigen Datenpipeline, in der Rohdaten aus einem Wiki extrahiert, schrittweise transformiert und schließlich in eine für RAG-Systeme geeignete Wissensbasis überführt werden. Ziel der Architektur ist eine modulare, reproduzierbare Datenpipeline, in der regelbasierte und LLM-basierte Transformationsschritte klar voneinander getrennt sind. Die dafür nötigen Schritte sind in Abbildung \ref{fig.pipeline} zu sehen und werden im Folgenden näher beschrieben.
+	
+\begin{figure}[bht]
+	\begin{center}
+		\includegraphics[width=\textwidth]{../pics/llm-etl-pipeline.png}		
+		\caption{Illustration der Datenvorverarbeitung}
+		\label{fig.pipeline}
+	\end{center}
+\end{figure}
+
+\subsection{Datenextraktion}
+	
+ Der Extraktionsschritt stellt den Einstiegspunkt der Pipeline dar und umfasst die Bereitstellung der Rohdokumente in einem einheitlichen Eingangsformat. Da wie in \ref{sec:datenselektion_extraktion} beschrieben, eine händische Extraktion stattfand, wird dieser Punkt in dieser Arbeit nicht weiter beachtet.
+
+\subsection{DOM-Vorverarbeitung}
+
+An dieser Stelle beginnt in der praktischen Umsetzung der erste regelbasierte Transformationsschritt. Hier findet eine DOM-Vorverarbeit statt, in der das inhaltsstärkste DOM-Element basierend auf bekannter Wiki-Syntax gefunden und der Rest verworfen wird. Aus diesem Block können dann noch UI-Nodes wie Navigations- und Bearbeitungslinks entfernt werden. Dieser Schritt dient dazu, das Rauschen in den Daten zu reduzieren, und damit die Ergebnisqualität zu erhöhen. Durch die Reduktion von unnötigen Datenflüssen in der Pipeline werden außerdem Speicherressourcen gespart. Das Eingangsformat ist aus anwendungsspezifischen Gründen \texttt{.htm}, und das Ausgangsformat aus diesem Verarbeitungsschritt wird \texttt{.html} sein, da es einfach bekannter und intuitiver ist. In Abgrenzung zu den anderen Transformationsschritten ist dieser Schritt regelbasiert und deterministisch und sollte deshalb klar vor dem semantischen Parsing liegen.
+
+\subsection{Strukturelles Parsing}
+
+Im zweiten Transformationsschritt findet ein strukturelles Parsing statt. Das Ziel dieses Schritts ist, aus dem bereinigten HTML eine Objektstruktur zu machen. Überschriften werden in Sections umgewandelt, Absätze in Paragraph-Blöcke, Tabellen in Tabellen-Blöcke und so weiter. Das Eingabeformat ist das Ergebnis der DOM-Vorverarbeitung, also \texttt{.html}-Blöcke. Das Ausgangsformat sind \texttt{.json}-Dateien, die eine Objektrepräsentation mit hoher Informationsdichte sein sollen, die von Steuer- und Anzeigeinformationen bereinigt sind und somit als Eingangsformat in den nächsten Transformationsschritt dienen. Dieser Schritt ist ein struktureller Adapter zwischen bereinigten \texttt{.html}-Dateien und interner Objektrepresentation und begründet somit seine Kapselung.
+
+\subsection{Probabilistische Normalisierung}
+
+Die probabilistische Normalisierung ist der dritte Transformationsschritt, in dem die LLM-basierte semantische Normalisierung stattfindet. Hier wird das erste Mal ein LLM in die Pipeline integriert. Dieses bekommt die geparsten Objekte aus dem Semantischen Parsing zugeliefert und übergibt sie an ein LLM mit der Anweisung, diese Informationen in einen Fließtext umzuwandeln. Das LLM soll die Datei erfassen, einen Kontext schaffen, indem es die Datei zusammenfasst, selbst Strukturen wie "`Parameter"'/"'Wert"'-Paare erkennen, und die in den Kontext einbetten. Der wichtigste Teil dieses Schrittes liegt darin, dass semi- und strukturierte Daten durch das LLM erläutert werden, selbst wenn das bedeutet, dass auf repetetive Weise derselbe Satz immer wieder wiederholt wird. Ein Beispiel dafür, wie das aussehen könnte, ist in \ref{anhang_raw-data} und \ref{anhang_enriched-data} zu sehen. Das Ziel dieses Schritts ist, die Fähigkeit eines LLMs zur Inferenz zu nutzen, um strukturierte Daten zu verstehen und umzuformen und damit bekannte Schwächen von RAG-Systemen im Umgang mit strukturierten Wissensrepräsentationen zu adressieren. Das Schwierige an diesem Schritt ist, den Systemprompt so generisch wie möglich zu halten, damit verschiedenste Eingangsdaten erfasst und weiterverarbeitet werden, aber trotzdem präzise genug, um brauchbare Ergebnisse zu erhalten. Das Eingangsformat ist das Ergebnis des letzten Verarbeitungsschritts und das Ausgangsformat ist \texttt{???}.
+
+\subsection{RAG-LLM-Integration}
+
+Hier ist der \textit{Load}-Schritt der klassischen ETL-Pipeline, nur dass der in diesem Projekt die Bereitstellung der transformierten Daten an die Wissensbasis des RAG-Modells umfasst. Das Ergebnis dieses Schritts ist die Integration in die RAG-Wissensbasis. Hier wird dies, genauso wie der Extraktionsschritt händisch durchgeführt, indem die Ergebnisdateien der Probabilistischen Normalisierung in eine Wissensbasis in der Open WebUI-Anwendung überführt werden. Zukünftig sollte auch dieser Schritt automatisiert stattfinden, indem die Übergabe an die RAG-Wissensbasis ebenfalls per API-Schnittstelle stattfindet, um Fehlern vorzubeugen.
+
+
+
+	\end{neu}
+	
+\section{Implementierung}
+	
+	\begin{itemize}
+	\item Verwendung von LangChain (LLM-Pipeline), Beautiful Soup (HTML-Parsing)
+	
+	\item Genutzte Modelle: llama-3.3-70b-versatile für Preprocessing, gpt-oss-120b für RAG-Modell
+	
+	\item RAG-Modell mit Open~WebUI
+	
+	\item RAG-Evaluation mit \url{https://github.com/groq/groq-api-cookbook/blob/main/tutorials/04-rag/benchmarking-rag-langchain/benchmarking_rag.ipynb}
+	
+	\end{itemize}
+	
+	
+%	\subsection*{Open WebUI}
+%	
+%	Für die Umsetzung der lokalen Modellbereitstellung wurde Open\,WebUI als technische Grundlage gewählt. Die Plattform ist als vollständig selbst gehostetes System konzipiert und ermöglicht einen Betrieb ohne externe Cloud-Dienste. Dies entspricht den Anforderungen an Datenschutz, Kontrolle über die Modellumgebung und Reproduzierbarkeit, wie sie beispielsweise im Behördenumfeld anzutreffen sind. In der offiziellen Dokumentation wird Open\,WebUI als „extensible, feature-rich, and user-friendly“ beschrieben und unterstützt eine Vielzahl von LLM-Laufzeitumgebungen sowie OpenAPI-basierten Werkzeugen \parencite{noauthor_open_2025}.
+%	
+%	Für das Setup wurde bewusst die manuelle Bereitstellung über eine Python-basierte Installation gewählt. Dieser Ansatz bietet eine direkte Kontrolle über die Abhängigkeiten, die lokale Umgebung und die verwendete Python-Laufzeit. Open\,WebUI stellt hierzu Installationspfade über die Werkzeuge \texttt{uv} oder \texttt{pip} bereit. Diese ermöglichen es, die Anwendung ohne Containerisierung aufzusetzen und bei Bedarf gezielt anzupassen \parencite{noauthor_open_2025}. Gleichzeitig erfordert dieser Ansatz eine sorgfältige Konfiguration der Systemumgebung, einschließlich der Installation der benötigten Pakete sowie der Sicherstellung, dass WebSocket-Verbindungen unterstützt werden, da diese für den Betrieb der Benutzeroberfläche notwendig sind.
+%	
+%	Die Dokumentation beschreibt zusätzlich eine Docker-basierte Bereitstellung als alternative Methode. Diese Variante bündelt sämtliche Abhängigkeiten in einem Container und erleichtert die Ausführung auf Systemen mit GPU-Unterstützung. Ein entsprechender Startbefehl wird in Form eines standardisierten Docker-Kommandos bereitgestellt. Die containerisierte Bereitstellung wurde in diesem Projekt jedoch nicht eingesetzt, da der Schwerpunkt auf einer fein steuerbaren lokalen Installation lag.
+%	
+%	Zusammengefasst ermöglicht Open\,WebUI eine flexible Umgebung für die Ausführung großer Sprachmodelle, wobei die manuelle Installation eine hohe Transparenz und Anpassbarkeit bietet. Gleichzeitig erleichtert die alternative Docker-Variante den Einsatz in standardisierten Systemumgebungen.
+%	
+%		\subsection*{GPT-oss-120B}
+%
+%Die Entscheidung für den Einsatz von GPT\,-oss\,-120B wurde maßgeblich durch veröffentlichte Evaluationsergebnisse gestützt, die eine hohe Leistungsfähigkeit des Modells belegen. In einem umfassenden Benchmark, der mehrere programmierbezogene Aufgaben umfasste, erzielte das Modell durchgehend starke Resultate. So wurden unter anderem Bewertungen von bis zu 8{,}5 von 10 Punkten erreicht, wobei der Gesamtdurchschnitt mit rund 8{,}3 nur geringfügig hinter den führenden proprietären Modellen lag und deutlich über vergleichbaren Open-Source-Gewichten \parencite{noauthor_gpt-oss-120b_nodate}. Zusätzlich zeigte das Modell eine hohe Verarbeitungsgeschwindigkeit von über 400 Token pro Sekunde, was insbesondere für interaktive oder iterative Arbeitsprozesse von Vorteil ist \parencite{noauthor_gpt-oss-120b_nodate}. Aufgrund dieser Kombination aus inhaltlicher Leistungsstärke und technischer Effizienz stellte GPT\,-oss\,-120B im Rahmen der Modellabwägung die ausgewogenste Lösung dar und wurde daher als Grundlage der weiteren Arbeiten gewählt.
+%		
+%		\section{Umsetzung der Komponenten}
+%		
+%		Für den MACH-LLM-Prototypen müssen folgende Komponenten in der OpenWebUI-Oberfläche erstellt werden: eine Wissensbasis und ein vortrainiertes LLM. Für die Wissensbasis wird in drei Arten von Dokumenten unterschieden, die im IT-Betrieb der MACH-Software in der untersuchten Organisation eine Rolle spielen: 
+%		
+%		\begin{itemize}
+%			\item offizielle Dokumentationen des Software-Herstellers (MACH AG), vorliegend im PDF-Format
+%			\item informelle technische Konfigurationsdokumentationen der Systemadmins, vorliegend hauptsächlich online (Wiki)
+%			\item fachliche Dokumentationen, wie das Rechte- und Rollenkonzept oder Leitfaden für Benutzerpflege, vorliegend im PDF-Format
+%		\end{itemize}
+%		
+%		Die Wissensbasis ist erstmal schnell erstellt. Das Open WebUI-Frontend bietet einen Dokumentenupload, in dem komfortabel per Drag'n'Drop Dokumente hochgeladen werden können. Nach dem Upload werden die Dokumente geparsed und in die Wissensdatenbank aufgenommen. Es werden für den MVP jeweils ein bis zwei Dokumente pro oben genannter Dokumentkategorie hochgeladen, um aussagekräftige Beispiele zu erhalten. Für die technischen Dokumentationen wurde zunächst ein Export der Wiki-Seiten über die integrierte Export-Funktion vorgenommen. Damit lagen die Daten im HTML-Format vor.
+%		
+%		Nach der Erstellung der Wissensdatenbank wird das GPT-oss-120B-Modell mit der Wissensdatenbank verknüpft. Dem Modell muss ein Systemprompt verabreicht werden. Dieser steuert das Grundverhalten des Modells. Hier wurde ein Systemprompt mithilfe von OpenAI ChatGPT 5.1 verfasst.
+		
+%\begin{lstlisting}
+%TODO: Insert Systemprompt als listing
+%\end{lstlisting}
+%		All das ist sehr komfortabel und unter Beibehaltung der Standardeinstellungen ist der zeitraubendste Teil der Dokumentenupload, der je nach Internetanbindung etwas Zeit kosten kann.
+		
+%		Schon nach einigen wenigen Chatanfragen machten sich die Stärken und Schwächen des MVP bemerkbar. 
+		
+	\chapter{Evaluation} \label{chapter.evaluation}
+	
+%	Hier entscheidet sich alles.
+%	
+%	Unbedingt vermeiden:
+%	
+%	„Wir haben ein paar Fragen gestellt und fanden die Antworten besser.“
+%	
+%	Stattdessen:
+%	
+%	Task-basierte Evaluation (z. B. Wissensfragen aus dem Wiki)
+%	
+%	Vergleich:
+%	
+%	Rohdaten vs. LLM-angereicherte Daten
+%	
+%	qualitative + einfache quantitative Metriken
+%	
+%	Auch kleine, saubere Evaluation > große, unsaubere.
+	
+	Um das hier vorgestellte System auf Tauglichkeit zu prüfen, wird im Folgenden zunächst die Zielsetzung der Evaluation definiert, dann die Methoden erläutert und zum Schluss die Ergebnisse vorgestellt. 
+	
+		\section{Zielsetzung der Evaluation}
+		
+%		\begin{itemize}
+%			\item Kein wissenschaftlicher Benchmark
+%		
+%			\item Nur: Ist der Ansatz prinzipiell sinnvoll?
+%		
+%			\item Fokus: Nutzbarkeit \& Verbesserung gegenüber Rohdaten
+%		
+%		\end{itemize}
+		
+		Zur Evaluation der Pipeline und des daraus resultierenden LLM werden keine Benchmarks verwendet, sondern eher ein Test auf Funktion durchgeführt. Folgende Fragen sollen in der Evaluation beantwortet werden:
+		
+		\begin{itemize}
+			\item Ist der Ansatz grundsätzlich sinnvoll?
+			\item Ist er in dem vorhandenen Umfeld anwendbar?
+			\item Stellt das System eine Verbesserung zu der Arbeit mit den Rohdaten dar?
+		\end{itemize}
+		
+%		Eine systematische Prüfung des Ansatzes mithilfe von Benchmarks ist erst sinnvoll,
+		
+		\section{Methoden}
+		
+		 Hier wird das angereicherte RAG-LLM (im Folgenden: Enhanced-LLM), was Ergebnis dieser Arbeit war, gegen ein RAG-LLM gegenübergestellt, was mit Rohdaten ohne Anreicherung auskommen muss (im Folgenden: Baseline-LLM). Diesen beiden LLMs werden 5-10 Fragen gestellt, deren Antworten in ihren Wissensbasen enthalten sein sollten. Zudem werden ihnen Fragen gestellt, deren Antworten nicht in den Wissensbasen enthalten sein sollten. Zuletzt werden Fragen gestellt, deren Antworten aus verschiedenen Quellen zu ziehen sind und die Antwortsqualität der beiden Systeme verglichen. Die Qualität wird vor allem auf die Punkte Faktentreue, Nützlichkeit und Verständlichkeit überprüft.
+		
+		
+		RAG-Evaluation Beispiel: \url{https://github.com/groq/groq-api-cookbook/blob/main/tutorials/04-rag/benchmarking-rag-langchain/benchmarking_ra}
+		\section{Ergebnisse}
+		
+		\begin{itemize}
+			\item Qualitative Beispiele
+		
+			\item Kleine Tabelle
+		\end{itemize}
+		
+			\begin{figure}[bht]
+			\begin{center}
+				\includegraphics[width=\textwidth]{../pics/test1_instanzen_vs._enriched-instanzen.png}
+				\caption{Test 1}
+				\label{fig.test1}
+			\end{center}
+		\end{figure}
+		
+		\begin{figure}[bht]
+			\begin{center}
+				\includegraphics[width=\textwidth]{../pics/test2_instanzen_vs._enriched-instanzen.png}
+				\caption{Test 2}
+				\label{fig.test2}
+			\end{center}
+		\end{figure}
+		
+	\chapter{Diskussion}\label{chapter.diskussion}
+	
+	\begin{itemize}
+		\item Nutzen des Ansatzes
+		
+		\item Grenzen (Kosten, LLM-Fehler, Halluzinationen, Zeitaufwand)
+		
+		\item Abhängigkeit von Qualität der Wiki-Daten
+		
+		\item Vergleich mit Related Work
+	\end{itemize}
+	
+	
+	\chapter{Fazit und Ausblick}\label{chapter.fazit}
+
+-Skalierung
+-Anwendbarkeit auf andere Daten/Domänen
+-Automatisierung von Extract und Load
+
+\begin{itemize}
+	\item Zusammenfassung
+
+	\item Beitrag der Arbeit
+
+	\item Perspektiven:
+
+	\begin{itemize}
+		\item Graph-RAG
+	
+		\item Mixed-modal embeddings
+	
+		\item Automatische Aktualisierung
+	\end{itemize}
+\end{itemize}
+\appendix
+\addcontentsline{toc}{chapter}{Literatur- und Quellenverzeichnis}
+%\bibliographystyle{authoryear}
+\printbibliography
+
+\chapter{Anhang}
+\addcontentsline{toc}{chapter}{Anhang}
+\section{Prompt für das RAG-LLM} \label{anhang_systemprompt}
+Hinweis: dieser Prompt wurde unter Zuhilfenahme von ChatGPT 5.1 erstellt
+\begin{lstlisting}
+	Du bist ein fachlich kompetenter Assistenz-Bot für die Administration der MACH-Software in einer Server- und Anwendungsumgebung. \\
+	Deine Hauptaufgabe ist es, Systemadministrator:innen und fachlichen Administrator:innen dabei zu helfen, 
+	Konfigurationen zu verstehen, Probleme zu analysieren und wiederkehrende Aufgaben nachzuvollziehen.
+	
+	WISSENSGRUNDLAGE
+	- Du beantwortest Fragen ausschließlich auf Basis des dir übergebenen Kontextes aus der Wissensbasis 
+	(z.B. Handbücher, Betriebskonzepte, interne Dokumentation, Tickets, Notizen).
+	- Der Kontext wird dir in einem speziellen Block übergeben (z.B. unter der Überschrift "Kontext", "Documents" o.ä.).
+	- Trenne klar zwischen Wissen aus dem Kontext und allgemeinem, unsicheren Weltwissen.
+	- Wenn eine Information NICHT im Kontext oder offensichtlich aus der Frage hervorgeht, erfinde sie NICHT.
+	
+	VERHALTEN BEI UNSICHERHEIT
+	- Wenn der Kontext nicht ausreicht, um eine fundierte Antwort zu geben:
+	- sage ausdrücklich, dass die Information im bereitgestellten Kontext nicht enthalten ist,
+	- formuliere ggf. eine Vermutung als solche ("Vermutung:", "Möglicherweise..."), aber kennzeichne sie klar,
+	- schlage vor, welche Art von Dokument oder Information noch benötigt würde.
+	- Antworte lieber "Ich kann das auf Basis der vorliegenden Informationen nicht sicher beantworten"
+	als eine falsche oder halluzinierte Antwort zu geben.
+	
+	ANTWORTSTIL
+	- Schreibe sachlich, präzise und gut strukturiert auf Deutsch.
+	- Zielgruppe sind erfahrene Admins: Du darfst Fachbegriffe verwenden, aber erkläre sie kurz, wenn sie speziell sind.
+	- Bevorzuge nachvollziehbare Schritt-für-Schritt-Erklärungen bei Anleitungen oder Fehleranalysen.
+	- Wenn möglich, fasse am Ende kurz den wichtigsten Handlungsschritt oder das Ergebnis zusammen.
+	
+	UMGANG MIT BEFEHLEN UND KONFIGURATIONEN
+	- Nenne nur solche Befehle, Parameter und Konfigurationen, die entweder:
+	- im Kontext explizit vorkommen, oder
+	- eindeutig aus Standard-Vorgehensweisen hervorgehen und durch den Kontext nicht widersprochen werden.
+	- Erfinde keine Dateipfade, keine Systemvariablen, keine MACH-Parameter.
+	- Wenn mehrere Varianten möglich sind, weise auf Alternativen und deren Auswirkungen hin.
+	
+	QUELLEN- UND KONTEXTBEZUG
+	- Wenn sinnvoll, beziehe dich explizit auf die Abschnitte des Kontextes, aus denen du deine Antwort ableitest 
+	(z.B. "siehe Dokument X, Abschnitt Y" oder "im Kontext-Dokument 2, Absatz 3").
+	- Erfinde keine Quellenangaben.
+	
+	SICHERHEIT UND RISIKEN
+	- Gib keine Anweisungen, die offensichtlich zu Datenverlust, Systemausfall oder Sicherheitsrisiken führen können, 
+	ohne deutlich vor den Risiken zu warnen (z.B. Befehle, die Daten löschen oder Systeme neu initialisieren).
+	- Wenn eine Aktion Auswirkungen auf Produktivsysteme haben könnte, weise darauf hin, dass diese zuerst in einer Test- oder Staging-Umgebung geprüft werden sollte.
+	
+	UMGANG MIT LÜCKEN IN DER DOKUMENTATION
+	- Oft ist Wissen in der Praxis verstreut und unvollständig dokumentiert. 
+	- Wenn du erkennst, dass eine Information wichtig, aber im Kontext nicht vorhanden ist, 
+	mache explizit darauf aufmerksam und formuliere ggf. einen Vorschlag, wie diese Lücke in der Dokumentation geschlossen werden könnte.
+	
+	ZUSAMMENFASSUNG DEINER ROLLE
+	- Sei ein hilfsbereiter, vorsichtiger und nachvollziehbar argumentierender Assistent für die MACH-Administration.
+	- Priorität haben: Faktentreue, Nachvollziehbarkeit, Minimierung von Risiken für den IT-Betrieb.
+	- Keine Halluzinationen, kein "Ratespiel": Wenn du etwas nicht weißt, sage das offen.
+	
+\end{lstlisting}
+
+\section{Beispieldaten}
+\subsection{CSV-Datei}\label{anhang_raw-data}
+Hinweis: diese Rohdaten wurden unter Zuhilfenahme von ChatGPT 5.1 erstellt
+\begin{lstlisting}
+	"Instanzname,IP-Adresse,fachlicher FQDN,technischer FQDN,SID,username,Port
+	FI_TEST01,10.0.10.20,fin-test.app.machlab.internal,fin-test01.srv.machlab.internal,FIT01,svc_fin_test,8080
+	FI_TEST02,10.0.10.21,fin-test.app.machlab.internal,fin-test02.srv.machlab.internal,FIT02,svc_fin_test,8081
+	FI_TEST03,10.0.10.22,fin-test.app.machlab.internal,fin-test03.srv.machlab.internal,FIT03,svc_fin_test,8082
+	FI_TEST04,10.0.10.23,fin-test.app.machlab.internal,fin-test04.srv.machlab.internal,FIT04,svc_fin_test,8083
+	FI_TEST05,10.0.10.24,fin-test.app.machlab.internal,fin-test05.srv.machlab.internal,FIT05,svc_fin_test,8084
+	FI_PROD01,10.0.10.25,fin-prod.app.machlab.internal,fin-prod01.srv.machlab.internal,FIP01,svc_fin_prod,8443
+	FI_PROD02,10.0.10.26,fin-prod.app.machlab.internal,fin-prod02.srv.machlab.internal,FIP02,svc_fin_prod,8444
+	FI_PROD03,10.0.10.27,fin-prod.app.machlab.internal,fin-prod03.srv.machlab.internal,FIP03,svc_fin_prod,8445
+	FI_PROD04,10.0.10.28,fin-prod.app.machlab.internal,fin-prod04.srv.machlab.internal,FIP04,svc_fin_prod,8446
+	FI_PROD05,10.0.10.29,fin-prod.app.machlab.internal,fin-prod05.srv.machlab.internal,FIP05,svc_fin_prod,8447
+	HR_TEST01,10.0.10.30,hr-test.app.machlab.internal,hr-test01.srv.machlab.internal,HRT01,svc_hr_test,8080
+	HR_TEST02,10.0.10.31,hr-test.app.machlab.internal,hr-test02.srv.machlab.internal,HRT02,svc_hr_test,8081
+	HR_TEST03,10.0.10.32,hr-test.app.machlab.internal,hr-test03.srv.machlab.internal,HRT03,svc_hr_test,8082
+	HR_TEST04,10.0.10.33,hr-test.app.machlab.internal,hr-test04.srv.machlab.internal,HRT04,svc_hr_test,8083
+	HR_TEST05,10.0.10.34,hr-test.app.machlab.internal,hr-test05.srv.machlab.internal,HRT05,svc_hr_test,8084
+	HR_PROD01,10.0.10.35,hr-prod.app.machlab.internal,hr-prod01.srv.machlab.internal,HRP01,svc_hr_prod,8443
+	HR_PROD02,10.0.10.36,hr-prod.app.machlab.internal,hr-prod02.srv.machlab.internal,HRP02,svc_hr_prod,8444
+	HR_PROD03,10.0.10.37,hr-prod.app.machlab.internal,hr-prod03.srv.machlab.internal,HRP03,svc_hr_prod,8445
+	HR_PROD04,10.0.10.38,hr-prod.app.machlab.internal,hr-prod04.srv.machlab.internal,HRP04,svc_hr_prod,8446
+	HR_PROD05,10.0.10.39,hr-prod.app.machlab.internal,hr-prod05.srv.machlab.internal,HRP05,svc_hr_prod,8447
+	LO_TEST01,10.0.10.40,log-test.app.machlab.internal,log-test01.srv.machlab.internal,LOT01,svc_log_test,8080
+	LO_TEST02,10.0.10.41,log-test.app.machlab.internal,log-test02.srv.machlab.internal,LOT02,svc_log_test,8081
+	LO_TEST03,10.0.10.42,log-test.app.machlab.internal,log-test03.srv.machlab.internal,LOT03,svc_log_test,8082
+	LO_TEST04,10.0.10.43,log-test.app.machlab.internal,log-test04.srv.machlab.internal,LOT04,svc_log_test,8083
+	LO_TEST05,10.0.10.44,log-test.app.machlab.internal,log-test05.srv.machlab.internal,LOT05,svc_log_test,8084
+	LO_PROD01,10.0.10.45,log-prod.app.machlab.internal,log-prod01.srv.machlab.internal,LOP01,svc_log_prod,8443
+	LO_PROD02,10.0.10.46,log-prod.app.machlab.internal,log-prod02.srv.machlab.internal,LOP02,svc_log_prod,8444
+	LO_PROD03,10.0.10.47,log-prod.app.machlab.internal,log-prod03.srv.machlab.internal,LOP03,svc_log_prod,8445
+	LO_PROD04,10.0.10.48,log-prod.app.machlab.internal,log-prod04.srv.machlab.internal,LOP04,svc_log_prod,8446
+	LO_PROD05,10.0.10.49,log-prod.app.machlab.internal,log-prod05.srv.machlab.internal,LOP05,svc_log_prod,8447
+	BI_TEST01,10.0.10.50,bi-test.app.machlab.internal,bi-test01.srv.machlab.internal,BIT01,svc_bi_test,8080
+	BI_TEST02,10.0.10.51,bi-test.app.machlab.internal,bi-test02.srv.machlab.internal,BIT02,svc_bi_test,8081
+	BI_TEST03,10.0.10.52,bi-test.app.machlab.internal,bi-test03.srv.machlab.internal,BIT03,svc_bi_test,8082
+	BI_TEST04,10.0.10.53,bi-test.app.machlab.internal,bi-test04.srv.machlab.internal,BIT04,svc_bi_test,8083
+	BI_TEST05,10.0.10.54,bi-test.app.machlab.internal,bi-test05.srv.machlab.internal,BIT05,svc_bi_test,8084
+	BI_PROD01,10.0.10.55,bi-prod.app.machlab.internal,bi-prod01.srv.machlab.internal,BIP01,svc_bi_prod,8443
+	BI_PROD02,10.0.10.56,bi-prod.app.machlab.internal,bi-prod02.srv.machlab.internal,BIP02,svc_bi_prod,8444
+	BI_PROD03,10.0.10.57,bi-prod.app.machlab.internal,bi-prod03.srv.machlab.internal,BIP03,svc_bi_prod,8445
+	BI_PROD04,10.0.10.58,bi-prod.app.machlab.internal,bi-prod04.srv.machlab.internal,BIP04,svc_bi_prod,8446
+	BI_PROD05,10.0.10.59,bi-prod.app.machlab.internal,bi-prod05.srv.machlab.internal,BIP05,svc_bi_prod,8447
+	CRM_TEST01,10.0.10.60,crm-test.app.machlab.internal,crm-test01.srv.machlab.internal,CRMT01,svc_crm_test,8080
+	CRM_TEST02,10.0.10.61,crm-test.app.machlab.internal,crm-test02.srv.machlab.internal,CRMT02,svc_crm_test,8081
+	CRM_TEST03,10.0.10.62,crm-test.app.machlab.internal,crm-test03.srv.machlab.internal,CRMT03,svc_crm_test,8082
+	CRM_TEST04,10.0.10.63,crm-test.app.machlab.internal,crm-test04.srv.machlab.internal,CRMT04,svc_crm_test,8083
+	CRM_TEST05,10.0.10.64,crm-test.app.machlab.internal,crm-test05.srv.machlab.internal,CRMT05,svc_crm_test,8084
+	CRM_PROD01,10.0.10.65,crm-prod.app.machlab.internal,crm-prod01.srv.machlab.internal,CRMP01,svc_crm_prod,8443
+	CRM_PROD02,10.0.10.66,crm-prod.app.machlab.internal,crm-prod02.srv.machlab.internal,CRMP02,svc_crm_prod,8444
+	CRM_PROD03,10.0.10.67,crm-prod.app.machlab.internal,crm-prod03.srv.machlab.internal,CRMP03,svc_crm_prod,8445
+	CRM_PROD04,10.0.10.68,crm-prod.app.machlab.internal,crm-prod04.srv.machlab.internal,CRMP04,svc_crm_prod,8446
+	CRM_PROD05,10.0.10.69,crm-prod.app.machlab.internal,crm-prod05.srv.machlab.internal,CRMP05,svc_crm_prod,8447
+	PORTAL_TEST01,10.0.10.70,portal-test.app.machlab.internal,portal-test01.srv.machlab.internal,PORTALT01,svc_portal_test,8080
+	PORTAL_TEST02,10.0.10.71,portal-test.app.machlab.internal,portal-test02.srv.machlab.internal,PORTALT02,svc_portal_test,8081
+	PORTAL_TEST03,10.0.10.72,portal-test.app.machlab.internal,portal-test03.srv.machlab.internal,PORTALT03,svc_portal_test,8082
+	PORTAL_TEST04,10.0.10.73,portal-test.app.machlab.internal,portal-test04.srv.machlab.internal,PORTALT04,svc_portal_test,8083
+	PORTAL_TEST05,10.0.10.74,portal-test.app.machlab.internal,portal-test05.srv.machlab.internal,PORTALT05,svc_portal_test,8084
+	PORTAL_PROD01,10.0.10.75,portal-prod.app.machlab.internal,portal-prod01.srv.machlab.internal,PORTALP01,svc_portal_prod,8443
+	PORTAL_PROD02,10.0.10.76,portal-prod.app.machlab.internal,portal-prod02.srv.machlab.internal,PORTALP02,svc_portal_prod,8444
+	PORTAL_PROD03,10.0.10.77,portal-prod.app.machlab.internal,portal-prod03.srv.machlab.internal,PORTALP03,svc_portal_prod,8445
+	PORTAL_PROD04,10.0.10.78,portal-prod.app.machlab.internal,portal-prod04.srv.machlab.internal,PORTALP04,svc_portal_prod,8446
+	PORTAL_PROD05,10.0.10.79,portal-prod.app.machlab.internal,portal-prod05.srv.machlab.internal,PORTALP05,svc_portal_prod,8447
+	DMS_TEST01,10.0.10.80,dms-test.app.machlab.internal,dms-test01.srv.machlab.internal,DMST01,svc_dms_test,8080
+	DMS_TEST02,10.0.10.81,dms-test.app.machlab.internal,dms-test02.srv.machlab.internal,DMST02,svc_dms_test,8081
+	DMS_TEST03,10.0.10.82,dms-test.app.machlab.internal,dms-test03.srv.machlab.internal,DMST03,svc_dms_test,8082
+	DMS_TEST04,10.0.10.83,dms-test.app.machlab.internal,dms-test04.srv.machlab.internal,DMST04,svc_dms_test,8083
+	DMS_TEST05,10.0.10.84,dms-test.app.machlab.internal,dms-test05.srv.machlab.internal,DMST05,svc_dms_test,8084
+	DMS_PROD01,10.0.10.85,dms-prod.app.machlab.internal,dms-prod01.srv.machlab.internal,DMSP01,svc_dms_prod,8443
+	DMS_PROD02,10.0.10.86,dms-prod.app.machlab.internal,dms-prod02.srv.machlab.internal,DMSP02,svc_dms_prod,8444
+	DMS_PROD03,10.0.10.87,dms-prod.app.machlab.internal,dms-prod03.srv.machlab.internal,DMSP03,svc_dms_prod,8445
+	DMS_PROD04,10.0.10.88,dms-prod.app.machlab.internal,dms-prod04.srv.machlab.internal,DMSP04,svc_dms_prod,8446
+	DMS_PROD05,10.0.10.89,dms-prod.app.machlab.internal,dms-prod05.srv.machlab.internal,DMSP05,svc_dms_prod,8447
+	INT_TEST01,10.0.10.90,int-test.app.machlab.internal,int-test01.srv.machlab.internal,INTT01,svc_int_test,8080
+	INT_TEST02,10.0.10.91,int-test.app.machlab.internal,int-test02.srv.machlab.internal,INTT02,svc_int_test,8081
+	INT_TEST03,10.0.10.92,int-test.app.machlab.internal,int-test03.srv.machlab.internal,INTT03,svc_int_test,8082
+	INT_TEST04,10.0.10.93,int-test.app.machlab.internal,int-test04.srv.machlab.internal,INTT04,svc_int_test,8083
+	INT_TEST05,10.0.10.94,int-test.app.machlab.internal,int-test05.srv.machlab.internal,INTT05,svc_int_test,8084
+	INT_PROD01,10.0.10.95,int-prod.app.machlab.internal,int-prod01.srv.machlab.internal,INTP01,svc_int_prod,8443
+	INT_PROD02,10.0.10.96,int-prod.app.machlab.internal,int-prod02.srv.machlab.internal,INTP02,svc_int_prod,8444
+	INT_PROD03,10.0.10.97,int-prod.app.machlab.internal,int-prod03.srv.machlab.internal,INTP03,svc_int_prod,8445
+	INT_PROD04,10.0.10.98,int-prod.app.machlab.internal,int-prod04.srv.machlab.internal,INTP04,svc_int_prod,8446
+	INT_PROD05,10.0.10.99,int-prod.app.machlab.internal,int-prod05.srv.machlab.internal,INTP05,svc_int_prod,8447
+	BATCH_TEST01,10.0.10.100,batch-test.app.machlab.internal,batch-test01.srv.machlab.internal,BATCHT01,svc_batch_test,8080
+	BATCH_TEST02,10.0.10.101,batch-test.app.machlab.internal,batch-test02.srv.machlab.internal,BATCHT02,svc_batch_test,8081
+	BATCH_TEST03,10.0.10.102,batch-test.app.machlab.internal,batch-test03.srv.machlab.internal,BATCHT03,svc_batch_test,8082
+	BATCH_TEST04,10.0.10.103,batch-test.app.machlab.internal,batch-test04.srv.machlab.internal,BATCHT04,svc_batch_test,8083
+	BATCH_TEST05,10.0.10.104,batch-test.app.machlab.internal,batch-test05.srv.machlab.internal,BATCHT05,svc_batch_test,8084
+	BATCH_PROD01,10.0.10.105,batch-prod.app.machlab.internal,batch-prod01.srv.machlab.internal,BATCHP01,svc_batch_prod,8443
+	BATCH_PROD02,10.0.10.106,batch-prod.app.machlab.internal,batch-prod02.srv.machlab.internal,BATCHP02,svc_batch_prod,8444
+	BATCH_PROD03,10.0.10.107,batch-prod.app.machlab.internal,batch-prod03.srv.machlab.internal,BATCHP03,svc_batch_prod,8445
+	BATCH_PROD04,10.0.10.108,batch-prod.app.machlab.internal,batch-prod04.srv.machlab.internal,BATCHP04,svc_batch_prod,8446
+	BATCH_PROD05,10.0.10.109,batch-prod.app.machlab.internal,batch-prod05.srv.machlab.internal,BATCHP05,svc_batch_prod,8447
+	ADMIN_TEST01,10.0.10.110,admin-test.app.machlab.internal,admin-test01.srv.machlab.internal,ADMINT01,svc_admin_test,8080
+	ADMIN_TEST02,10.0.10.111,admin-test.app.machlab.internal,admin-test02.srv.machlab.internal,ADMINT02,svc_admin_test,8081
+	ADMIN_TEST03,10.0.10.112,admin-test.app.machlab.internal,admin-test03.srv.machlab.internal,ADMINT03,svc_admin_test,8082
+	ADMIN_TEST04,10.0.10.113,admin-test.app.machlab.internal,admin-test04.srv.machlab.internal,ADMINT04,svc_admin_test,8083
+	ADMIN_TEST05,10.0.10.114,admin-test.app.machlab.internal,admin-test05.srv.machlab.internal,ADMINT05,svc_admin_test,8084
+	ADMIN_PROD01,10.0.10.115,admin-prod.app.machlab.internal,admin-prod01.srv.machlab.internal,ADMINP01,svc_admin_prod,8443
+	ADMIN_PROD02,10.0.10.116,admin-prod.app.machlab.internal,admin-prod02.srv.machlab.internal,ADMINP02,svc_admin_prod,8444
+	ADMIN_PROD03,10.0.10.117,admin-prod.app.machlab.internal,admin-prod03.srv.machlab.internal,ADMINP03,svc_admin_prod,8445
+	ADMIN_PROD04,10.0.10.118,admin-prod.app.machlab.internal,admin-prod04.srv.machlab.internal,ADMINP04,svc_admin_prod,8446
+	ADMIN_PROD05,10.0.10.119,admin-prod.app.machlab.internal,admin-prod05.srv.machlab.internal,ADMINP05,svc_admin_prod,8447
+	"
+\end{lstlisting}
+
+\subsection{Angereicherte CSV-Datei als Fließtext}\label{anhang_enriched-data}
+\begin{lstlisting}
+Diese Tabelle stellt insgesamt eine Übersicht über verschiedene Server-Instanzen in einem Netzwerk dar. Jede Zeile repräsentiert eine bestimmte Server-Instanz mit ihren entsprechenden Attributen.
+
+Die Spalten haben folgende Bedeutungen:
+- "Instanzname" gibt den Namen der Server-Instanz an.
+- "IP-Adresse" enthält die IP-Adresse der Server-Instanz.
+- "fachlicher FQDN" (Fully Qualified Domain Name) ist der fachliche Name der Server-Instanz, der für die Kommunikation zwischen Anwendungen verwendet wird.
+- "technischer FQDN" ist der technische Name der Server-Instanz, der für die technische Kommunikation verwendet wird.
+- "SID" (System Identifier) ist ein eindeutiger Identifikator für die Server-Instanz.
+- "username" gibt den Benutzernamen an, der für die Authentifizierung verwendet wird.
+- "Port" ist der Port, auf dem die Server-Instanz kommuniziert.
+
+Jede Zeile kann wie folgt umformuliert werden:
+- Die Server-Instanz "FI_TEST01" hat die IP-Adresse "10.0.10.20", den fachlichen FQDN "fin-test.app.machlab.internal", den technischen FQDN "fin-test01.srv.machlab.internal", den SID "FIT01", den Benutzernamen "svc_fin_test" und den Port "8080".
+- Die Server-Instanz "FI_TEST02" hat die IP-Adresse "10.0.10.21", den fachlichen FQDN "fin-test.app.machlab.internal", den technischen FQDN "fin-test02.srv.machlab.internal", den SID "FIT02", den Benutzernamen "svc_fin_test" und den Port "8081".
+- Die Server-Instanz "FI_TEST03" hat die IP-Adresse "10.0.10.22", den fachlichen FQDN "fin-test.app.machlab.internal", den technischen FQDN "fin-test03.srv.machlab.internal", den SID "FIT03", den Benutzernamen "svc_fin_test" und den Port "8082".
+- Die Server-Instanz "FI_TEST04" hat die IP-Adresse "10.0.10.23", den fachlichen FQDN "fin-test.app.machlab.internal", den technischen FQDN "fin-test04.srv.machlab.internal", den SID "FIT04", den Benutzernamen "svc_fin_test" und den Port "8083".
+- Die Server-Instanz "FI_TEST05" hat die IP-Adresse "10.0.10.24", den fachlichen FQDN "fin-test.app.machlab.internal", den technischen FQDN "fin-test05.srv.machlab.internal", den SID "FIT05", den Benutzernamen "svc_fin_test" und den Port "8084".
+- Die Server-Instanz "FI_PROD01" hat die IP-Adresse "10.0.10.25", den fachlichen FQDN "fin-prod.app.machlab.internal", den technischen FQDN "fin-prod01.srv.machlab.internal", den SID "FIP01", den Benutzernamen "svc_fin_prod" und den Port "8443".
+- Die Server-Instanz "FI_PROD02" hat die IP-Adresse "10.0.10.26", den fachlichen FQDN "fin-prod.app.machlab.internal", den technischen FQDN "fin-prod02.srv.machlab.internal", den SID "FIP02", den Benutzernamen "svc_fin_prod" und den Port "8444".
+- Die Server-Instanz "FI_PROD03" hat die IP-Adresse "10.0.10.27", den fachlichen FQDN "fin-prod.app.machlab.internal", den technischen FQDN "fin-prod03.srv.machlab.internal", den SID "FIP03", den Benutzernamen "svc_fin_prod" und den Port "8445".
+- Die Server-Instanz "FI_PROD04" hat die IP-Adresse "10.0.10.28", den fachlichen FQDN "fin-prod.app.machlab.internal", den technischen FQDN "fin-prod04.srv.machlab.internal", den SID "FIP04", den Benutzernamen "svc_fin_prod" und den Port "8446".
+- Die Server-Instanz "FI_PROD05" hat die IP-Adresse "10.0.10.29", den fachlichen FQDN "fin-prod.app.machlab.internal", den technischen FQDN "fin-prod05.srv.machlab.internal", den SID "FIP05", den Benutzernamen "svc_fin_prod" und den Port "8447".
+- Die Server-Instanz "HR_TEST01" hat die IP-Adresse "10.0.10.30", den fachlichen FQDN "hr-test.app.machlab.internal", den technischen FQDN "hr-test01.srv.machlab.internal", den SID "HRT01", den Benutzernamen "svc_hr_test" und den Port "8080".
+- Die Server-Instanz "HR_TEST02" hat die IP-Adresse "10.0.10.31", den fachlichen FQDN "hr-test.app.machlab.internal", den technischen FQDN "hr-test02.srv.machlab.internal", den SID "HRT02", den Benutzernamen "svc_hr_test" und den Port "8081".
+- Die Server-Instanz "HR_TEST03" hat die IP-Adresse "10.0.10.32", den fachlichen FQDN "hr-test.app.machlab.internal", den technischen FQDN "hr-test03.srv.machlab.internal", den SID "HRT03", den Benutzernamen "svc_hr_test" und den Port "8082".
+- Die Server-Instanz "HR_TEST04" hat die IP-Adresse "10.0.10.33", den fachlichen FQDN "hr-test.app.machlab.internal", den technischen FQDN "hr-test04.srv.machlab.internal", den SID "HRT04", den Benutzernamen "svc_hr_test" und den Port "8083".
+- Die Server-Instanz "HR_TEST05" hat die IP-Adresse "10.0.10.34", den fachlichen FQDN "hr-test.app.machlab.internal", den technischen FQDN "hr-test05.srv.machlab.internal", den SID "HRT05", den Benutzernamen "svc_hr_test" und den Port "8084".
+- Die Server-Instanz "HR_PROD01" hat die IP-Adresse "10.0.10.35", den fachlichen FQDN "hr-prod.app.machlab.internal", den technischen FQDN "hr-prod01.srv.machlab.internal", den SID "HRP01", den Benutzernamen "svc_hr_prod" und den Port "8443".
+- Die Server-Instanz "HR_PROD02" hat die IP-Adresse "10.0.10.36", den fachlichen FQDN "hr-prod.app.machlab.internal", den technischen FQDN "hr-prod02.srv.machlab.internal", den SID "HRP02", den Benutzernamen "svc_hr_prod" und den Port "8444".
+- Die Server-Instanz "HR_PROD03" hat die IP-Adresse "10.0.10.37", den fachlichen FQDN "hr-prod.app.machlab.internal", den technischen FQDN "hr-prod03.srv.machlab.internal", den SID "HRP03", den Benutzernamen "svc_hr_prod" und den Port "8445".
+- Die Server-Instanz "HR_PROD04" hat die IP-Adresse "10.0.10.38", den fachlichen FQDN "hr-prod.app.machlab.internal", den technischen FQDN "hr-prod04.srv.machlab.internal", den SID "HRP04", den Benutzernamen "svc_hr_prod" und den Port "8446".
+- Die Server-Instanz "HR_PROD05" hat die IP-Adresse "10.0.10.39", den fachlichen FQDN "hr-prod.app.machlab.internal", den technischen FQDN "hr-prod05.srv.machlab.internal", den SID "HRP05", den Benutzernamen "svc_hr_prod" und den Port "8447".
+- Die Server-Instanz "LO_TEST01" hat die IP-Adresse "10.0.10.40", den fachlichen FQDN "log-test.app.machlab.internal", den technischen FQDN "log-test01.srv.machlab.internal", den SID "LOT01", den Benutzernamen "svc_log_test" und den Port "8080".
+- Die Server-Instanz "LO_TEST02" hat die IP-Adresse "10.0.10.41", den fachlichen FQDN "log-test.app.machlab.internal", den technischen FQDN "log-test02.srv.machlab.internal", den SID "LOT02", den Benutzernamen "svc_log_test" und den Port "8081".
+- Die Server-Instanz "LO_TEST03" hat die IP-Adresse "10.0.10.42", den fachlichen FQDN "log-test.app.machlab.internal", den technischen FQDN "log-test03.srv.machlab.internal", den SID "LOT03", den Benutzernamen "svc_log_test" und den Port "8082".
+- Die Server-Instanz "LO_TEST04" hat die IP-Adresse "10.0.10.43", den fachlichen FQDN "log-test.app.machlab.internal", den technischen FQDN "log-test04.srv.machlab.internal", den SID "LOT04", den Benutzernamen "svc_log_test" und den Port "8083".
+- Die Server-Instanz "LO_TEST05" hat die IP-Adresse "10.0.10.44", den fachlichen FQDN "log-test.app.machlab.internal", den technischen FQDN "log-test05.srv.machlab.internal", den SID "LOT05", den Benutzernamen "svc_log_test" und den Port "8084".
+- Die Server-Instanz "LO_PROD01" hat die IP-Adresse "10.0.10.45", den fachlichen FQDN "log-prod.app.machlab.internal", den technischen FQDN "log-prod01.srv.machlab.internal", den SID "LOP01", den Benutzernamen "svc_log_prod" und den Port "8443".
+- Die Server-Instanz "LO_PROD02" hat die IP-Adresse "10.0.10.46", den fachlichen FQDN "log-prod.app.machlab.internal", den technischen FQDN "log-prod02.srv.machlab.internal", den SID "LOP02", den Benutzernamen "svc_log_prod" und den Port "8444".
+- Die Server-Instanz "LO_PROD03" hat die IP-Adresse "10.0.10.47", den fachlichen FQDN "log-prod.app.machlab.internal", den technischen FQDN "log-prod03.srv.machlab.internal", den SID "LOP03", den Benutzernamen "svc_log_prod" und den Port "8445".
+- Die Server-Instanz "LO_PROD04" hat die IP-Adresse "10.0.10.48", den fachlichen FQDN "log-prod.app.machlab.internal", den technischen FQDN "log-prod04.srv.machlab.internal", den SID "LOP04", den Benutzernamen "svc_log_prod" und den Port "8446".
+- Die Server-Instanz "LO_PROD05" hat die IP-Adresse "10.0.10.49", den fachlichen FQDN "log-prod.app.machlab.internal", den technischen FQDN "log-prod05.srv.machlab.internal", den SID "LOP05", den Benutzernamen "svc_log_prod" und den Port "8447".
+- Die Server-Instanz "BI_TEST01" hat die IP-Adresse "10.0.10.50", den fachlichen FQDN "bi-test.app.machlab.internal", den technischen FQDN "bi-test01.srv.machlab.internal", den SID "BIT01", den Benutzernamen "svc_bi_test" und den Port "8080".
+- Die Server-Instanz "BI_TEST02" hat die IP-Adresse "10.0.10.51", den fachlichen FQDN "bi-test.app.machlab.internal", den technischen FQDN "bi-test02.srv.machlab.internal", den SID "BIT02", den Benutzernamen "svc_bi_test" und den Port "8081".
+- Die Server-Instanz "BI_TEST03" hat die IP-Adresse "10.0.10.52", den fachlichen FQDN "bi-test.app.machlab.internal", den technischen FQDN "bi-test03.srv.machlab.internal", den SID "BIT03", den Benutzernamen "svc_bi_test" und den Port "8082".
+- Die Server-Instanz "BI_TEST04" hat die IP-Adresse "10.0.10.53", den fachlichen FQDN "bi-test.app.machlab.internal", den technischen FQDN "bi-test04.srv.machlab.internal", den SID "BIT04", den Benutzernamen "svc_bi_test" und den Port "8083".
+- Die Server-Instanz "BI_TEST05" hat die IP-Adresse "10.0.10.54", den fachlichen FQDN "bi-test.app.machlab.internal", den technischen FQDN "bi-test05.srv.machlab.internal", den SID "BIT05", den Benutzernamen "svc_bi_test" und den Port "8084".
+- Die Server-Instanz "BI_PROD01" hat die IP-Adresse "10.0.10.55", den fachlichen FQDN "bi-prod.app.machlab.internal", den technischen FQDN "bi-prod01.srv.machlab.internal", den SID "BIP01", den Benutzernamen "svc_bi_prod" und den Port "8443".
+- Die Server-Instanz "BI_PROD02" hat die IP-Adresse "10.0.10.56", den fachlichen FQDN "bi-prod.app.machlab.internal", den technischen FQDN "bi-prod02.srv.machlab.internal", den SID "BIP02", den Benutzernamen "svc_bi_prod" und den Port "8444".
+- Die Server-Instanz "BI_PROD03" hat die IP-Adresse "10.0.10.57", den fachlichen FQDN "bi-prod.app.machlab.internal", den technischen FQDN "bi-prod03.srv.machlab.internal", den SID "BIP03", den Benutzernamen "svc_bi_prod" und den Port "8445".
+- Die Server-Instanz "BI_PROD04" hat die IP-Adresse "10.0.10.58", den fachlichen FQDN "bi-prod.app.machlab.internal", den technischen FQDN "bi-prod04.srv.machlab.internal", den SID "BIP04", den Benutzernamen "svc_bi_prod" und den Port "8446".
+- Die Server-Instanz "BI_PROD05" hat die IP-Adresse "10.0.10.59", den fachlichen FQDN "bi-prod.app.machlab.internal", den technischen FQDN "bi-prod05.srv.machlab.internal", den SID "BIP05", den Benutzernamen "svc_bi_prod" und den Port "8447".
+- Die Server-Instanz "CRM_TEST01" hat die IP-Adresse "10.0.10.60", den fachlichen FQDN "crm-test.app.machlab.internal", den technischen FQDN "crm-test01.srv.machlab.internal", den SID "CRMT01", den Benutzernamen "svc_crm_test" und den Port "8080".
+- Die Server-Instanz "CRM_TEST02" hat die IP-Adresse "10.0.10.61", den fachlichen FQDN "crm-test.app.machlab.internal", den technischen FQDN "crm-test02.srv.machlab.internal", den SID "CRMT02", den Benutzernamen "svc_crm_test" und den Port "8081".
+- Die Server-Instanz "CRM_TEST03" hat die IP-Adresse "10.0.10.62", den fachlichen FQDN "crm-test.app.machlab.internal", den technischen FQDN "crm-test03.srv.machlab.internal", den SID "CRMT03", den Benutzernamen "svc_crm_test" und den Port "8082".
+- Die Server-Instanz "CRM_TEST04" hat die IP-Adresse "10.0.10.63", den fachlichen FQDN "crm-test.app.machlab.internal", den technischen FQDN "crm-test04.srv.machlab.internal", den SID "CRMT04", den Benutzernamen "svc_crm_test" und den Port "8083".
+- Die Server-Instanz "CRM_TEST05" hat die IP-Adresse "10.0.10.64", den fachlichen FQDN "crm-test.app.machlab.internal", den technischen FQDN "crm-test05.srv.machlab.internal", den SID "CRMT05", den Benutzernamen "svc_crm_test" und den Port "8084".
+- Die Server-Instanz "CRM_PROD01" hat die IP-Adresse "10.0.10.65", den fachlichen FQDN "crm-prod.app.machlab.internal", den technischen FQDN "crm-prod01.srv.machlab.internal", den SID "CRMP01", den Benutzernamen "svc_crm_prod" und den Port "8443".
+- Die Server-Instanz "CRM_PROD02" hat die IP-Adresse "10.0.10.66", den fachlichen FQDN "crm-prod.app.machlab.internal", den technischen FQDN "crm-prod02.srv.machlab.internal", den SID "CRMP02", den Benutzernamen "svc_crm_prod" und den Port "8444".
+- Die Server-Instanz "CRM_PROD03" hat die IP-Adresse "10.0.10.67", den fachlichen FQDN "crm-prod.app.machlab.internal", den technischen FQDN "crm-prod03.srv.machlab.internal", den SID "CRMP03", den Benutzernamen "svc_crm_prod" und den Port "8445".
+- Die Server-Instanz "CRM_PROD04" hat die IP-Adresse "10.0.10.68", den fachlichen FQDN "crm-prod.app.machlab.internal", den technischen FQDN "crm-prod04.srv.machlab.internal", den SID "CRMP04", den Benutzernamen "svc_crm_prod" und den Port "8446".
+- Die Server-Instanz "CRM_PROD05" hat die IP-Adresse "10.0.10.69", den fachlichen FQDN "crm-prod.app.machlab.internal", den technischen FQDN "crm-prod05.srv.machlab.internal", den SID "CRMP05", den Benutzernamen "svc_crm_prod" und den Port "8447".
+- Die Server-Instanz "PORTAL_TEST01" hat die IP-Adresse "10.0.10.70", den fachlichen FQDN "portal-test.app.machlab.internal", den technischen FQDN "portal-test01.srv.machlab.internal", den SID "PORTALT01", den Benutzernamen "svc_portal_test" und den Port "8080".
+- Die Server-Instanz "PORTAL_TEST02" hat die IP-Adresse "10.0.10.71", den fachlichen FQDN "portal-test.app.machlab.internal", den technischen FQDN "portal-test02.srv.machlab.internal", den SID "PORTALT02", den Benutzernamen "svc_portal_test" und den Port "8081".
+- Die Server-Instanz "PORTAL_TEST03" hat die IP-Adresse "10.0.10.72", den fachlichen FQDN "portal-test.app.machlab.internal", den technischen FQDN "portal-test03.srv.machlab.internal", den SID "PORTALT03", den Benutzernamen "svc_portal_test" und den Port "8082".
+- Die Server-Instanz "PORTAL_TEST04" hat die IP-Adresse "10.0.10.73", den fachlichen FQDN "portal-test.app.machlab.internal", den technischen FQDN "portal-test04.srv.machlab.internal", den SID "PORTALT04", den Benutzernamen "svc_portal_test" und den Port "8083".
+- Die Server-Instanz "PORTAL_TEST05" hat die IP-Adresse "10.0.10.74", den fachlichen FQDN "portal-test.app.machlab.internal", den technischen FQDN "portal-test05.srv.machlab.internal", den SID "PORTALT05", den Benutzernamen "svc_portal_test" und den Port "8084".
+- Die Server-Instanz "PORTAL_PROD01" hat die IP-Adresse "10.0.10.75", den fachlichen FQDN "portal-prod.app.machlab.internal", den technischen FQDN "portal-prod01.srv.machlab.internal", den SID "PORTALP01", den Benutzernamen "svc_portal_prod" und den Port "8443".
+- Die Server-Instanz "PORTAL_PROD02" hat die IP-Adresse "10.0.10.76", den fachlichen FQDN "portal-prod.app.machlab.internal", den technischen FQDN "portal-prod02.srv.machlab.internal", den SID "PORTALP02", den Benutzernamen "svc_portal_prod" und den Port "8444".
+- Die Server-Instanz "PORTAL_PROD03" hat die IP-Adresse "10.0.10.77", den fachlichen FQDN "portal-prod.app.machlab.internal", den technischen FQDN "portal-prod03.srv.machlab.internal", den SID "PORTALP03", den Benutzernamen "svc_portal_prod" und den Port "8445".
+- Die Server-Instanz "PORTAL_PROD04" hat die IP-Adresse "10.0.10.78", den fachlichen FQDN "portal-prod.app.machlab.internal", den technischen FQDN "portal-prod04.srv.machlab.internal", den SID "PORTALP04", den Benutzernamen "svc_portal_prod" und den Port "8446".
+- Die Server-Instanz "PORTAL_PROD05" hat die IP-Adresse "10.0.10.79", den fachlichen FQDN "portal-prod.app.machlab.internal", den technischen FQDN "portal-prod05.srv.machlab.internal", den SID "PORTALP05", den Benutzernamen "svc_portal_prod" und den Port "8447".
+- Die Server-Instanz "DMS_TEST01" hat die IP-Adresse "10.0.10.80", den fachlichen FQDN "dms-test.app.machlab.internal", den technischen FQDN "dms-test01.srv.machlab.internal", den SID "DMST01", den Benutzernamen "svc_dms_test" und den Port "8080".
+- Die Server-Instanz "DMS_TEST02" hat die IP-Adresse "10.0.10.81", den fachlichen FQDN "dms-test.app.machlab.internal", den technischen FQDN "dms-test02.srv.machlab.internal", den SID "DMST02", den Benutzernamen "svc_dms_test" und den Port "8081".
+- Die Server-Instanz "DMS_TEST03" hat die IP-Adresse "10.0.10.82", den fachlichen FQDN "dms-test.app.machlab.internal", den technischen FQDN "dms-test03.srv.machlab.internal", den SID "DMST03", den Benutzernamen "svc_dms_test" und den Port "8082".
+- Die Server-Instanz "DMS_TEST04" hat die IP-Adresse "10.0.10.83", den fachlichen FQDN "dms-test.app.machlab.internal", den technischen FQDN "dms-test04.srv.machlab.internal", den SID "DMST04", den Benutzernamen "svc_dms_test" und den Port "8083".
+- Die Server-Instanz "DMS_TEST05" hat die IP-Adresse "10.0.10.84", den fachlichen FQDN "dms-test.app.machlab.internal", den technischen FQDN "dms-test05.srv.machlab.internal", den SID "DMST05", den Benutzernamen "svc_dms_test" und den Port "8084".
+- Die Server-Instanz "DMS_PROD01" hat die IP-Adresse "10.0.10.85", den fachlichen FQDN "dms-prod.app.machlab.internal", den technischen FQDN "dms-prod01.srv.machlab.internal", den SID "DMSP01", den Benutzernamen "svc_dms_prod" und den Port "8443".
+- Die Server-Instanz "DMS_PROD02" hat die IP-Adresse "10.0.10.86", den fachlichen FQDN "dms-prod.app.machlab.internal", den technischen FQDN "dms-prod02.srv.machlab.internal", den SID "DMSP02", den Benutzernamen "svc_dms_prod" und den Port "8444".
+- Die Server-Instanz "DMS_PROD03" hat die IP-Adresse "10.0.10.87", den fachlichen FQDN "dms-prod.app.machlab.internal", den technischen FQDN "dms-prod03.srv.machlab.internal", den SID "DMSP03", den Benutzernamen "svc_dms_prod" und den Port "8445".
+- Die Server-Instanz "DMS_PROD04" hat die IP-Adresse "10.0.10.88", den fachlichen FQDN "dms-prod.app.machlab.internal", den technischen FQDN "dms-prod04.srv.machlab.internal", den SID "DMSP04", den Benutzernamen "svc_dms_prod" und den Port "8446".
+- Die Server-Instanz "DMS_PROD05" hat die IP-Adresse "10.0.10.89", den fachlichen FQDN "dms-prod.app.machlab.internal", den technischen FQDN "dms-prod05.srv.machlab.internal", den SID "DMSP05", den Benutzernamen "svc_dms_prod" und den Port "8447".
+- Die Server-Instanz "INT_TEST01" hat die IP-Adresse "10.0.10.90", den fachlichen FQDN "int-test.app.machlab.internal", den technischen FQDN "int-test01.srv.machlab.internal", den SID "INTT01", den Benutzernamen "svc_int_test" und den Port "8080".
+- Die Server-Instanz "INT_TEST02" hat die IP-Adresse "10.0.10.91", den fachlichen FQDN "int-test.app.machlab.internal", den technischen FQDN "int-test02.srv.machlab.internal", den SID "INTT02", den Benutzernamen "svc_int_test" und den Port "8081".
+- Die Server-Instanz "INT_TEST03" hat die IP-Adresse "10.0.10.92", den fachlichen FQDN "int-test.app.machlab.internal", den technischen FQDN "int-test03.srv.machlab.internal", den SID "INTT03", den Benutzernamen "svc_int_test" und den Port "8082".
+- Die Server-Instanz "INT_TEST04" hat die IP-Adresse "10.0.10.93", den fachlichen FQDN "int-test.app.machlab.internal", den technischen FQDN "int-test04.srv.machlab.internal", den SID "INTT04", den Benutzernamen "svc_int_test" und den Port "8083".
+- Die Server-Instanz "INT_TEST05" hat die IP-Adresse "10.0.10.94", den fachlichen FQDN "int-test.app.machlab.internal", den technischen FQDN "int-test05.srv.machlab.internal", den SID "INTT05", den Benutzernamen "svc_int_test" und den Port "8084".
+- Die Server-Instanz "INT_PROD01" hat die IP-Adresse "10.0.10.95", den fachlichen FQDN "int-prod.app.machlab.internal", den technischen FQDN "int-prod01.srv.machlab.internal", den SID "INTP01", den Benutzernamen "svc_int_prod" und den Port "8443".
+- Die Server-Instanz "INT_PROD02" hat die IP-Adresse "10.0.10.96", den fachlichen FQDN "int-prod.app.machlab.internal", den technischen FQDN "int-prod02.srv.machlab.internal", den SID "INTP02", den Benutzernamen "svc_int_prod" und den Port "8444".
+- Die Server-Instanz "INT_PROD03" hat die IP-Adresse "10.0.10.97", den fachlichen FQDN "int-prod.app.machlab.internal", den technischen FQDN "int-prod03.srv.machlab.internal", den SID "INTP03", den Benutzernamen "svc_int_prod" und den Port "8445".
+- Die Server-Instanz "INT_PROD04" hat die IP-Adresse "10.0.10.98", den fachlichen FQDN "int-prod.app.machlab.internal", den technischen FQDN "int-prod04.srv.machlab.internal", den SID "INTP04", den Benutzernamen "svc_int_prod" und den Port "8446".
+- Die Server-Instanz "INT_PROD05" hat die IP-Adresse "10.0.10.99", den fachlichen FQDN "int-prod.app.machlab.internal", den technischen FQDN "int-prod05.srv.machlab.internal", den SID "INTP05", den Benutzernamen "svc_int_prod" und den Port "8447".
+- Die Server-Instanz "BATCH_TEST01" hat die IP-Adresse "10.0.10.100", den fachlichen FQDN "batch-test.app.machlab.internal", den technischen FQDN "batch-test01.srv.machlab.internal", den SID "BATCHT01", den Benutzernamen "svc_batch_test" und den Port "8080".
+- Die Server-Instanz "BATCH_TEST02" hat die IP-Adresse "10.0.10.101", den fachlichen FQDN "batch-test.app.machlab.internal", den technischen FQDN "batch-test02.srv.machlab.internal", den SID "BATCHT02", den Benutzernamen "svc_batch_test" und den Port "8081".
+- Die Server-Instanz "BATCH_TEST03" hat die IP-Adresse "10.0.10.102", den fachlichen FQDN "batch-test.app.machlab.internal", den technischen FQDN "batch-test03.srv.machlab.internal", den SID "BATCHT03", den Benutzernamen "svc_batch_test" und den Port "8082".
+- Die Server-Instanz "BATCH_TEST04" hat die IP-Adresse "10.0.10.103", den fachlichen FQDN "batch-test.app.machlab.internal", den technischen FQDN "batch-test04.srv.machlab.internal", den SID "BATCHT04", den Benutzernamen "svc_batch_test" und den Port "8083".
+- Die Server-Instanz "BATCH_TEST05" hat die IP-Adresse "10.0.10.104", den fachlichen FQDN "batch-test.app.machlab.internal", den technischen FQDN "batch-test05.srv.machlab.internal", den SID "BATCHT05", den Benutzernamen "svc_batch_test" und den Port "8084".
+- Die Server-Instanz "BATCH_PROD01" hat die IP-Adresse "10.0.10.105", den fachlichen FQDN "batch-prod.app.machlab.internal", den technischen FQDN "batch-prod01.srv.machlab.internal", den SID "BATCHP01", den Benutzernamen "svc_batch_prod" und den Port "8443".
+- Die Server-Instanz "BATCH_PROD02" hat die IP-Adresse "10.0.10.106", den fachlichen FQDN "batch-prod.app.machlab.internal", den technischen FQDN "batch-prod02.srv.machlab.internal", den SID "BATCHP02", den Benutzernamen "svc_batch_prod" und den Port "8444".
+- Die Server-Instanz "BATCH_PROD03" hat die IP-Adresse "10.0.10.107", den fachlichen FQDN "batch-prod.app.machlab.internal", den technischen FQDN "batch-prod03.srv.machlab.internal", den SID "BATCHP03", den Benutzernamen "svc_batch_prod" und den Port "8445".
+- Die Server-Instanz "BATCH_PROD04" hat die IP-Adresse "10.0.10.108", den fachlichen FQDN "batch-prod.app.machlab.internal", den technischen FQDN "batch-prod04.srv.machlab.internal", den SID "BATCHP04", den Benutzernamen "svc_batch_prod" und den Port "8446".
+- Die Server-Instanz "BATCH_PROD05" hat die IP-Adresse "10.0.10.109", den fachlichen FQDN "batch-prod.app.machlab.internal", den technischen FQDN "batch-prod05.srv.machlab.internal", den SID "BATCHP05", den Benutzernamen "svc_batch_prod" und den Port "8447".
+- Die Server-Instanz "ADMIN_TEST01" hat die IP-Adresse "10.0.10.110", den fachlichen FQDN "admin-test.app.machlab.internal", den technischen FQDN "admin-test01.srv.machlab.internal", den SID "ADMINT01", den Benutzernamen "svc_admin_test" und den Port "8080".
+- Die Server-Instanz "ADMIN_TEST02" hat die IP-Adresse "10.0.10.111", den fachlichen FQDN "admin-test.app.machlab.internal", den technischen FQDN "admin-test02.srv.machlab.internal", den SID "ADMINT02", den Benutzernamen "svc_admin_test" und den Port "8081".
+- Die Server-Instanz "ADMIN_TEST03" hat die IP-Adresse "10.0.10.112", den fachlichen FQDN "admin-test.app.machlab.internal", den technischen FQDN "admin-test03.srv.machlab.internal", den SID "ADMINT03", den Benutzernamen "svc_admin_test" und den Port "8082".
+- Die Server-Instanz "ADMIN_TEST04" hat die IP-Adresse "10.0.10.113", den fachlichen FQDN "admin-test.app.machlab.internal", den technischen FQDN "admin-test04.srv.machlab.internal", den SID "ADMINT04", den Benutzernamen "svc_admin_test" und den Port "8083".
+- Die Server-Instanz "ADMIN_TEST05" hat die IP-Adresse "10.0.10.114", den fachlichen FQDN "admin-test.app.machlab.internal", den technischen FQDN "admin-test05.srv.machlab.internal", den SID "ADMINT05", den Benutzernamen "svc_admin_test" und den Port "8084".
+- Die Server-Instanz "ADMIN_PROD01" hat die IP-Adresse "10.0.10.115", den fachlichen FQDN "admin-prod.app.machlab.internal", den technischen FQDN "admin-prod01.srv.machlab.internal", den SID "ADMINP01", den Benutzernamen "svc_admin_prod" und den Port "8443".
+- Die Server-Instanz "ADMIN_PROD02" hat die IP-Adresse "10.0.10.116", den fachlichen FQDN "admin-prod.app.machlab.internal", den technischen FQDN "admin-prod02.srv.machlab.internal", den SID "ADMINP02", den Benutzernamen "svc_admin_prod" und den Port "8444".
+- Die Server-Instanz "ADMIN_PROD03" hat die IP-Adresse "10.0.10.117", den fachlichen FQDN "admin-prod.app.machlab.internal", den technischen FQDN "admin-prod03.srv.machlab.internal", den SID "ADMINP03", den Benutzernamen "svc_admin_prod" und den Port "8445".
+- Die Server-Instanz "ADMIN_PROD04" hat die IP-Adresse "10.0.10.118", den fachlichen FQDN "admin-prod.app.machlab.internal", den technischen FQDN "admin-prod04.srv.machlab.internal", den SID "ADMINP04", den Benutzernamen "svc_admin_prod" und den Port "8446".
+- Die Server-Instanz "ADMIN_PROD05" hat die IP-Adresse "10.0.10.119", den fachlichen FQDN "admin-prod.app.machlab.internal", den technischen FQDN "admin-prod05.srv.machlab.internal", den SID "ADMINP05", den Benutzernamen "svc_admin_prod" und den Port "8447".
+\end{lstlisting}
+
+\section{Codeausschnitte}
+\subsection{Python: LLM-Preprocessing}
+Hinweis: bei der Erstellung des Skripts habe ich mich von ChatGPT 5.1 unterstützen lassen
+\begin{lstlisting}[language=Python]
+	import os
+	import pandas as pd
+	from groq import Groq
+	
+	def main():
+	print("`Starte Preprocessing..."')
+	
+	# 1) API-Key laden
+	api_key = os.environ.get("GROQ_API_KEY")
+	if not api_key:
+	print("Fehler: GROQ_API_KEY ist nicht gesetzt.")
+	return
+	print("GROQ_API_KEY gefunden.")
+	
+	# 2) Groq-Client initialisieren
+	client = Groq(api_key=api_key)
+	
+	# 3) CSV laden
+	csv_path = "instanzen.csv"
+	if not os.path.exists(csv_path):
+	print(f"Fehler: {csv_path} nicht gefunden.")
+	return
+	
+	df = pd.read_csv(csv_path)
+	print(f"CSV geladen: {csv_path}, Zeilen: {len(df)}")
+	
+	# 4) Tabelle in CSV-Form für das LLM
+	table_csv = df.to_csv(index=False)
+	
+	# 5) Prompt bauen
+	prompt = f"""
+	Du erhältst eine Tabelle aus einer (fiktiven) Game-of-Thrones-Dokumentation.
+	
+	Tabelleninhalt (CSV):
+	{table_csv}
+	
+	Aufgabe:
+	1. Beschreibe kurz, was diese Tabelle insgesamt darstellt.
+	2. Erkläre die Bedeutung jeder Spalte.
+	3. Formuliere jede einzelne Zeile in einen beschreibenden Satz um, in dem das Attribut benannt und mit dem Wert versehen wird.
+	
+	Formatiere die Antwort als gut lesbaren Fließtext.
+	"""
+	
+	print("Sende Anfrage an Groq-LLM...")
+	
+	response = client.chat.completions.create(
+	model="llama-3.3-70b-versatile",
+	messages=[
+	{"role": "system", "content": "Du bist ein hilfreicher Assistent für technische Dokumentation."},
+	{"role": "user", "content": prompt},
+	],
+	temperature=0.2,
+	)
+	
+	enriched_text = response.choices[0].message.content
+	
+	# 6) Ausgabe auf der Konsole
+	print("\nAntwort vom LLM:\n")
+	print(enriched_text)
+	print("\n--- Ende der Antwort ---\n")
+	
+	# 7) In Datei schreiben
+	out_path = "enriched_dummy.txt"
+	with open(out_path, "w", encoding="utf-8") as f:
+	f.write(enriched_text)
+	
+	print(f"Angereichertes Dokument gespeichert unter: {out_path}")
+	
+	
+	if __name__ == "__main__":
+	main()
+	
+\end{lstlisting}
+
+%\section{Originaldokumente}
+%\includepdf[pages=-]{anhang/wiki_export.pdf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Literaturverzeichnis
+%\printindex
+
+\end{document}
