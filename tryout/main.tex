@@ -543,19 +543,15 @@ Die Forschungsfrage zielt auf die Erprobung der semantischen Normalisierung zur 
 \end{neu}
 	
 	\chapter{LLM-basierte Preprocessing-Pipeline}\label{chapter.preprocessing-pipeline}
-	
-%	(Hauptteil der Arbeit)
-	
-	Im Folgenden soll ein genauer Blick auf die Implementierung der LLM-Pipeline geworfen werden. Es wird zunächst die LLM-Anweisung für die Anreicherung der Rohdaten erläutert. Dann wird die Architektur dargestellt und die technischen Details zur Implementierung geklärt.
-	
-	\section{Zielsetzung der Pipeline}
-	
-%	\begin{itemize}
-%		\item Tabellen in semantisch interpretierbaren Text umwandeln
-%	
-%	\item Metadaten + Kontext hinzufügen
-%	\end{itemize}
-	
+Dieses Kapitel beschreibt die konkrete Ausgestaltung der im vorherigen Kapitel eingeführten Vorverarbeitungspipeline zur Transformation strukturierter und semistrukturierter Wiki-Inhalte in eine für RAG-Systeme geeignete Wissensbasis. Die Pipeline ist dabei als vorgelagertes Preprocessing-System konzipiert, das zwischen dem Quellsystem (XWiki) und dem eigentlichen RAG-Modell angesiedelt ist. Sie ist nicht Bestandteil des RAG-Systems selbst, sondern stellt eine vorbereitende Infrastruktur dar, deren Aufgabe in der strukturierten Aufbereitung und semantischen Normalisierung der zugrundeliegenden Inhalte liegt.
+
+Aus systemischer Sicht übernimmt die Pipeline die Verantwortung für die Transformation der Darstellungs- und Organisationsform von Wissen, nicht jedoch für dessen inhaltliche Erweiterung oder Bewertung. Ausgangspunkt sind HTML-basierte Wiki-Seiten, die neben Fließtext in hohem Maße strukturierte Elemente wie Tabellen, Listen und Konfigurationsfragmente enthalten. Diese Strukturen sind für menschliche Leser gut erfassbar, erweisen sich jedoch als problematisch für die direkte Nutzung in retrievalbasierten Sprachmodellen. Die Pipeline adressiert diese Diskrepanz, indem sie solche Inhalte in prosebasierte, kontextualisierte Wissenseinheiten überführt, ohne dabei externes Wissen einzubringen oder bestehende Aussagen semantisch zu verändern.
+
+Die Pipeline operiert dabei offline und batch-orientiert und ist zeitlich vor der Indexierung der Inhalte in einem Vektorspeicher angesiedelt. Sie greift weder in den Retrieval- noch in den Generationsprozess des RAG-Systems ein und trifft keine Entscheidungen zur Laufzeit von Nutzeranfragen. Ihr Ergebnis ist ein persistentes Korpus normalisierter Texte, das als Eingabe für nachgelagerte RAG-Komponenten dient und deren Nutzbarkeit maßgeblich beeinflusst.
+
+Kern des Vorgehens ist eine LLM-gestützte semantische Normalisierung, bei der strukturierte oder semistrukturierte Inhalte gezielt in Fließtext überführt werden. Diese Normalisierung stellt den einzigen probabilistischen Verarbeitungsschritt innerhalb der Pipeline dar und ist bewusst von deterministischen Vorverarbeitungsschritten wie Dokumentbereinigung, strukturellem Parsing und Chunking getrennt. Auf diese Weise wird eine klare Trennung zwischen regelbasierter Strukturverarbeitung und probabilistischer Sprachmodellnutzung realisiert.
+
+Im Folgenden wird zunächst die konkrete Ausgestaltung dieser Pipeline beschrieben. Dazu werden das eingesetzte Prompt-Design für die Normalisierung strukturierter Inhalte, die zugrunde liegende Architektur sowie die technische Implementierung der einzelnen Verarbeitungsschritte dargestellt.
 
 	\section{Prompt-Engineering für die Tabellenanreicherung}
 	
