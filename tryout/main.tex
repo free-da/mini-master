@@ -121,7 +121,7 @@ natbib=false
 \typeout{----> main.tex ---- Zentrales Dokument---------------------}
 \typeout{-----------------------------------------------------------}
 
-\version{0.4$\alpha$}    % wird im Entwurf auf der Titelseite vermerkt
+\version{0.5$\alpha$}    % wird im Entwurf auf der Titelseite vermerkt
 \datum{\today}
 %%
 %% Titel, Autor und Betreuer
@@ -409,7 +409,7 @@ Im Unterschied zu dieser Arbeit ist in \parencite{sui_table_2023} die Serialisie
 
 \section{LLM-gestützte ETL-Pipelines}
 
-	\chapter{Methode}\ref{chapter.methode}
+	\chapter{Methode}\label{chapter.methode}
 
 	Das wissenschaftliche Vorgehensmodell soll in diesem folgenden Kapitel erläutert werden. Zunächst wird im Unterkapitel \ref{sec:zielsetzung_forschungslogik} die Zielsetzung und Forschungslogik dargelegt. Hier wird die Forschungsfrage konkretisiert und das Forschungsdesign erläutert, außerdem kurz umrissen, was diese Arbeit nicht enthalten wird. Im Unterkapitel \ref{sec:ueberblick_vorgehensmodell} wird das Vorgehen zur Beantwortung der Forschungsfrage erläutert. Im Unterkapitel \ref{sec:datenselektion_extraktion} werden Entscheidungen zur Auswahl der Versuchsdaten dargelegt und im Unterkapitel \ref{sec:abgrenzung_regel_llm} die angewandten Transformationsschritte erläutert.
 	
@@ -590,51 +590,36 @@ Die probabilistische Normalisierung ist der dritte Transformationsschritt, in de
 Hier ist der \textit{Load}-Schritt der klassischen ETL-Pipeline, nur dass der in diesem Projekt die Bereitstellung der transformierten Daten an die Wissensbasis des RAG-Modells umfasst. Das Ergebnis dieses Schritts ist die Integration in die RAG-Wissensbasis. Hier wird dies, genauso wie der Extraktionsschritt händisch durchgeführt, indem die Ergebnisdateien der Probabilistischen Normalisierung in eine Wissensbasis in der Open WebUI-Anwendung überführt werden. Zukünftig sollte auch dieser Schritt automatisiert stattfinden, indem die Übergabe an die RAG-Wissensbasis ebenfalls per API-Schnittstelle stattfindet, um Fehlern vorzubeugen.
 
 	
+	\begin{neu}
+
 \section{Implementierung}
 
-Die Implementierung der LLM-gestützten Vorverarbeitungspipeline wurde in Python realisiert und als eigenständiges Paket mit der Bezeichnung \textit{struct2prose} umgesetzt. Ziel der Implementierung ist es, die in Kapitel \ref{ beschriebene Vorgehensweise in eine reproduzierbare, modular ausführbare Pipeline zu überführen, ohne dabei unnötige technische Komplexität einzuführen. Der Fokus liegt auf der Nachvollziehbarkeit der einzelnen Verarbeitungsschritte sowie auf der klaren Trennung deterministischer und LLM-basierter Transformationslogik.
+Die Implementierung der LLM-gestützten Vorverarbeitungspipeline wurde in Python realisiert und als eigenständiges Paket mit der Bezeichnung \textit{struct2prose} umgesetzt. Ziel der Implementierung ist es, die in Kapitel \ref{chapter.methode} beschriebene Vorgehensweise in eine reproduzierbare, modular ausführbare Pipeline zu überführen, ohne dabei unnötige technische Komplexität einzuführen. Der Fokus liegt auf der Nachvollziehbarkeit der einzelnen Verarbeitungsschritte sowie auf der klaren Trennung deterministischer und LLM-basierter Transformationslogik.
 	
 \subsection{Technischer Rahmen und Projektstruktur}
 
-Die Implementierung der LLM-gestützten Vorverarbeitung wurde in Python realisiert und als eigenständiges Paket mit klar abgegrenzten Verarbeitungsschritten umgesetzt. Das Paket wurde als \texttt{struct2prose} benannt, nach seiner Funktion, strukturierte Daten in Prosa umzuwandeln und liegt im \texttt{src}-Layout vor. Die Installation erfolgt als editierbares Paket über \texttt{pyproject.toml} und die Ausführung des Projekts erfolgt mit dem Aufruf von \texttt{python -m struct2prose}.
-
-\subsection{Kommandozeilenschnittstelle und Pipeline-Ausführung}\label{sub.Kommandozeilenschnittstelle}
-
-
+Die Pipeline wird über eine Kommandozeilenschnittstelle gesteuert, die den Einstiegspunkt des Systems bildet. Die Ausführung erfolgt über den Befehl \texttt{python -m struct2prose}, wobei sowohl einzelne Verarbeitungsschritte als auch ein vollständiger End-to-End-Durchlauf angestoßen werden können. Die einzelnen Schritte sind als Subcommands implementiert und folgen einer linearen Abfolge von der Rohdatenverarbeitung bis zur semantisch normalisierten Ausgabe. Die zugehörige Verzeichnisstruktur orientiert sich an den Pipeline-Stufen und umfasst getrennte Ordner für Rohdaten (\texttt{raw\_data}), bereinigte HTML-Dokumente (\texttt{clean\_data}), strukturierte Zwischenrepräsentationen (\texttt{processed\_data}) sowie normalisierte Markdown-Dokumente (\texttt{normalized\_data}).
 
 \subsection{Interne Datenrepräsentation}\label{sub.interne-datenrep}
 
-
+Als zentrales internes Datenformat dient eine explizite Objektstruktur, bestehend aus den Klassen \texttt{WikiDocument}, \texttt{Section} und \texttt{ContentBlock}. Diese Repräsentation abstrahiert von der ursprünglichen HTML-Struktur und bildet stattdessen die logische Gliederung der Wiki-Seiten ab. Ein Dokument besteht aus einem Titel, einer geordneten Liste von Abschnitten sowie Metadaten zur Herkunftsdatei. Jeder Abschnitt enthält wiederum eine Folge typisierter Inhaltsblöcke, etwa Absätze, Tabellen, Listen oder Codeblöcke. Diese Struktur stellt sicher, dass strukturierte und unstrukturierte Inhalte bereits vor der LLM-gestützten Verarbeitung explizit unterschieden vorliegen.
 
 \subsection{Implementierung der Vorverarbeitungsschritte (Step 1–3)}\label{sub.step1-3}
+Die Vorverarbeitungsschritte eins bis drei sind vollständig deterministisch implementiert. Im ersten Schritt wird aus den HTML-Exporten der zentrale Inhaltsbereich der Wiki-Seite extrahiert. Hierzu wird heuristisch ein definierter DOM-Knoten als Content-Root ausgewählt, um Navigations- und Metadatenbereiche frühzeitig auszuschließen. Der zweite Schritt entfernt verbliebene UI-Elemente wie Inhaltsverzeichnisse oder Editier-Controls anhand einfacher, regelbasierter Filter. Dieser Schritt ist bewusst minimal gehalten und verfolgt nicht das Ziel eines vollständigen DOM-Cleanings. Im dritten Schritt erfolgt das eigentliche Parsing des bereinigten HTML in ein strukturiertes JSON-Zwischenformat. Überschriften werden dabei als Abschnittsgrenzen interpretiert, während Absätze, Tabellen, Listen und Codeblöcke jeweils als eigenständige Inhaltsblöcke modelliert werden.
 
 
 \subsection{LLM-gestützte semantische Normalisierung (Step 4)}\label{sub.step4}
-
-
-\subsection{Generierung der normalisierten Markdown-Dokumente}\label{sub.generierung-markdown}
-
-
-\subsection{Limitationen der Implementierung}\label{sub.limitationen}
-
-\subsection{Implementierung}
-\label{sec:implementation}
-
-
-
-Die Pipeline wird über eine Kommandozeilenschnittstelle gesteuert, die den Einstiegspunkt des Systems bildet. Die Ausführung erfolgt über den Befehl \texttt{python -m struct2prose}, wobei sowohl einzelne Verarbeitungsschritte als auch ein vollständiger End-to-End-Durchlauf angestoßen werden können. Die einzelnen Schritte sind als Subcommands implementiert und folgen einer linearen Abfolge von der Rohdatenverarbeitung bis zur semantisch normalisierten Ausgabe. Die zugehörige Verzeichnisstruktur orientiert sich an den Pipeline-Stufen und umfasst getrennte Ordner für Rohdaten (\texttt{raw\_data}), bereinigte HTML-Dokumente (\texttt{clean\_data}), strukturierte Zwischenrepräsentationen (\texttt{processed\_data}) sowie normalisierte Markdown-Dokumente (\texttt{normalized\_data}).
-
-Als zentrales internes Datenformat dient eine explizite Objektstruktur, bestehend aus den Klassen \texttt{WikiDocument}, \texttt{Section} und \texttt{ContentBlock}. Diese Repräsentation abstrahiert von der ursprünglichen HTML-Struktur und bildet stattdessen die logische Gliederung der Wiki-Seiten ab. Ein Dokument besteht aus einem Titel, einer geordneten Liste von Abschnitten sowie Metadaten zur Herkunftsdatei. Jeder Abschnitt enthält wiederum eine Folge typisierter Inhaltsblöcke, etwa Absätze, Tabellen, Listen oder Codeblöcke. Diese Struktur stellt sicher, dass strukturierte und unstrukturierte Inhalte bereits vor der LLM-gestützten Verarbeitung explizit unterschieden vorliegen.
-
-Die Vorverarbeitungsschritte eins bis drei sind vollständig deterministisch implementiert. Im ersten Schritt wird aus den HTML-Exporten der zentrale Inhaltsbereich der Wiki-Seite extrahiert. Hierzu wird heuristisch ein definierter DOM-Knoten als Content-Root ausgewählt, um Navigations- und Metadatenbereiche frühzeitig auszuschließen. Der zweite Schritt entfernt verbliebene UI-Elemente wie Inhaltsverzeichnisse oder Editier-Controls anhand einfacher, regelbasierter Filter. Dieser Schritt ist bewusst minimal gehalten und verfolgt nicht das Ziel eines vollständigen DOM-Cleanings. Im dritten Schritt erfolgt das eigentliche Parsing des bereinigten HTML in ein strukturiertes JSON-Zwischenformat. Überschriften werden dabei als Abschnittsgrenzen interpretiert, während Absätze, Tabellen, Listen und Codeblöcke jeweils als eigenständige Inhaltsblöcke modelliert werden.
-
 Die semantische Normalisierung strukturierter Inhalte erfolgt im vierten Schritt der Pipeline und stellt den zentralen Einsatzpunkt eines Large Language Models dar. Hierzu wird das Groq-Framework verwendet, wobei der Zugriff über einen API-Key erfolgt, der als Environment-Variable konfiguriert ist. Als Modell kommt \texttt{llama-3.3-70b-versatile} mit einer niedrigen Temperatur zum Einsatz, um möglichst konsistente und reproduzierbare Ausgaben zu erzielen. Die Normalisierung wird selektiv angewendet: Tabellen und optional Listen werden mittels promptbasierter LLM-Anfragen in beschreibenden Fließtext überführt, während bereits gut lesbare Absätze unverändert übernommen werden. Codeblöcke werden ebenfalls nicht inhaltlich verändert, sondern lediglich als zusammenhängende Codeabschnitte in die Ausgabe integriert.
 
+\subsection{Generierung der normalisierten Markdown-Dokumente}\label{sub.generierung-markdown}
 Als Ergebnis der Normalisierung werden die Dokumente im Markdown-Format ausgegeben. Die Struktur der Ausgabedateien folgt dabei der ursprünglichen Abschnittsgliederung der Wiki-Seiten, ersetzt jedoch tabellarische Darstellungen durch prosebasierte Beschreibungen. Dieses Format eignet sich besonders für die spätere Integration in Retrieval-Augmented-Generation-Systeme, da es semantisch kohärente Textsegmente erzeugt und gängige Chunking-Strategien unterstützt.
+
+\subsection{Limitationen der Implementierung}\label{sub.limitationen}
 
 Die Implementierung ist bewusst als Minimalprototyp ausgelegt. Sie verzichtet auf komplexe Heuristiken, tiefgreifende HTML-Normalisierung oder umfangreiche Nachbearbeitung der LLM-Ausgaben. Diese Einschränkungen sind bewusst gewählt, um den methodischen Kern der Arbeit – die LLM-gestützte semantische Normalisierung strukturierter Inhalte – klar sichtbar zu machen und eine saubere Grundlage für die nachfolgende Evaluation zu schaffen.
 
 
+\end{neu}
 	\chapter{Evaluation} \label{chapter.evaluation}
 	
 %	Hier entscheidet sich alles.
