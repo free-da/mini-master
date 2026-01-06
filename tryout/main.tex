@@ -409,7 +409,7 @@ Im Unterschied zu dieser Arbeit ist in \parencite{sui_table_2023} die Serialisie
 
 \section{LLM-gestützte ETL-Pipelines}
 
-	\chapter{Methode}
+	\chapter{Methode}\ref{chapter.methode}
 
 	Das wissenschaftliche Vorgehensmodell soll in diesem folgenden Kapitel erläutert werden. Zunächst wird im Unterkapitel \ref{sec:zielsetzung_forschungslogik} die Zielsetzung und Forschungslogik dargelegt. Hier wird die Forschungsfrage konkretisiert und das Forschungsdesign erläutert, außerdem kurz umrissen, was diese Arbeit nicht enthalten wird. Im Unterkapitel \ref{sec:ueberblick_vorgehensmodell} wird das Vorgehen zur Beantwortung der Forschungsfrage erläutert. Im Unterkapitel \ref{sec:datenselektion_extraktion} werden Entscheidungen zur Auswahl der Versuchsdaten dargelegt und im Unterkapitel \ref{sec:abgrenzung_regel_llm} die angewandten Transformationsschritte erläutert.
 	
@@ -453,13 +453,6 @@ Hier werden gewisse Vereinfachungen bewusst gemacht. Für eine komplette Pipelin
 
 Desweiteren finden kein Benchmarking in der Evaluation und auch keine Nutzerstudien statt. Es werden auch keine LLMs oder RAG-Systeme miteinander verglichen, da der Fokus auf der Vorverarbeitung der Daten liegt und nicht auf der Bewertung eines LLMs. Das fertige RAG-LLM oder gar ein Chatbot als Anwendungsbereich für das Wissensmanagement könnten das Ergebnis weiterer Arbeiten sein, die auf dieser Arbeit aufbauen. Diese Arbeit ist aber explizit eine Untersuchung über die Tauglichkeit dieses konkreten Vorverarbeitungs-Ansatzes.
 
-%Es ist keine experimentelle Studie und auch keine Systemevaluation, sondern eine design-orientierte Untersuchung. 
-%Die gestalterischen Elemente werden nach Gutdünken gewählt, was dazu führt, dass auch eine Darstellung, die für das menschliche Auge die Funktion einer Tabelle erfüllt, nicht notwendigerweise auch als \texttt{<table>}-Element im HTML-Markup notiert ist, sondern es können auch Verschachtelungen von \texttt{<div>}- oder \texttt{<p>}-Elementen sein. Deshalb würde auch ein einfaches regelbasiertes Parsing aufgrund von HTML-Strukturelementen nicht ausreichen, um den nötigen Kontext herzustellen.
-% Zur Vereinfachung der Lesbarkeit wird fortan nur noch von strukturierten Daten gesprochen, obwohl semistrukturierte Daten davon genauso betroffen sind.
-%Um diese Lücke zu schließen, sollen diese strukturierten und semi-struktierten Daten LLM-basiert in kontextreichere Fließtexte umgewandelt werden, damit auch nach dem RAG-chunking ausreichend Kontext vorhanden ist, um die Generierung von Antworten adäquat mit Wissen zu augmentieren. Der Erfolg oder Misserfolg dieser Methode soll am Ende anhand eines prototypischen RAG-Systems, was mit den angereicherten Informationen augmentiert wird, dargestellt werden. In einer pragmatische Evaluation werden die \textit{Retrieval}-Ergebnisse eines RAG-Prototypen, der mit den angereicherten Daten gespeist wird mit denen eines zweiten RAG-Modells verglichen, dem nur die unverarbeiteten Rohdaten zur Verfügung gestellt werden. Unter Beibehaltung identischer Modelle, Wissensdomänen und Dokumentenmengen soll so ein Vergleich möglich sein, der Schlüsse auf die Wertigkeit der zugrundeliegenden Datenqualität und damit der Qualität der Vorverarbeitung ziehen lässt.
-
-
-
 	
 	\section{Überblick über das Vorgehensmodell}\label{sec:ueberblick_vorgehensmodell}
 
@@ -477,24 +470,6 @@ Die normalisierten Daten dienen als Grundlage zur Evaluation.
 
 %	
 	\section{Datenselektion und Datenextraktion}\label{sec:datenselektion_extraktion}
-	
-%	Sampling-Entscheidung:
-%	
-%	Auswahl von fünf Wiki-Seiten
-%	
-%	Begründung der Auswahl:
-%	
-%	unterschiedliche Urheberschaft
-%	
-%	strukturelle Vielfalt der Inhalte
-%	
-%	Manuelle Extraktion:
-%	
-%	bewusste methodische Vereinfachung
-%	
-%	Abgrenzung zu automatisierter/API-basierter Extraktion
-%	
-%	Anonymisierung und Datenschutz
 	
 	Die Rohdaten, die transformiert werden sollen, entstammen einem Wiki zur internen Dokumentation einer größeren IT-Organisation. Sie sind textlastig, aber durch den vermehrten Einsatz von Tabellen, Listen und Übersichten sehr heterogen, mit semi-strukturierten bis strukturierten Fragmenten.
 	
@@ -541,7 +516,7 @@ Die Forschungsfrage zielt auf die Erprobung der semantischen Normalisierung zur 
 	
 	
 	\chapter{LLM-basierte Preprocessing-Pipeline}\label{chapter.preprocessing-pipeline}
-Dieses Kapitel beschreibt die konkrete Ausgestaltung der im vorherigen Kapitel eingeführten Vorverarbeitungspipeline zur Transformation strukturierter und semistrukturierter Wiki-Inhalte in eine für RAG-Systeme geeignete Wissensbasis. Die Pipeline ist dabei als vorgelagertes Preprocessing-System konzipiert, das zwischen dem Quellsystem (XWiki) und dem eigentlichen RAG-Modell angesiedelt ist. Sie ist nicht Bestandteil des RAG-Systems selbst, sondern stellt eine vorbereitende Infrastruktur dar, deren Aufgabe in der strukturierten Aufbereitung und semantischen Normalisierung der zugrundeliegenden Inhalte liegt.
+Dieses Kapitel beschreibt die konkrete Ausgestaltung der im vorherigen Kapitel eingeführten Vorverarbeitungspipeline zur Transformation strukturierter und semistrukturierter Wiki-Inhalte in eine für RAG-Systeme geeignete Wissensbasis. Die Pipeline ist dabei als vorgelagertes Pre\-pro\-cess\-ing-Sys\-tem konzipiert, das zwischen dem Quellsystem (XWiki) und dem eigentlichen RAG-Modell angesiedelt ist. Sie ist nicht Bestandteil des RAG-Systems selbst, sondern stellt eine vorbereitende Infrastruktur dar, deren Aufgabe in der strukturierten Aufbereitung und semantischen Normalisierung der zugrundeliegenden Inhalte liegt.
 
 Aus systemischer Sicht übernimmt die Pipeline die Verantwortung für die Transformation der Darstellungs- und Organisationsform von Wissen, nicht jedoch für dessen inhaltliche Erweiterung oder Bewertung. Ausgangspunkt sind HTML-basierte Wiki-Seiten, die neben Fließtext in hohem Maße strukturierte Elemente wie Tabellen, Listen und Konfigurationsfragmente enthalten. Diese Strukturen sind für menschliche Leser gut erfassbar, erweisen sich jedoch als problematisch für die direkte Nutzung in retrievalbasierten Sprachmodellen. Die Pipeline adressiert diese Diskrepanz, indem sie solche Inhalte in prosebasierte, kontextualisierte Wissenseinheiten überführt, ohne dabei externes Wissen einzubringen oder bestehende Aussagen semantisch zu verändern.
 
@@ -608,7 +583,7 @@ Im zweiten Transformationsschritt findet ein strukturelles Parsing statt. Das Zi
 
 \subsection{Probabilistische Normalisierung}
 
-Die probabilistische Normalisierung ist der dritte Transformationsschritt, in dem die LLM-basierte semantische Normalisierung stattfindet. Hier wird das erste Mal ein LLM in die Pipeline integriert. Dieses bekommt die geparsten Objekte aus dem Semantischen Parsing zugeliefert und übergibt sie an ein LLM mit der Anweisung, diese Informationen in einen Fließtext umzuwandeln. Das LLM soll die Datei erfassen, einen Kontext schaffen, indem es die Datei zusammenfasst, selbst Strukturen wie "`Parameter"'/"'Wert"'-Paare erkennen, und die in den Kontext einbetten. Der wichtigste Teil dieses Schrittes liegt darin, dass semi- und strukturierte Daten durch das LLM erläutert werden, selbst wenn das bedeutet, dass auf repetetive Weise derselbe Satz immer wieder wiederholt wird. Ein Beispiel dafür, wie das aussehen könnte, ist in \ref{anhang_raw-data} und \ref{anhang_enriched-data} zu sehen. Das Ziel dieses Schritts ist, die Fähigkeit eines LLMs zur Inferenz zu nutzen, um strukturierte Daten zu verstehen und umzuformen und damit bekannte Schwächen von RAG-Systemen im Umgang mit strukturierten Wissensrepräsentationen zu adressieren. Das Schwierige an diesem Schritt ist, den Systemprompt so generisch wie möglich zu halten, damit verschiedenste Eingangsdaten erfasst und weiterverarbeitet werden, aber trotzdem präzise genug, um brauchbare Ergebnisse zu erhalten. Das Eingangsformat ist das Ergebnis des letzten Verarbeitungsschritts und das Ausgangsformat ist \texttt{???}.
+Die probabilistische Normalisierung ist der dritte Transformationsschritt, in dem die LLM-basierte semantische Normalisierung stattfindet. Hier wird das erste Mal ein LLM in die Pipeline integriert. Dieses bekommt die geparsten Objekte aus dem Semantischen Parsing zugeliefert und übergibt sie an ein LLM mit der Anweisung, diese Informationen in einen Fließtext umzuwandeln. Das LLM soll die Datei erfassen, einen Kontext schaffen, indem es die Datei zusammenfasst, selbst Strukturen wie "`Parameter"'/"'Wert"'-Paare erkennen, und die in den Kontext einbetten. Der wichtigste Teil dieses Schrittes liegt darin, dass semi- und strukturierte Daten durch das LLM erläutert werden, selbst wenn das bedeutet, dass auf repetetive Weise derselbe Satz immer wieder wiederholt wird. Ein Beispiel dafür, wie das aussehen könnte, ist in \ref{anhang_raw-data} und \ref{anhang_enriched-data} zu sehen. Das Ziel dieses Schritts ist, die Fähigkeit eines LLMs zur Inferenz zu nutzen, um strukturierte Daten zu verstehen und umzuformen und damit bekannte Schwächen von RAG-Systemen im Umgang mit strukturierten Wissensrepräsentationen zu adressieren. Das Schwierige an diesem Schritt ist, den Systemprompt so generisch wie möglich zu halten, damit verschiedenste Eingangsdaten erfasst und weiterverarbeitet werden, aber trotzdem präzise genug, um brauchbare Ergebnisse zu erhalten. Das Eingangsformat ist das Ergebnis des letzten Verarbeitungsschritts und das Ausgangsformat ist \texttt{.md}.
 
 \subsection{RAG-LLM-Integration}
 
@@ -616,10 +591,48 @@ Hier ist der \textit{Load}-Schritt der klassischen ETL-Pipeline, nur dass der in
 
 	
 \section{Implementierung}
+
+Die Implementierung der LLM-gestützten Vorverarbeitungspipeline wurde in Python realisiert und als eigenständiges Paket mit der Bezeichnung \textit{struct2prose} umgesetzt. Ziel der Implementierung ist es, die in Kapitel \ref{ beschriebene Vorgehensweise in eine reproduzierbare, modular ausführbare Pipeline zu überführen, ohne dabei unnötige technische Komplexität einzuführen. Der Fokus liegt auf der Nachvollziehbarkeit der einzelnen Verarbeitungsschritte sowie auf der klaren Trennung deterministischer und LLM-basierter Transformationslogik.
 	
 \subsection{Technischer Rahmen und Projektstruktur}
 
 Die Implementierung der LLM-gestützten Vorverarbeitung wurde in Python realisiert und als eigenständiges Paket mit klar abgegrenzten Verarbeitungsschritten umgesetzt. Das Paket wurde als \texttt{struct2prose} benannt, nach seiner Funktion, strukturierte Daten in Prosa umzuwandeln und liegt im \texttt{src}-Layout vor. Die Installation erfolgt als editierbares Paket über \texttt{pyproject.toml} und die Ausführung des Projekts erfolgt mit dem Aufruf von \texttt{python -m struct2prose}.
+
+\subsection{Kommandozeilenschnittstelle und Pipeline-Ausführung}\label{sub.Kommandozeilenschnittstelle}
+
+
+
+\subsection{Interne Datenrepräsentation}\label{sub.interne-datenrep}
+
+
+
+\subsection{Implementierung der Vorverarbeitungsschritte (Step 1–3)}\label{sub.step1-3}
+
+
+\subsection{LLM-gestützte semantische Normalisierung (Step 4)}\label{sub.step4}
+
+
+\subsection{Generierung der normalisierten Markdown-Dokumente}\label{sub.generierung-markdown}
+
+
+\subsection{Limitationen der Implementierung}\label{sub.limitationen}
+
+\subsection{Implementierung}
+\label{sec:implementation}
+
+
+
+Die Pipeline wird über eine Kommandozeilenschnittstelle gesteuert, die den Einstiegspunkt des Systems bildet. Die Ausführung erfolgt über den Befehl \texttt{python -m struct2prose}, wobei sowohl einzelne Verarbeitungsschritte als auch ein vollständiger End-to-End-Durchlauf angestoßen werden können. Die einzelnen Schritte sind als Subcommands implementiert und folgen einer linearen Abfolge von der Rohdatenverarbeitung bis zur semantisch normalisierten Ausgabe. Die zugehörige Verzeichnisstruktur orientiert sich an den Pipeline-Stufen und umfasst getrennte Ordner für Rohdaten (\texttt{raw\_data}), bereinigte HTML-Dokumente (\texttt{clean\_data}), strukturierte Zwischenrepräsentationen (\texttt{processed\_data}) sowie normalisierte Markdown-Dokumente (\texttt{normalized\_data}).
+
+Als zentrales internes Datenformat dient eine explizite Objektstruktur, bestehend aus den Klassen \texttt{WikiDocument}, \texttt{Section} und \texttt{ContentBlock}. Diese Repräsentation abstrahiert von der ursprünglichen HTML-Struktur und bildet stattdessen die logische Gliederung der Wiki-Seiten ab. Ein Dokument besteht aus einem Titel, einer geordneten Liste von Abschnitten sowie Metadaten zur Herkunftsdatei. Jeder Abschnitt enthält wiederum eine Folge typisierter Inhaltsblöcke, etwa Absätze, Tabellen, Listen oder Codeblöcke. Diese Struktur stellt sicher, dass strukturierte und unstrukturierte Inhalte bereits vor der LLM-gestützten Verarbeitung explizit unterschieden vorliegen.
+
+Die Vorverarbeitungsschritte eins bis drei sind vollständig deterministisch implementiert. Im ersten Schritt wird aus den HTML-Exporten der zentrale Inhaltsbereich der Wiki-Seite extrahiert. Hierzu wird heuristisch ein definierter DOM-Knoten als Content-Root ausgewählt, um Navigations- und Metadatenbereiche frühzeitig auszuschließen. Der zweite Schritt entfernt verbliebene UI-Elemente wie Inhaltsverzeichnisse oder Editier-Controls anhand einfacher, regelbasierter Filter. Dieser Schritt ist bewusst minimal gehalten und verfolgt nicht das Ziel eines vollständigen DOM-Cleanings. Im dritten Schritt erfolgt das eigentliche Parsing des bereinigten HTML in ein strukturiertes JSON-Zwischenformat. Überschriften werden dabei als Abschnittsgrenzen interpretiert, während Absätze, Tabellen, Listen und Codeblöcke jeweils als eigenständige Inhaltsblöcke modelliert werden.
+
+Die semantische Normalisierung strukturierter Inhalte erfolgt im vierten Schritt der Pipeline und stellt den zentralen Einsatzpunkt eines Large Language Models dar. Hierzu wird das Groq-Framework verwendet, wobei der Zugriff über einen API-Key erfolgt, der als Environment-Variable konfiguriert ist. Als Modell kommt \texttt{llama-3.3-70b-versatile} mit einer niedrigen Temperatur zum Einsatz, um möglichst konsistente und reproduzierbare Ausgaben zu erzielen. Die Normalisierung wird selektiv angewendet: Tabellen und optional Listen werden mittels promptbasierter LLM-Anfragen in beschreibenden Fließtext überführt, während bereits gut lesbare Absätze unverändert übernommen werden. Codeblöcke werden ebenfalls nicht inhaltlich verändert, sondern lediglich als zusammenhängende Codeabschnitte in die Ausgabe integriert.
+
+Als Ergebnis der Normalisierung werden die Dokumente im Markdown-Format ausgegeben. Die Struktur der Ausgabedateien folgt dabei der ursprünglichen Abschnittsgliederung der Wiki-Seiten, ersetzt jedoch tabellarische Darstellungen durch prosebasierte Beschreibungen. Dieses Format eignet sich besonders für die spätere Integration in Retrieval-Augmented-Generation-Systeme, da es semantisch kohärente Textsegmente erzeugt und gängige Chunking-Strategien unterstützt.
+
+Die Implementierung ist bewusst als Minimalprototyp ausgelegt. Sie verzichtet auf komplexe Heuristiken, tiefgreifende HTML-Normalisierung oder umfangreiche Nachbearbeitung der LLM-Ausgaben. Diese Einschränkungen sind bewusst gewählt, um den methodischen Kern der Arbeit – die LLM-gestützte semantische Normalisierung strukturierter Inhalte – klar sichtbar zu machen und eine saubere Grundlage für die nachfolgende Evaluation zu schaffen.
 
 
 	\chapter{Evaluation} \label{chapter.evaluation}
