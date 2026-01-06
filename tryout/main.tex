@@ -150,7 +150,7 @@ natbib=false
 
 
 	\chapter*{Eigenständigkeitserklärung}
-	\begin{neu}
+
 \addcontentsline{toc}{chapter}{Eigenständigkeitserklärung}
 
 Hiermit erkläre ich, dass ich die vorliegende Masterarbeit mit dem Titel
@@ -168,7 +168,7 @@ Sofern im Rahmen der Erstellung dieser Arbeit Softwarewerkzeuge (z.\,B. Textvera
 
 \noindent Ort, Datum: \hspace{6cm} \hrulefill\\[1.2cm]
 \noindent Unterschrift: \hspace{6.35cm} \hrulefill
-\end{neu}
+
 
 
 	\chapter{Einleitung}
@@ -202,11 +202,11 @@ Sofern im Rahmen der Erstellung dieser Arbeit Softwarewerkzeuge (z.\,B. Textvera
 	
 	
 		\section{KI-Nutzung}
-	\begin{neu}
+
 	Als Hilfsmittel für die Erstellung der Arbeit wurde KI benutzt, namentlich OpenAI ChatGPT 5.0. Zunächst wurde für die Themenfindung viel mit der KI gechattet, wobei eine grobe Idee in Richtung "`RAG-LLM für Wissensmanagement in IT-Organisation"' von der Verfasserin dieser Arbeit vorgeschlagen wurde. Diese hat sich mit der Zeit immer weiter verfeinert, während von der KI wertvolle Hinweise gegeben wurden. Die KI hat auch bei einem theoretischen Einstieg in das Thema geholfen, indem sie Literaturvorschläge gemacht hat, und das Forschungsfeld erläuterte. Auch beim Lesen und Verstehen der Texte hat die KI geholfen, Sachverhalte zu erläutern, sowie beim Übersetzen von englischen Fachbegriffen ins Deutsche. Später hat die KI dazu beigetragen, die Arbeit zu strukturieren und zu gliedern und auch bei der Herangehensweise konnte sie wertvolle Tipps geben. Die KI hat die ganze Arbeit begleitet, indem sie bei technischen und auch psychologischen Hürden half, einen neuen Ansatz zu finden.
 	
 	Inhaltlich hat die KI die ersten Dummy-Daten und auch erste Code-Snippets für die Python-Skripte erzeugt. Diese wurden von der Verfasserin der Arbeit kuratiert, bewertet, überarbeitet, verbessert und weiterentwickelt. Die Nutzung der KI diente immer dem Einstieg, dem Befähigen zur Weiterentwicklung. Die daraus entstandenen Gedanken, Texte und Skripte sind die der Verfasserin. An keiner Stelle wurden generierte Texte übernommen und in die Arbeit eingefügt.
-	\end{neu}
+
 	
 	\chapter{Theoretische Grundlagen}
 	
@@ -409,12 +409,8 @@ Im Unterschied zu dieser Arbeit ist in \parencite{sui_table_2023} die Serialisie
 
 \section{LLM-gestützte ETL-Pipelines}
 
-
-
-
-
 	\chapter{Methode}
-	\begin{neu}
+
 	Das wissenschaftliche Vorgehensmodell soll in diesem folgenden Kapitel erläutert werden. Zunächst wird im Unterkapitel \ref{sec:zielsetzung_forschungslogik} die Zielsetzung und Forschungslogik dargelegt. Hier wird die Forschungsfrage konkretisiert und das Forschungsdesign erläutert, außerdem kurz umrissen, was diese Arbeit nicht enthalten wird. Im Unterkapitel \ref{sec:ueberblick_vorgehensmodell} wird das Vorgehen zur Beantwortung der Forschungsfrage erläutert. Im Unterkapitel \ref{sec:datenselektion_extraktion} werden Entscheidungen zur Auswahl der Versuchsdaten dargelegt und im Unterkapitel \ref{sec:abgrenzung_regel_llm} die angewandten Transformationsschritte erläutert.
 	
 
@@ -543,7 +539,6 @@ Eine Trennung dieser beiden Ansätze in Form von drei Verarbeitungsschritten, is
 
 Die Forschungsfrage zielt auf die Erprobung der semantischen Normalisierung zur Nutzbarmachung strukturierter Daten in einem RAG-System ab, aber für eine gezielte und reproduzierbare Untersuchung des Ansatzes ist der Einsatz von sowohl regelbasierter als auch LLM-gestützter Vorverarbeitungsschritte notwendig. Die Trennung zwischen den drei Vorverarbeitungsschritten ist sinnvoll, da dadurch die Möglichkeit besteht, den Transformationsprozess transparent zu überwachen und bei Fehlern gezielt nachzusteuern.
 	
-\end{neu}
 	
 	\chapter{LLM-basierte Preprocessing-Pipeline}\label{chapter.preprocessing-pipeline}
 Dieses Kapitel beschreibt die konkrete Ausgestaltung der im vorherigen Kapitel eingeführten Vorverarbeitungspipeline zur Transformation strukturierter und semistrukturierter Wiki-Inhalte in eine für RAG-Systeme geeignete Wissensbasis. Die Pipeline ist dabei als vorgelagertes Preprocessing-System konzipiert, das zwischen dem Quellsystem (XWiki) und dem eigentlichen RAG-Modell angesiedelt ist. Sie ist nicht Bestandteil des RAG-Systems selbst, sondern stellt eine vorbereitende Infrastruktur dar, deren Aufgabe in der strukturierten Aufbereitung und semantischen Normalisierung der zugrundeliegenden Inhalte liegt.
@@ -586,8 +581,6 @@ Formatiere die Antwort als gut lesbaren Fließtext.
 	
 	Dieser Prompt wird noch weiter angepasst, um ihn auf verschiedene Formate (semi-)strukturierter Daten anzupassen.
 	
-	
-	\begin{neu}
 		
 	\section{Architektur}\label{sec:architektur}
 	
@@ -621,9 +614,6 @@ Die probabilistische Normalisierung ist der dritte Transformationsschritt, in de
 
 Hier ist der \textit{Load}-Schritt der klassischen ETL-Pipeline, nur dass der in diesem Projekt die Bereitstellung der transformierten Daten an die Wissensbasis des RAG-Modells umfasst. Das Ergebnis dieses Schritts ist die Integration in die RAG-Wissensbasis. Hier wird dies, genauso wie der Extraktionsschritt händisch durchgeführt, indem die Ergebnisdateien der Probabilistischen Normalisierung in eine Wissensbasis in der Open WebUI-Anwendung überführt werden. Zukünftig sollte auch dieser Schritt automatisiert stattfinden, indem die Übergabe an die RAG-Wissensbasis ebenfalls per API-Schnittstelle stattfindet, um Fehlern vorzubeugen.
 
-
-
-	\end{neu}
 	
 \section{Implementierung}
 	
