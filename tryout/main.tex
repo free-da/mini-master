@@ -617,53 +617,11 @@ Hier ist der \textit{Load}-Schritt der klassischen ETL-Pipeline, nur dass der in
 	
 \section{Implementierung}
 	
-	\begin{itemize}
-	\item Verwendung von LangChain (LLM-Pipeline), Beautiful Soup (HTML-Parsing)
-	
-	\item Genutzte Modelle: llama-3.3-70b-versatile für Preprocessing, gpt-oss-120b für RAG-Modell
-	
-	\item RAG-Modell mit Open~WebUI
-	
-	\item RAG-Evaluation mit \url{https://github.com/groq/groq-api-cookbook/blob/main/tutorials/04-rag/benchmarking-rag-langchain/benchmarking_rag.ipynb}
-	
-	\end{itemize}
-	
-	
-%	\subsection*{Open WebUI}
-%	
-%	Für die Umsetzung der lokalen Modellbereitstellung wurde Open\,WebUI als technische Grundlage gewählt. Die Plattform ist als vollständig selbst gehostetes System konzipiert und ermöglicht einen Betrieb ohne externe Cloud-Dienste. Dies entspricht den Anforderungen an Datenschutz, Kontrolle über die Modellumgebung und Reproduzierbarkeit, wie sie beispielsweise im Behördenumfeld anzutreffen sind. In der offiziellen Dokumentation wird Open\,WebUI als „extensible, feature-rich, and user-friendly“ beschrieben und unterstützt eine Vielzahl von LLM-Laufzeitumgebungen sowie OpenAPI-basierten Werkzeugen \parencite{noauthor_open_2025}.
-%	
-%	Für das Setup wurde bewusst die manuelle Bereitstellung über eine Python-basierte Installation gewählt. Dieser Ansatz bietet eine direkte Kontrolle über die Abhängigkeiten, die lokale Umgebung und die verwendete Python-Laufzeit. Open\,WebUI stellt hierzu Installationspfade über die Werkzeuge \texttt{uv} oder \texttt{pip} bereit. Diese ermöglichen es, die Anwendung ohne Containerisierung aufzusetzen und bei Bedarf gezielt anzupassen \parencite{noauthor_open_2025}. Gleichzeitig erfordert dieser Ansatz eine sorgfältige Konfiguration der Systemumgebung, einschließlich der Installation der benötigten Pakete sowie der Sicherstellung, dass WebSocket-Verbindungen unterstützt werden, da diese für den Betrieb der Benutzeroberfläche notwendig sind.
-%	
-%	Die Dokumentation beschreibt zusätzlich eine Docker-basierte Bereitstellung als alternative Methode. Diese Variante bündelt sämtliche Abhängigkeiten in einem Container und erleichtert die Ausführung auf Systemen mit GPU-Unterstützung. Ein entsprechender Startbefehl wird in Form eines standardisierten Docker-Kommandos bereitgestellt. Die containerisierte Bereitstellung wurde in diesem Projekt jedoch nicht eingesetzt, da der Schwerpunkt auf einer fein steuerbaren lokalen Installation lag.
-%	
-%	Zusammengefasst ermöglicht Open\,WebUI eine flexible Umgebung für die Ausführung großer Sprachmodelle, wobei die manuelle Installation eine hohe Transparenz und Anpassbarkeit bietet. Gleichzeitig erleichtert die alternative Docker-Variante den Einsatz in standardisierten Systemumgebungen.
-%	
-%		\subsection*{GPT-oss-120B}
-%
-%Die Entscheidung für den Einsatz von GPT\,-oss\,-120B wurde maßgeblich durch veröffentlichte Evaluationsergebnisse gestützt, die eine hohe Leistungsfähigkeit des Modells belegen. In einem umfassenden Benchmark, der mehrere programmierbezogene Aufgaben umfasste, erzielte das Modell durchgehend starke Resultate. So wurden unter anderem Bewertungen von bis zu 8{,}5 von 10 Punkten erreicht, wobei der Gesamtdurchschnitt mit rund 8{,}3 nur geringfügig hinter den führenden proprietären Modellen lag und deutlich über vergleichbaren Open-Source-Gewichten \parencite{noauthor_gpt-oss-120b_nodate}. Zusätzlich zeigte das Modell eine hohe Verarbeitungsgeschwindigkeit von über 400 Token pro Sekunde, was insbesondere für interaktive oder iterative Arbeitsprozesse von Vorteil ist \parencite{noauthor_gpt-oss-120b_nodate}. Aufgrund dieser Kombination aus inhaltlicher Leistungsstärke und technischer Effizienz stellte GPT\,-oss\,-120B im Rahmen der Modellabwägung die ausgewogenste Lösung dar und wurde daher als Grundlage der weiteren Arbeiten gewählt.
-%		
-%		\section{Umsetzung der Komponenten}
-%		
-%		Für den MACH-LLM-Prototypen müssen folgende Komponenten in der OpenWebUI-Oberfläche erstellt werden: eine Wissensbasis und ein vortrainiertes LLM. Für die Wissensbasis wird in drei Arten von Dokumenten unterschieden, die im IT-Betrieb der MACH-Software in der untersuchten Organisation eine Rolle spielen: 
-%		
-%		\begin{itemize}
-%			\item offizielle Dokumentationen des Software-Herstellers (MACH AG), vorliegend im PDF-Format
-%			\item informelle technische Konfigurationsdokumentationen der Systemadmins, vorliegend hauptsächlich online (Wiki)
-%			\item fachliche Dokumentationen, wie das Rechte- und Rollenkonzept oder Leitfaden für Benutzerpflege, vorliegend im PDF-Format
-%		\end{itemize}
-%		
-%		Die Wissensbasis ist erstmal schnell erstellt. Das Open WebUI-Frontend bietet einen Dokumentenupload, in dem komfortabel per Drag'n'Drop Dokumente hochgeladen werden können. Nach dem Upload werden die Dokumente geparsed und in die Wissensdatenbank aufgenommen. Es werden für den MVP jeweils ein bis zwei Dokumente pro oben genannter Dokumentkategorie hochgeladen, um aussagekräftige Beispiele zu erhalten. Für die technischen Dokumentationen wurde zunächst ein Export der Wiki-Seiten über die integrierte Export-Funktion vorgenommen. Damit lagen die Daten im HTML-Format vor.
-%		
-%		Nach der Erstellung der Wissensdatenbank wird das GPT-oss-120B-Modell mit der Wissensdatenbank verknüpft. Dem Modell muss ein Systemprompt verabreicht werden. Dieser steuert das Grundverhalten des Modells. Hier wurde ein Systemprompt mithilfe von OpenAI ChatGPT 5.1 verfasst.
-		
-%\begin{lstlisting}
-%TODO: Insert Systemprompt als listing
-%\end{lstlisting}
-%		All das ist sehr komfortabel und unter Beibehaltung der Standardeinstellungen ist der zeitraubendste Teil der Dokumentenupload, der je nach Internetanbindung etwas Zeit kosten kann.
-		
-%		Schon nach einigen wenigen Chatanfragen machten sich die Stärken und Schwächen des MVP bemerkbar. 
-		
+\subsection{Technischer Rahmen und Projektstruktur}
+
+Die Implementierung der LLM-gestützten Vorverarbeitung wurde in Python realisiert und als eigenständiges Paket mit klar abgegrenzten Verarbeitungsschritten umgesetzt. Das Paket wurde als \texttt{struct2prose} benannt, nach seiner Funktion, strukturierte Daten in Prosa umzuwandeln und liegt im \texttt{src}-Layout vor. Die Installation erfolgt als editierbares Paket über \texttt{pyproject.toml} und die Ausführung des Projekts erfolgt mit dem Aufruf von \texttt{python -m struct2prose}.
+
+
 	\chapter{Evaluation} \label{chapter.evaluation}
 	
 %	Hier entscheidet sich alles.
