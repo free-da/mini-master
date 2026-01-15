@@ -752,20 +752,36 @@ Die Implementierung ist bewusst als Minimalprototyp ausgelegt. Sie verzichtet au
 		
 	\chapter{Diskussion}\label{chapter.diskussion}
 	
-%	\begin{itemize}
-%		\item Nutzen des Ansatzes
-%		
-%		\item Grenzen (Kosten, LLM-Fehler, Halluzinationen, Zeitaufwand)
-%		
-%		\item Abhängigkeit von Qualität der Wiki-Daten
-%		
-%		\item Vergleich mit Related Work
-%	\end{itemize}
+\begin{neu}
+	Hier sollen die Ergebnis nun in das Gesamtprojekt eingebettet werden. Zunächst werden die Ergebnisse eingeordnet und die Beobachtungen erläutert. Dann wird die Forschungsfrage beantwortet. Danach werden die Grenzen dieses Versuchs erläutert und zum Schluss darauf eingegangen, was dieser Versuch für RAG-Systeme bedeutet.
 	
 \section{Einordnung der Ergebnisse}
+
+Die im vorhergehenden Kapitel dargestellten Ergebnisse zeigen, dass eine vorgelagerte Normalisierung strukturierter Daten die Antwortqualität eines RAG-Systems unter bestimmten Bedingungen erhöhen kann.
+Insbesondere dann, wenn Informationen in stark strukturierter oder tabellarischer Form vorliegen und die RAG-Anwendung selbst keine gezielte Einflussnahme auf Chunking oder Indexierungsstrategien erlaubt,
+wirkt sich die semantische Normalisierung positiv auf die Nutzbarkeit der Inhalte aus. Dieser Effekt tritt vor allem bei umfangreicheren Tabellen auf, in denen relevante Informationen über mehrere Zeilen oder Spalten verteilt sind.
+
+Gleichzeitig wurde beobachtet, dass die Antwortqualität des RAG-Systems auf Basis roher Daten in vielen Fällen mit der des Systems auf Basis normalisierter Daten vergleichbar ist.
+Dies verdeutlicht, dass der entscheidende Faktor nicht allein in der Unterscheidung zwischen strukturierter Darstellung und Fließtext liegt.
+Vielmehr ist ausschlaggebend, wie nah die zur Beantwortung einer Frage relevanten Kontextinformationen zueinander positioniert sind.
+Auch strukturierte Daten können somit für RAG-Systeme gut nutzbar sein, sofern zusammengehörige „Parameter“- und „Wert“-Informationen räumlich nahe beieinanderliegen und gemeinsam in einem Chunk repräsentiert werden.
+
+Die Ergebnisse legen nahe, dass weniger die Datenstruktur an sich, sondern vielmehr das zugrunde liegende Chunking-Verhalten eine zentrale Rolle für die Antwortqualität spielt. In dem hier betrachteten Versuchsaufbau wurde das Chunking bewusst nicht verändert, sodass Unterschiede primär auf die veränderte Repräsentation der Inhalte zurückzuführen sind.
+Insbesondere bei Tabellen mit geringer Spaltenanzahl und einer zeilenweisen Anordnung von „Parameter“-„Wert“-Paaren zeigte sich, dass auch rohe Daten für RAG-Systeme ausreichend kontextuell erschlossen werden können.
+
+Vor diesem Hintergrund erscheinen neben der hier eingesetzten LLM-basierten Normalisierung auch andere Formen der Vorverarbeitung denkbar, etwa durch die gezielte Wiederholung von Tabellenköpfen oder durch eine strukturwahrende, aber kontextverdichtende Transformation.
+Die vorliegenden Ergebnisse unterstreichen somit, dass die semantische Normalisierung einen wirksamen Ansatz darstellt, insbesondere dann, wenn der Kontextverlust durch automatische Segmentierung nicht anderweitig kompensiert werden kann.
+
+
 \section{Beantwortung der Forschungsfrage}
+
+%Inwiefern trägt eine LLM-gestützte semantische Normalisierung strukturierter Wiki-Inhalte zur verbesserten Nutzbarkeit dieser Inhalte in RAG-Systemen bei?
+
+
+
 \section{Limitationen der Evaluation}
 \section{Implikationen für RAG-Systeme}
+\end{neu}
 	
 	\chapter{Fazit und Ausblick}\label{chapter.fazit}
 
