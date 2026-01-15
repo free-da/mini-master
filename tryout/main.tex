@@ -101,15 +101,15 @@ natbib=false
 \renewcommand*{\mkbibparens}[1]{[#1]}
 
 \addbibresource{../bibliography.bib}	
-
-%%
-%% Pfad zu den Bildern
-%%
+%
+%%%
+%%% Pfad zu den Bildern
+%%%
 \graphicspath{
   {pictures/}
 }
-
-\usepackage{tikz}
+%
+%\usepackage{tikz}
 
 %%
 %% Einbinden persönlicher macros 
@@ -526,36 +526,36 @@ Kern des Vorgehens ist eine LLM-gestützte semantische Normalisierung, bei der s
 
 Im Folgenden wird zunächst die konkrete Ausgestaltung dieser Pipeline beschrieben. Dazu werden das eingesetzte Prompt-Design für die Normalisierung strukturierter Inhalte, die zugrunde liegende Architektur sowie die technische Implementierung der einzelnen Verarbeitungsschritte dargestellt.
 
-	\section{Prompt-Engineering für die Tabellenanreicherung}
-	
-%	\begin{itemize}
-%		\item Systemprompt
+%	\section{Prompt-Engineering für die Tabellenanreicherung}
 %	
-%	\item Few-shot Beispiele (optional)
+%%	\begin{itemize}
+%%		\item Systemprompt
+%%	
+%%	\item Few-shot Beispiele (optional)
+%%	
+%%	\item Constraints (keine Halluzinationen)
+%%	\end{itemize}
 %	
-%	\item Constraints (keine Halluzinationen)
-%	\end{itemize}
-	
-	Für die Anreicherung der Rohdaten mit Kontext wird ein LLM angewiesen, eine strukturierte Datei einzulesen, zu interpretieren und die Informationen mit Kontext versehen in eine neue, unstrukturierte Datei zu schreiben. Die ersten Versuche wurden mit einer 100-zeiligen CSV-Datei gemacht. Hierfür wurde folgender Systemprompt verwendet:
-
-	
-	\begin{systemprompt}
-
-Du erhältst eine Tabelle aus einer (fiktiven) Dokumentation.
-
-Tabelleninhalt (CSV):
-\{table\_csv\}
-
-Aufgabe:
-1. Beschreibe kurz, was diese Tabelle insgesamt darstellt.\\
-2. Erkläre die Bedeutung jeder Spalte.\\
-3. Formuliere jede einzelne Zeile in einen beschreibenden Satz um, in dem das Attribut benannt und mit dem Wert versehen wird.\\
-
-Formatiere die Antwort als gut lesbaren Fließtext.
-	\end{systemprompt}
-	
-	Dieser Prompt wird noch weiter angepasst, um ihn auf verschiedene Formate (semi-)strukturierter Daten anzupassen.
-	
+%	Für die Anreicherung der Rohdaten mit Kontext wird ein LLM angewiesen, eine strukturierte Datei einzulesen, zu interpretieren und die Informationen mit Kontext versehen in eine neue, unstrukturierte Datei zu schreiben. Die ersten Versuche wurden mit einer 100-zeiligen CSV-Datei gemacht. Hierfür wurde folgender Systemprompt verwendet:
+%
+%	
+%	\begin{systemprompt}
+%
+%Du erhältst eine Tabelle aus einer (fiktiven) Dokumentation.
+%
+%Tabelleninhalt (CSV):
+%\{table\_csv\}
+%
+%Aufgabe:
+%1. Beschreibe kurz, was diese Tabelle insgesamt darstellt.\\
+%2. Erkläre die Bedeutung jeder Spalte.\\
+%3. Formuliere jede einzelne Zeile in einen beschreibenden Satz um, in dem das Attribut benannt und mit dem Wert versehen wird.\\
+%
+%Formatiere die Antwort als gut lesbaren Fließtext.
+%	\end{systemprompt}
+%	
+%	Dieser Prompt wird noch weiter angepasst, um ihn auf verschiedene Formate (semi-)strukturierter Daten anzupassen.
+%	
 		
 	\section{Architektur}\label{sec:architektur}
 	
@@ -583,7 +583,7 @@ Im zweiten Transformationsschritt findet ein strukturelles Parsing statt. Das Zi
 
 \subsection{Probabilistische Normalisierung}
 
-Die probabilistische Normalisierung ist der dritte Transformationsschritt, in dem die LLM-basierte semantische Normalisierung stattfindet. Hier wird das erste Mal ein LLM in die Pipeline integriert. Dieses bekommt die geparsten Objekte aus dem Semantischen Parsing zugeliefert und übergibt sie an ein LLM mit der Anweisung, diese Informationen in einen Fließtext umzuwandeln. Das LLM soll die Datei erfassen, einen Kontext schaffen, indem es die Datei zusammenfasst, selbst Strukturen wie "`Parameter"'/"'Wert"'-Paare erkennen, und die in den Kontext einbetten. Der wichtigste Teil dieses Schrittes liegt darin, dass semi- und strukturierte Daten durch das LLM erläutert werden, selbst wenn das bedeutet, dass auf repetetive Weise derselbe Satz immer wieder wiederholt wird. Ein Beispiel dafür, wie das aussehen könnte, ist in \ref{anhang_raw-data} und \ref{anhang_enriched-data} zu sehen. Das Ziel dieses Schritts ist, die Fähigkeit eines LLMs zur Inferenz zu nutzen, um strukturierte Daten zu verstehen und umzuformen und damit bekannte Schwächen von RAG-Systemen im Umgang mit strukturierten Wissensrepräsentationen zu adressieren. Das Schwierige an diesem Schritt ist, den Systemprompt so generisch wie möglich zu halten, damit verschiedenste Eingangsdaten erfasst und weiterverarbeitet werden, aber trotzdem präzise genug, um brauchbare Ergebnisse zu erhalten. Das Eingangsformat ist das Ergebnis des letzten Verarbeitungsschritts und das Ausgangsformat ist \texttt{.md}.
+Die probabilistische Normalisierung ist der dritte Transformationsschritt, in dem das erste Mal ein LLM in die Pipeline integriert wird. Dieses bekommt die geparsten Objekte aus dem Semantischen Parsing zugeliefert und übergibt sie an ein LLM mit der Anweisung, diese Informationen in einen Fließtext umzuwandeln. Das LLM soll die Datei erfassen, einen Kontext schaffen, indem es die Datei zusammenfasst, selbst Strukturen wie "`Parameter"'/"`Wert"'-Paare erkennen, und die in den Kontext einbetten. Der wichtigste Teil dieses Schrittes liegt darin, dass semi- und strukturierte Daten durch das LLM erläutert werden, selbst wenn das bedeutet, dass auf repetetive Weise derselbe Satz immer wieder wiederholt wird.  Das Ziel dieses Schritts ist, die Fähigkeit eines LLMs zur Inferenz zu nutzen, um strukturierte Daten zu verstehen und umzuformen und damit bekannte Schwächen von RAG-Systemen im Umgang mit strukturierten Wissensrepräsentationen zu adressieren. Das Schwierige an diesem Schritt ist, den Systemprompt so generisch wie möglich zu halten, damit verschiedenste Eingangsdaten erfasst und weiterverarbeitet werden, aber trotzdem präzise genug, um brauchbare Ergebnisse zu erhalten. Das Eingangsformat ist das Ergebnis des letzten Verarbeitungsschritts und das Ausgangsformat ist \texttt{.md}.
 
 \subsection{RAG-LLM-Integration}
 
@@ -609,7 +609,7 @@ Die Vorverarbeitungsschritte eins bis drei sind vollständig deterministisch imp
 
 
 \subsection{LLM-gestützte semantische Normalisierung (Step 4)}\label{sub.step4}
-Die semantische Normalisierung strukturierter Inhalte erfolgt im vierten Schritt der Pipeline und stellt den zentralen Einsatzpunkt eines Large Language Models dar. Hierzu wird das Groq-Framework verwendet, wobei der Zugriff über einen API-Key erfolgt, der als Environment-Variable konfiguriert ist. Als Modell kommt \texttt{llama-3.3-70b-versatile} mit einer niedrigen Temperatur zum Einsatz, um möglichst konsistente und reproduzierbare Ausgaben zu erzielen. Die Normalisierung wird selektiv angewendet: Tabellen und optional Listen werden mittels promptbasierter LLM-Anfragen in beschreibenden Fließtext überführt, während bereits gut lesbare Absätze unverändert übernommen werden. Codeblöcke werden ebenfalls nicht inhaltlich verändert, sondern lediglich als zusammenhängende Codeabschnitte in die Ausgabe integriert.
+Die semantische Normalisierung strukturierter Inhalte erfolgt im vierten Schritt der Pipeline und stellt den zentralen Einsatzpunkt eines Large Language Models dar. Hierzu wird das Groq-Framework verwendet, wobei der Zugriff über einen API-Key erfolgt, der als Environment-Varia\-ble konfiguriert ist. Als Modell kommt \texttt{llama-3.3-70b-versatile} mit einer niedrigen Temperatur zum Einsatz, um möglichst konsistente und reproduzierbare Ausgaben zu erzielen. Die Normalisierung wird selektiv angewendet: Tabellen und optional Listen werden mittels promptbasierter LLM-Anfragen in beschreibenden Fließtext überführt, während bereits gut lesbare Absätze unverändert übernommen werden. Codeblöcke werden ebenfalls nicht inhaltlich verändert, sondern lediglich als zusammenhängende Codeabschnitte in die Ausgabe integriert.
 
 \subsection{Generierung der normalisierten Markdown-Dokumente}\label{sub.generierung-markdown}
 Als Ergebnis der Normalisierung werden die Dokumente im Markdown-Format ausgegeben. Die Struktur der Ausgabedateien folgt dabei der ursprünglichen Abschnittsgliederung der Wiki-Seiten, ersetzt jedoch tabellarische Darstellungen durch prosebasierte Beschreibungen. Dieses Format eignet sich besonders für die spätere Integration in Retrieval-Augmented-Generation-Systeme, da es semantisch kohärente Textsegmente erzeugt und gängige Chunking-Strategien unterstützt.
@@ -622,89 +622,150 @@ Die Implementierung ist bewusst als Minimalprototyp ausgelegt. Sie verzichtet au
 \end{neu}
 	\chapter{Evaluation} \label{chapter.evaluation}
 	
-%	Hier entscheidet sich alles.
-%	
-%	Unbedingt vermeiden:
-%	
-%	„Wir haben ein paar Fragen gestellt und fanden die Antworten besser.“
-%	
-%	Stattdessen:
-%	
-%	Task-basierte Evaluation (z. B. Wissensfragen aus dem Wiki)
-%	
-%	Vergleich:
-%	
-%	Rohdaten vs. LLM-angereicherte Daten
-%	
-%	qualitative + einfache quantitative Metriken
-%	
-%	Auch kleine, saubere Evaluation > große, unsaubere.
-	
-	Um das hier vorgestellte System auf Tauglichkeit zu prüfen, wird im Folgenden zunächst die Zielsetzung der Evaluation definiert, dann die Methoden erläutert und zum Schluss die Ergebnisse vorgestellt. 
+	\begin{neu}
+		Um das hier vorgestellte System auf Tauglichkeit zu prüfen, wird im Folgenden zunächst die Zielsetzung der Evaluation definiert, dann die Methoden erläutert und zum Schluss die Ergebnisse vorgestellt. 
 	
 		\section{Zielsetzung der Evaluation}
 		
-%		\begin{itemize}
-%			\item Kein wissenschaftlicher Benchmark
-%		
-%			\item Nur: Ist der Ansatz prinzipiell sinnvoll?
-%		
-%			\item Fokus: Nutzbarkeit \& Verbesserung gegenüber Rohdaten
-%		
-%		\end{itemize}
+		Zur Evaluation der Pipeline und des daraus resultierenden LLM werden keine Benchmarks verwendet, sondern  ein Test auf Funktion durchgeführt. Das Ziel der Evaluation liegt darin, zu zeigen, \emph{dass} die Transformation der Daten die Antwortqualität von Fragen zu dem Inhalt der Wissensbasis verbessern.
 		
-		Zur Evaluation der Pipeline und des daraus resultierenden LLM werden keine Benchmarks verwendet, sondern eher ein Test auf Funktion durchgeführt. Folgende Fragen sollen in der Evaluation beantwortet werden:
+		\section{Methode}
 		
-		\begin{itemize}
-			\item Ist der Ansatz grundsätzlich sinnvoll?
-			\item Ist er in dem vorhandenen Umfeld anwendbar?
-			\item Stellt das System eine Verbesserung zu der Arbeit mit den Rohdaten dar?
-		\end{itemize}
+		Für einen Funktionstest wurden zwei Wissensbasen erstellt, eine mit den rohen, unnormalisierten Daten, und eine mit den Dateien, die den Transformationsprozess mit der LLM-basierten ETL-Pipeline durchlaufen haben. Diese werden in einer selbstgehosteten OpenWeb~UI-Anwendung\footnote{https://github.com/open-webui/open-webui} mit einem vortrainierten Large Language Modell verbunden. Dies muss aufgrund der Vergleichbarkeit dasselbe Modell sein und aus Gründen der Verfügbarkeit wurde hier das Modell \texttt{gpt\-oss\-120b} verwendet. Hier soll bewusst kein Modellvergleich stattfinden und auch keine Optimierung. 
 		
-%		Eine systematische Prüfung des Ansatzes mithilfe von Benchmarks ist erst sinnvoll,
+		Es entstehen zwei RAG-Modelle. Das RAG-Modell mit der rohen Wissensbasis trägt hier die Bezeichnung \texttt{GPT-Wiki-Raw} und das mit der normalisierten Wissensbasis heißt \texttt{GPT-Wiki-Nor\-ma\-lized}. Beiden Modellen wurden stets dieselben Fragen gestellt. Es wurden bewusst Fragen gestellt, deren Antwort in Tabellen zu finden ist. Da der Fokus dieser Arbeit in der Transformation strukturierter Daten liegt, wurden auch diese getestet. 
 		
-		\section{Methoden}
+		Folgende Bewertungskriterien werden dabei angewendet:
+		\begin{enumerate}
+			\item Jeder faktuelle Aspekt der Antwort des LLM ist korrekt und beantwortet die Frage.
+			\item Es gibt keine halluzinierten Aspekte.
+			\item Es werden die richtigen Dateien als Quellen angegeben.
+		\end{enumerate}
 		
-		 Hier wird das angereicherte RAG-LLM (im Folgenden: Enhanced-LLM), was Ergebnis dieser Arbeit war, gegen ein RAG-LLM gegenübergestellt, was mit Rohdaten ohne Anreicherung auskommen muss (im Folgenden: Baseline-LLM). Diesen beiden LLMs werden 5-10 Fragen gestellt, deren Antworten in ihren Wissensbasen enthalten sein sollten. Zudem werden ihnen Fragen gestellt, deren Antworten nicht in den Wissensbasen enthalten sein sollten. Zuletzt werden Fragen gestellt, deren Antworten aus verschiedenen Quellen zu ziehen sind und die Antwortsqualität der beiden Systeme verglichen. Die Qualität wird vor allem auf die Punkte Faktentreue, Nützlichkeit und Verständlichkeit überprüft.
+		Bei der Beschreibung der Ergebnisse im folgenden Unterkapitel werden folgende Punkte dargestellt:
 		
+		\begin{enumerate}
+			\item Fragestellung
+			\item relevante Daten in Rohform (Auszug): hier werden aus Gründen der Lesbarkeit die Daten ohne ihre HTML-Tags und sonstige Metainformationen dargestellt. Die vollständigen Daten sind mit allen Zwischenschritten unter \url{https://github.com/free-da/struct2prose} zu finden.
+			\item Antwort des Roh-LLM
+			\item relevante Daten in transformierter Form (Auszug)
+			\item Antwort des Normalisierten LLM
+			\item Bewertung der Antworten als "`korrekt"' oder "`inkorrekt"'. Eine Antwort wird als "`inkorrekt"' bewertet, wenn sie entweder faktisch falsche Aussagen enthält,
+			wesentliche Aspekte der Fragestellung nicht beantwortet oder den Kontext der Daten fehlerhaft interpretiert.
+			
+		\end{enumerate}
 		
-		RAG-Evaluation Beispiel: \url{https://github.com/groq/groq-api-cookbook/blob/main/tutorials/04-rag/benchmarking-rag-langchain/benchmarking_ra}
+		Eine ausführlichere Diskussion der Ergebnisse folgt im folgenden Kapitel \ref{chapter.diskussion}: \nameref{chapter.diskussion}.
+		
+%		RAG-Evaluation Beispiel: \url{https://github.com/groq/groq-api-cookbook/blob/main/tutorials/04-rag/benchmarking-rag-langchain/benchmarking_ra}
 		\section{Ergebnisse}
 		
-		\begin{itemize}
-			\item Qualitative Beispiele
+		Hier werden drei beispielhafte Ergebnisse von den Test-Abfragen gezeigt und die Bewertung erläutert. Die kompletten Beispiele sind als Screenshots im \nameref{chapter.anhang} zu finden.
 		
-			\item Kleine Tabelle
-		\end{itemize}
+		\subsection{Beispiel 1: Datenbankuser}
+		Im ersten Beispiel wurde die Frage gestellt: "`Was ist EISTHBStore\_dev?"'. Die Rohdaten liegen in folgender Form in der Datei \texttt{Doc-Gen.htm} vor:
 		
-			\begin{figure}[bht]
-			\begin{center}
-				\includegraphics[width=\textwidth]{../pics/test1_instanzen_vs._enriched-instanzen.png}
-				\caption{Test 1}
-				\label{fig.test1}
-			\end{center}
-		\end{figure}
+	\begin{lstlisting}
+		Datenbank 
+			Server 			188.455.6.52 (s-0941.db.domain.de)
+			Port				1521
+			SID 				tbv19
+			User				EISKARMA_dev
+									EISJPAStore_dev
+									EISLockRegistry_dev
+									EISTBHStore_dev
+									EISUserService_dev
+	\end{lstlisting}
+	Die Antwort von \texttt{GPT-Wiki-RAW} sagte, dass der nachgefragte Begriff ein "`Entwicklungs-Com\-po\-nent"' des Enterprise Integration Service (EIS) sei und zusammen mit weiteren EIS-Modulen eingesetzt werde. Als Quelle nannte er die Datei \texttt{Doc-Gen.htm}.
+	
+	Die normalisierten Daten lagen in folgender Form vor in der Datei \texttt{Doc-Gen.md}:
+	
+	\begin{lstlisting}
+		Tabelle: EIS-Server-Konfiguration
+		Die Tabelle "EIS-Server-Konfiguration" stellt die Konfigurationsdetails für den Doc-Gen Integration Server (EIS) 1.8 dar. Sie enthält Informationen über die Datenbankverbindung, die für den Betrieb des Servers erforderlich sind.
 		
-		\begin{figure}[bht]
-			\begin{center}
-				\includegraphics[width=\textwidth]{../pics/test2_instanzen_vs._enriched-instanzen.png}
-				\caption{Test 2}
-				\label{fig.test2}
-			\end{center}
-		\end{figure}
+		Die Bedeutung jeder Spalte kann wie folgt beschrieben werden:
+		
+		Die erste Spalte enthält die Kategorie oder den Typ der Konfigurationseinstellung (z.B. Datenbank, Server, Port, SID, User).
+		Die zweite Spalte enthält den entsprechenden Wert oder die Details zu jeder Kategorie.
+		Die Tabellenzeilen können wie folgt beschrieben werden:
+		
+		Der Server für die Datenbank ist 188.455.6.52 (s-0941.db.domain.de).
+		Der Port für die Datenbankverbindung ist 1521.
+		Der SID (System Identifier) für die Datenbank ist tbv19.
+		Die Benutzer für die Datenbank sind EISKARMA_dev, EISJPAStore_dev, EISLockRegistry_dev, EISTBHStore_dev und EISUserService_dev.
+		Es ist zu beachten, dass die Tabelle keine explizite Überschrift enthält, daher wurde der Titel "EIS-Server-Konfiguration" basierend auf dem Inhalt gewählt.
+	\end{lstlisting}
+	Auf dieselbe Frage antwortete \texttt{GPT-Wiki-Normalized}, dass der nachgefragte Begriff einer der autorisierten Datenbank-Benutzer im Doc-Gen-Test-/Entwicklungs-Umfeld sei. Er werde verwendet, um sich an der Oracle-Datenbank [...] zu authentifizieren [...]. Damit diene er als spezieller \emph{Dev-User} für Tests und Entwicklungsarbeiten an der Datenbank-Konfiguration. Als Quelle nannte er die Datei \texttt{Doc-Gen.md}.
+	
+	Dieses Beispiel zeigt, dass zwar beide LLMs die richtigen Stellen mit den gesuchten Informationen gefunden haben, aber dem LLM mit den Rohdaten der Kontext gefehlt hat, um die Daten korrekt einzuordnen. Nur das LLM mit den normalisierten Daten hat die richtige Antwort genannt. Die kompletten Antworten sind als Screenshots im \nameref{chapter.anhang} unter \ref{sub.eval-ex1} zu finden.
+	
+	\subsection{Beispiel 2: Modellnummer und Standort}\label{sub.eval-ex-2}
+	
+	Im zweiten Beispiel wurde die Frage gestellt: "`An welchen Standorten ist das Modell "`G7500, TC8"' im Einsatz?"'. Die benötigten Informationen sind in der Rohform in der Datei \texttt{Polycom-\-Video\-konferenz\-systeme.htm} zu finden und liegen folgendermaßen vor:
+	
+	\begin{lstlisting}
+		[...]
+		Standort2 A.1.1	Standort2-A.1.1	188.340.8.92	188.34.:74:b7:b4	10	G7500, TC8	188.340.8.93	188.34.:80:ec:17	8L230980EC17FD	44410
+		Standort2 B.0.2.2	Standort2-B.0.2.2	188.340.8.83	188.34.:6a:b9:5e	11	StudioX50, TC8	188.340.8.91	188.34.:80:e3:82	8L230880E382FD	44411
+		Standort2 B.0.2.3	Standort2-B.0.2.3	188.340.8.84	188.34.:6a:bf:c1	12	StudioX50, TC8	188.340.8.85	188.34.:80:ea:07	8L230880EA07FD	44412
+		Standort2 B.1.1	Standort2-B.1.1	188.340.8.70	188.34.:74:b1:58	13	G7500, TC8	188.340.8.65	188.34.:80:e3:76	8L230880E376FD	44413
+		Standort2 B.2.22	Standort2-B.2.22	188.340.8.94	188.34.:69:1d:52	14	StudioX50, TC8	188.340.8.95	188.34.:80:f0:63	8L230980F063FD	44414
+		Standort2 B.4.10	Standort2-B.4.10	188.340.8.96	188.34.:53:c4:14	15	StudioX50, TC8	188.340.8.97	188.34.:80:e2:05	8L230880E205FD	44415
+		Standort2 B.5.1	Standort2-B.5.1	188.340.8.79	188.34.:6a:b4:99	16	StudioX50, TC8	188.340.8.60	188.34.:80:ef:4d	8L230980EF4DFD	44416
+		Standort2 B.5.20	Standort2-B.5.20	188.340.8.80	188.34.:6a:b6:7f	17	StudioX50, TC8	188.340.8.59	188.34.:80:e2:bc	8L230880E2BCFD	44417
+		Standort2 B.6.17	Standort2-B.6.17	188.340.8.63	188.34.:74:b1:14	18	G7500, TC8	188.340.8.58	188.34.:80:ef:e1	8L230980EFE1FD	44418
+		Standort2 D.1.2	Standort2-D.1.2	188.340.8.71	188.34.:6a:cf:0c	19	StudioX50, TC8	188.340.8.54	188.34.:80:e6:b2	8L230880E6B2FD	44419
+		Standort2 D.1.10	Standort2-D.1.10	188.340.8.86	188.34.:6a:cd:f8	20	StudioX50, TC8	188.340.8.87	188.34.:80:e6:6d	8L230880E66DFD	44420
+		Standort2 D.2.2	Standort2-D.2.2	188.340.8.57	188.34.:6a:ba:99	21	StudioX50, TC8	188.340.8.53	188.34.:80:ef:1b	8L230980EF1BFD	44421
+		[...]
+	\end{lstlisting}
+	
+	 Auf die Frage antwortete \texttt{GPT-Wiki-RAW} mit der Angabe von zwei korrekten Standorten, es fehlte aber ein dritter.
+	 
+	 In der transformierten Form lagen die Daten folgendermaßen vor:
+	 
+	 \begin{lstlisting}
+	 	Der Standort "Standort2 A.1.1" hat ein Videokonferenzsystem namens "Standort2-A.1.1" mit der IP-Adresse "188.340.8.92" und dem Modell "G7500, TC8".
+	 	Der Standort "Standort2 B.0.2.2" hat ein Videokonferenzsystem namens "Standort2-B.0.2.2" mit der IP-Adresse "188.340.8.83" und dem Modell "StudioX50, TC8".
+	 	Der Standort "Standort2 B.0.2.3" hat ein Videokonferenzsystem namens "Standort2-B.0.2.3" mit der IP-Adresse "188.340.8.84" und dem Modell "StudioX50, TC8".
+	 	Der Standort "Standort2 B.1.1" hat ein Videokonferenzsystem namens "Standort2-B.1.1" mit der IP-Adresse "188.340.8.70" und dem Modell "G7500, TC8".
+	 	Der Standort "Standort2 B.2.22" hat ein Videokonferenzsystem namens "Standort2-B.2.22" mit der IP-Adresse "188.340.8.94" und dem Modell "StudioX50, TC8".
+	 	Der Standort "Standort2 B.4.10" hat ein Videokonferenzsystem namens "Standort2-B.4.10" mit der IP-Adresse "188.340.8.96" und dem Modell "StudioX50, TC8".
+	 	Der Standort "Standort2 B.5.1" hat ein Videokonferenzsystem namens "Standort2-B.5.1" mit der IP-Adresse "188.340.8.79" und dem Modell "StudioX50, TC8".
+	 	Der Standort "Standort2 B.5.20" hat ein Videokonferenzsystem namens "Standort2-B.5.20" mit der IP-Adresse "188.340.8.80" und dem Modell "StudioX50, TC8".
+	 	Der Standort "Standort2 B.6.17" hat ein Videokonferenzsystem namens "Standort2-B.6.17" mit der IP-Adresse "188.340.8.63" und dem Modell "G7500, TC8".
+	 	Der Standort "Standort2 D.1.2" hat ein Videokonferenzsystem namens "Standort2-D.1.2" mit der IP-Adresse "188.340.8.71" und dem Modell "StudioX50, TC8".
+	 	Der Standort "Standort2 D.1.10" hat ein Videokonferenzsystem namens "Standort2-D.1.10" mit der IP-Adresse "188.340.8.86" und dem Modell "StudioX50, TC8".
+	 \end{lstlisting}
+	 
+	 Die Antwort von \texttt{GPT-Wiki-Normalized} identifizierte korrekt die drei Standorte A.1.1, B.1.1 sowie B.6.17 am Standort2. Damit erfüllt die Antwort des normalisierten LLM die definierten Bewertungskriterien,
+	 während die Antwort des Roh-LLM diese nicht vollständig erfüllt. Wieder haben beide LLMs die richtigen Dateien als Quellen genannt. Die kompletten Antworten sind den Screenshots im \nameref{chapter.anhang} \ref{sub.eval-ex2} zu entnehmen.
+	 
+	 \subsection{Beispiel 3: Frage nach IP-Adresse}
+	 
+	 Im dritten Beispiel lautete die Fragestellung: "`Was ist 188.340.8.90"'\footnote{Die IP-Adressen wurden wie andere sensible Daten anonymisiert, wodurch nicht-zulässige Zahlen zustande kamen. Dass dies Auswirkungen auf die Identifizierung einer IP-Adresse als solche haben könnte, wurde zu dem Zeitpunkt bedauerlicherweise nicht beachtet. In den späteren Tests schien es aber keine negativen Auswirkungen zu haben.}? Die benötigten Informationen lagen in derselben Tabelle vor wie im obigen Beispiel in \ref{sub.eval-ex-2} gezeigt und soll aus Gründen der Datensparsamkeit nicht wiederholt werden.
+	 
+	 Die Antwort von \texttt{GPT-Wiki-RAW} sagte aus, dass es keine Informationen über die IP-Adresse \texttt{188.340.8.90} finden könne und somit auch keine Angaben zu Geräten oder Servicen hinter dieser Adresse geben könne. Im Gegensatz dazu gab \texttt{GPT-Wiki-Normalized} an, dass die gesuchte IP-Adresse einem Videokonferenzsystem zugeordnet sei, was am Standort 2 in Raum D.2.11 installiert sei. Das Gerät trage den Namen Standort2-D.2.11 und verwende das Modell StudioX50, TC80. Die vom normalisierten LLM gelieferten Aussagen entsprechen alle dem, was die zugrunde liegenden Informationen hergaben und werden somit als korrekt bezeichnet. Dieses Beispiel verdeutlicht insbesondere die Fähigkeit des normalisierten Modells, implizite Zusammenhänge aus prosebasierten Repräsentationen korrekt zu rekonstruieren, selbst wenn die ursprünglichen Rohdaten stark verdichtet vorliegen.
+	 Auch hierfür sind die entsprechenden Screenshots im \nameref{chapter.anhang} \ref{sub.eval-ex3} zu finden.
+	\end{neu}
 		
 	\chapter{Diskussion}\label{chapter.diskussion}
 	
-	\begin{itemize}
-		\item Nutzen des Ansatzes
-		
-		\item Grenzen (Kosten, LLM-Fehler, Halluzinationen, Zeitaufwand)
-		
-		\item Abhängigkeit von Qualität der Wiki-Daten
-		
-		\item Vergleich mit Related Work
-	\end{itemize}
+%	\begin{itemize}
+%		\item Nutzen des Ansatzes
+%		
+%		\item Grenzen (Kosten, LLM-Fehler, Halluzinationen, Zeitaufwand)
+%		
+%		\item Abhängigkeit von Qualität der Wiki-Daten
+%		
+%		\item Vergleich mit Related Work
+%	\end{itemize}
 	
+\section{Einordnung der Ergebnisse}
+\section{Beantwortung der Forschungsfrage}
+\section{Limitationen der Evaluation}
+\section{Implikationen für RAG-Systeme}
 	
 	\chapter{Fazit und Ausblick}\label{chapter.fazit}
 
@@ -727,7 +788,9 @@ Die Implementierung ist bewusst als Minimalprototyp ausgelegt. Sie verzichtet au
 		\item Automatische Aktualisierung
 	\end{itemize}
 \end{itemize}
-\appendix
+\begin{appendix}
+	\input{anhang.tex}
+\end{appendix}
 \addcontentsline{toc}{chapter}{Literatur- und Quellenverzeichnis}
 %\bibliographystyle{authoryear}
 \printbibliography
