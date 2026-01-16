@@ -131,7 +131,7 @@ natbib=false
 \autor{Friederike Buchner}
 \edvnr{xxxxxx}
 %\edvnr{904210}
-\titel{Semantische Normalisierung\\für RAG-Systeme} 
+\titel{Semantische Kontextualisierung\\für RAG-Systeme} 
 \untertitel{Ein Vorgehensmodell zur LLM-gestützten\\ Vorverarbeitung strukturierter Wiki-Inhalte}
 \betreuerFeld{
   \begin{tabular}{lr}
@@ -156,7 +156,7 @@ natbib=false
 Hiermit erkläre ich, dass ich die vorliegende Masterarbeit mit dem Titel
 
 \begin{center}
-	\textit{Semantische Normalisierung für RAG-Systeme}\\
+	\textit{Semantische Kontextualisierung für RAG-Systeme}\\
 	\textit{Ein Vorgehensmodell zur LLM-gestützten Vorverarbeitung strukturierter Wiki-Inhalte}
 \end{center}
 
@@ -428,7 +428,7 @@ Im Unterschied zu dieser Arbeit ist in \parencite{sui_table_2023} die Serialisie
 %	
 %	nicht auf Benchmarking oder Modellvergleich
 
-Die zentrale Forschungsfrage dieser Arbeit lautet: "`Inwiefern trägt eine LLM-gestützte semantische Normalisierung strukturierter Wiki-Inhalte zur verbesserten Nutzbarkeit dieser Inhalte in RAG-Systemen bei?"'. Sie zielt darauf ab, die bekannte Schwäche von RAG-Modellen in der Verarbeitung strukturierter und semistrukturierter Daten in der Wissensbasis auszugleichen und somit Informationen, die in vielfältigen Formaten vorliegen, für ein RAG-System nutzbar zu machen. 
+Die zentrale Forschungsfrage dieser Arbeit lautet: "`Inwiefern trägt eine LLM-gestützte semantische Kontextualisierung strukturierter Wiki-Inhalte zur verbesserten Nutzbarkeit dieser Inhalte in RAG-Systemen bei?"'. Sie zielt darauf ab, die bekannte Schwäche von RAG-Modellen in der Verarbeitung strukturierter und semistrukturierter Daten in der Wissensbasis auszugleichen und somit Informationen, die in vielfältigen Formaten vorliegen, für ein RAG-System nutzbar zu machen. 
 
 \begin{figure}[h!]
 	\begin{center}
@@ -447,7 +447,7 @@ An dieser Stelle ist eine Klärung wichtig: obwohl RAG-Systeme wie dargestellt n
 
 Das Ziel dieser Arbeit ist, Erkenntnis darüber zu schaffen, inwiefern die Vorverarbeitung der Daten eine erhebliche Verbesserung in ihrer Nutzbarkeit durch ein RAG-Modell erreichen kann. Der Weg zu diesem Ziel ist eine design-orientierte Untersuchung, in der explorativ und artefaktbasiert eine solche Vorverarbeitung durchgeführt, und das Ergebnis mit einem vergleichbaren System ohne diese Vorverarbeitung unter Beibehaltung identischer Parameter verglichen wird. 
 
-Das zentrale Artefakt ist eine mehrstufige LLM-gestützte Vorverarbeitungs- und Normalisierungspipeline, die durch mehrere Transformationsschritte reproduzierbar und überprüfbar das Format der zugrundeliegenden Daten an die Verarbeitungsweise eines RAG-Systems anpasst. Die Überbrückung der Lücke zwischen heterogenen strukturierten Rohdaten und der Unfähigkeit zur Verarbeitung strukturierter Daten eines RAG-Systems durch die semantische Normalisierung bietet die Grundlage der Nutzbarmachung von Wiki-Daten für ein RAG-LLM mit domänenspezifischen, internen IT-Daten.
+Das zentrale Artefakt ist eine mehrstufige LLM-gestützte Vorverarbeitungs- und Transformationspipeline, die durch mehrere Transformationsschritte reproduzierbar und überprüfbar das Format der zugrundeliegenden Daten an die Verarbeitungsweise eines RAG-Systems anpasst. Die Überbrückung der Lücke zwischen heterogenen strukturierten Rohdaten und der begrenzten Fähigkeit von RAG-Systemen, strukturierte Daten ohne vorgelagerte Aufbereitung sinnvoll zu nutzen durch die semantische Kontextualisierung bietet die Grundlage der Nutzbarmachung von Wiki-Daten für ein RAG-LLM mit domänenspezifischen, internen IT-Daten.
 
 Hier werden gewisse Vereinfachungen bewusst gemacht. Für eine komplette Pipeline wären Schnittstellendefinitionen für den Ein- und Ausgang der Daten nötig, die hier händisch gemacht wurden. Diese Entscheidung liegt darin begründet, dass diese Arbeit eine Prüfung der Transformation sein soll. Erst im Falle einer positiven Bewertung dieses Ansatzes ist es sinnvoll, sich auf konkrete APIs für Ein- und Ausgang der Pipeline oder andere technische Werkzeuge festzulegen.
 
@@ -456,17 +456,17 @@ Desweiteren finden kein Benchmarking in der Evaluation und auch keine Nutzerstud
 	
 	\section{Überblick über das Vorgehensmodell}\label{sec:ueberblick_vorgehensmodell}
 
-Die vorgeschlagene Lösung für das Problem der Verarbeitung von strukturierten Daten bei RAG-Systemen ist ein Vorgehensmodell, was strukturierte Wiki-Inhalte in eine RAG-geeignete Wissensrepräsentation überführt. Operationalisiert wird dieses Vorgehensmodell mit einer Daten\-vor\-ver\-ar\-bei\-tungs- und Normalisierungspipeline, die in drei Schritten die Wiki-Inhalte transformiert. Der dritte Schritt ist das Kernstück dieser Pipeline: die LLM-gestützte semantische Normalisierung strukturierter Inhalte in Fließtext.
+Die vorgeschlagene Lösung für das Problem der Verarbeitung von strukturierten Daten bei RAG-Systemen ist ein Vorgehensmodell, was strukturierte Wiki-Inhalte in eine RAG-geeignete Wissensrepräsentation überführt. Operationalisiert wird dieses Vorgehensmodell mit einer Daten\-vor\-ver\-ar\-bei\-tungs- und Transformationspipeline, die in drei Schritten die Wiki-Inhalte transformiert. Der dritte Schritt ist das Kernstück dieser Pipeline: die LLM-gestützte semantische Kontextualisierung strukturierter Inhalte in Fließtext.
 
 Die drei Transformationsschritte sind die folgenden:
 
 \begin{enumerate}
 	\item \textbf{DOM-Vorverarbeitung} - Hier findet die strukturelle Bereinigung des Dokuments statt, in der überflüssige Informationen über Präsentation und Navigation verworfen werden.
 	\item \textbf{Strukturelles Parsing} - Dies ist der Schritt, in dem die bereinigten Informationen in eine interne Objektstruktur überführt werden.
-	\item \textbf{Semantische Normalisierung} - An dieser Stelle wird die bereinigte Objektrepräsentation an ein LLM übergeben mit dem Ziel, diese in einen kontextreichen Fließtext umzuformulieren.
+	\item \textbf{Semantische Kontextualisierung} - An dieser Stelle wird die bereinigte Objektrepräsentation an ein LLM übergeben mit dem Ziel, diese in einen kontextreichen Fließtext umzuformulieren.
 \end{enumerate}
 
-Die normalisierten Daten dienen als Grundlage zur Evaluation. 
+Die kontextualisierten Daten dienen als Grundlage zur Evaluation. 
 
 %	
 	\section{Datenselektion und Datenextraktion}\label{sec:datenselektion_extraktion}
@@ -490,7 +490,7 @@ Die normalisierten Daten dienen als Grundlage zur Evaluation.
 %	
 %	deterministischer Vorverarbeitung (DOM-Bereinigung, Parsing)
 %	
-%	probabilistischer, LLM-basierter semantischer Normalisierung
+%	probabilistischer, LLM-basierter semantischer Kontextualisierung
 %	
 %	Begründung:
 %	
@@ -508,23 +508,23 @@ Eine LLM-basierte Transformation unterscheidet sich von der regelbasierten Trans
 
 Für die DOM-Verarbeitung und das strukturelle Parsing, also Schritt 1 und 2 in der Vor\-ver\-ar\-beit\-ungs-Pipeline, wurde ein regelbasierter Ansatz gewählt, da es sich hier um klare Strukturen und formale Kriterien handelt, anhand derer das gewünschte Ergebnis erreicht werden kann. Für diese Vorverarbeitungsschritte ist kein semantisches Verständnis der Informationen nötig, somit wäre ein LLM-basierter Ansatz nicht sinnvoll. Ein LLM sollte aus Gründen der Datensparsamkeit, Ressourcenschonung und Nachvollziehbarkeit nur eingesetzt werden, wenn eine regelbasierte nicht ausreicht.
 
-Beim dritten Verarbeitungsschritt, der semantischen Normalisierung, ist jedoch genau dies der Fall. Hier reichen Regeln nicht aus, da aufgrund der Heterogenität der Datenlage ein semantisches Verständnis unerlässlich ist. Strukturierte und semistrukturierte Daten müssen aus dem Kontext heraus erfasst und verstanden werden. Hier ist der Einsatz eines LLM angemessen, da es in der Lage ist, die Bedeutung der Daten zu erschließen, sie in einen Kontext einzubetten und entsprechend der Anweisung umzuvormulieren.
+Beim dritten Verarbeitungsschritt, der semantischen Kontextualisierung, ist jedoch genau dies der Fall. Hier reichen Regeln nicht aus, da aufgrund der Heterogenität der Datenlage ein semantisches Verständnis unerlässlich ist. Strukturierte und semistrukturierte Daten müssen aus dem Kontext heraus erfasst und verstanden werden. Hier ist der Einsatz eines LLM angemessen, da es in der Lage ist, die Bedeutung der Daten zu erschließen, sie in einen Kontext einzubetten und entsprechend der Anweisung umzuvormulieren.
 
-Eine Trennung dieser beiden Ansätze in Form von drei Verarbeitungsschritten, ist sinnvoll, da die regelbasierte Vorverarbeitung von Schritt 1 und 2 die Grundlage für die Verwendung des LLM in Schritt 3 bieten. Durch den probabilistischen Charakter der semantischen Normalisierung ist die Nachvollziehbarkeit nicht in demselben Maße gegeben, wie bei der regelbasierten Transformation. Durch die Kontrolle über den Eingang der Daten in den probabilistischen Transformationsschritt wird Fehlern vorgebeugt und die Qualität der Ergebnisse erhöht. Dies ermöglicht einen sparsamen Einsatz eines LLM zugunsten besserer Kontrollierbarkeit, einer klaren Evaluation und einer besseren Reproduzierbarkeit.
+Eine Trennung dieser beiden Ansätze in Form von drei Verarbeitungsschritten, ist sinnvoll, da die regelbasierte Vorverarbeitung von Schritt 1 und 2 die Grundlage für die Verwendung des LLM in Schritt 3 bieten. Durch den probabilistischen Charakter der semantischen Kontextualisierung ist die Nachvollziehbarkeit nicht in demselben Maße gegeben, wie bei der regelbasierten Transformation. Durch die Kontrolle über den Eingang der Daten in den probabilistischen Transformationsschritt wird Fehlern vorgebeugt und die Qualität der Ergebnisse erhöht. Dies ermöglicht einen sparsamen Einsatz eines LLM zugunsten besserer Kontrollierbarkeit, einer klareren Evaluation und einer besseren Reproduzierbarkeit.
 
-Die Forschungsfrage zielt auf die Erprobung der semantischen Normalisierung zur Nutzbarmachung strukturierter Daten in einem RAG-System ab, aber für eine gezielte und reproduzierbare Untersuchung des Ansatzes ist der Einsatz von sowohl regelbasierter als auch LLM-gestützter Vorverarbeitungsschritte notwendig. Die Trennung zwischen den drei Vorverarbeitungsschritten ist sinnvoll, da dadurch die Möglichkeit besteht, den Transformationsprozess transparent zu überwachen und bei Fehlern gezielt nachzusteuern.
+Die Forschungsfrage zielt auf die Erprobung der semantischen Kontextualisierung zur Nutzbarmachung strukturierter Daten in einem RAG-System ab, aber für eine gezielte und reproduzierbare Untersuchung des Ansatzes ist der Einsatz von sowohl regelbasierter als auch LLM-gestützter Vorverarbeitungsschritte notwendig. Die Trennung zwischen den drei Vorverarbeitungsschritten ist sinnvoll, da dadurch die Möglichkeit besteht, den Transformationsprozess transparent zu überwachen und bei Fehlern gezielt nachzusteuern.
 	
 	
 	\chapter{LLM-basierte Preprocessing-Pipeline}\label{chapter.preprocessing-pipeline}
-Dieses Kapitel beschreibt die konkrete Ausgestaltung der im vorherigen Kapitel eingeführten Vorverarbeitungspipeline zur Transformation strukturierter und semistrukturierter Wiki-Inhalte in eine für RAG-Systeme geeignete Wissensbasis. Die Pipeline ist dabei als vorgelagertes Pre\-pro\-cess\-ing-Sys\-tem konzipiert, das zwischen dem Quellsystem (XWiki) und dem eigentlichen RAG-Modell angesiedelt ist. Sie ist nicht Bestandteil des RAG-Systems selbst, sondern stellt eine vorbereitende Infrastruktur dar, deren Aufgabe in der strukturierten Aufbereitung und semantischen Normalisierung der zugrundeliegenden Inhalte liegt.
+Dieses Kapitel beschreibt die konkrete Ausgestaltung der im vorherigen Kapitel eingeführten Vorverarbeitungspipeline zur Transformation strukturierter und semistrukturierter Wiki-Inhalte in eine für RAG-Systeme geeignete Wissensbasis. Die Pipeline ist dabei als vorgelagertes Pre\-pro\-cess\-ing-Sys\-tem konzipiert, das zwischen dem Quellsystem (XWiki) und dem eigentlichen RAG-Modell angesiedelt ist. Sie ist nicht Bestandteil des RAG-Systems selbst, sondern stellt eine vorbereitende Infrastruktur dar, deren Aufgabe in der strukturierten Aufbereitung und semantischen Kontextualisierung der zugrundeliegenden Inhalte liegt.
 
 Aus systemischer Sicht übernimmt die Pipeline die Verantwortung für die Transformation der Darstellungs- und Organisationsform von Wissen, nicht jedoch für dessen inhaltliche Erweiterung oder Bewertung. Ausgangspunkt sind HTML-basierte Wiki-Seiten, die neben Fließtext in hohem Maße strukturierte Elemente wie Tabellen, Listen und Konfigurationsfragmente enthalten. Diese Strukturen sind für menschliche Leser gut erfassbar, erweisen sich jedoch als problematisch für die direkte Nutzung in retrievalbasierten Sprachmodellen. Die Pipeline adressiert diese Diskrepanz, indem sie solche Inhalte in prosebasierte, kontextualisierte Wissenseinheiten überführt, ohne dabei externes Wissen einzubringen oder bestehende Aussagen semantisch zu verändern.
 
-Die Pipeline operiert dabei offline und batch-orientiert und ist zeitlich vor der Indexierung der Inhalte in einem Vektorspeicher angesiedelt. Sie greift weder in den Retrieval- noch in den Generationsprozess des RAG-Systems ein und trifft keine Entscheidungen zur Laufzeit von Nutzeranfragen. Ihr Ergebnis ist ein persistentes Korpus normalisierter Texte, das als Eingabe für nachgelagerte RAG-Komponenten dient und deren Nutzbarkeit maßgeblich beeinflusst.
+Die Pipeline operiert dabei offline und batch-orientiert und ist zeitlich vor der Indexierung der Inhalte in einem Vektorspeicher angesiedelt. Sie greift weder in den Retrieval- noch in den Generationsprozess des RAG-Systems ein und trifft keine Entscheidungen zur Laufzeit von Nutzeranfragen. Ihr Ergebnis ist ein persistentes Korpus kontextualisierter Texte, das als Eingabe für nachgelagerte RAG-Komponenten dient und deren Nutzbarkeit maßgeblich beeinflusst.
 
-Kern des Vorgehens ist eine LLM-gestützte semantische Normalisierung, bei der strukturierte oder semistrukturierte Inhalte gezielt in Fließtext überführt werden. Diese Normalisierung stellt den einzigen probabilistischen Verarbeitungsschritt innerhalb der Pipeline dar und ist bewusst von deterministischen Vorverarbeitungsschritten wie Dokumentbereinigung, strukturellem Parsing und Chunking getrennt. Auf diese Weise wird eine klare Trennung zwischen regelbasierter Strukturverarbeitung und probabilistischer Sprachmodellnutzung realisiert.
+Kern des Vorgehens ist eine LLM-gestützte semantische Kontextualisierung, bei der strukturierte oder semistrukturierte Inhalte gezielt in Fließtext überführt werden. Diese Kontextualisierung stellt den einzigen probabilistischen Verarbeitungsschritt innerhalb der Pipeline dar und ist bewusst von deterministischen Vorverarbeitungsschritten wie Dokumentbereinigung, strukturellem Parsing und Chunking getrennt. Auf diese Weise wird eine klare Trennung zwischen regelbasierter Strukturverarbeitung und probabilistischer Sprachmodellnutzung realisiert.
 
-Im Folgenden wird zunächst die konkrete Ausgestaltung dieser Pipeline beschrieben. Dazu werden das eingesetzte Prompt-Design für die Normalisierung strukturierter Inhalte, die zugrunde liegende Architektur sowie die technische Implementierung der einzelnen Verarbeitungsschritte dargestellt.
+Im Folgenden wird zunächst die konkrete Ausgestaltung dieser Pipeline beschrieben. Dazu werden das eingesetzte Prompt-Design für die semantische Kontextualisierung strukturierter Inhalte, die zugrunde liegende Architektur sowie die technische Implementierung der einzelnen Verarbeitungsschritte dargestellt.
 
 %	\section{Prompt-Engineering für die Tabellenanreicherung}
 %	
@@ -581,13 +581,13 @@ An dieser Stelle beginnt in der praktischen Umsetzung der erste regelbasierte Tr
 
 Im zweiten Transformationsschritt findet ein strukturelles Parsing statt. Das Ziel dieses Schritts ist, aus dem bereinigten HTML eine Objektstruktur zu machen. Überschriften werden in Sections umgewandelt, Absätze in Paragraph-Blöcke, Tabellen in Tabellen-Blöcke und so weiter. Das Eingabeformat ist das Ergebnis der DOM-Vorverarbeitung, also \texttt{.html}-Blöcke. Das Ausgangsformat sind \texttt{.json}-Dateien, die eine Objektrepräsentation mit hoher Informationsdichte sein sollen, die von Steuer- und Anzeigeinformationen bereinigt sind und somit als Eingangsformat in den nächsten Transformationsschritt dienen. Dieser Schritt ist ein struktureller Adapter zwischen bereinigten \texttt{.html}-Dateien und interner Objektrepresentation und begründet somit seine Kapselung.
 
-\subsection{Probabilistische Normalisierung}
+\subsection{Probabilistische Kontextualisierung}
 
-Die probabilistische Normalisierung ist der dritte Transformationsschritt, in dem das erste Mal ein LLM in die Pipeline integriert wird. Dieses bekommt die geparsten Objekte aus dem Semantischen Parsing zugeliefert und übergibt sie an ein LLM mit der Anweisung, diese Informationen in einen Fließtext umzuwandeln. Das LLM soll die Datei erfassen, einen Kontext schaffen, indem es die Datei zusammenfasst, selbst Strukturen wie "`Parameter"'/"`Wert"'-Paare erkennen, und die in den Kontext einbetten. Der wichtigste Teil dieses Schrittes liegt darin, dass semi- und strukturierte Daten durch das LLM erläutert werden, selbst wenn das bedeutet, dass auf repetetive Weise derselbe Satz immer wieder wiederholt wird.  Das Ziel dieses Schritts ist, die Fähigkeit eines LLMs zur Inferenz zu nutzen, um strukturierte Daten zu verstehen und umzuformen und damit bekannte Schwächen von RAG-Systemen im Umgang mit strukturierten Wissensrepräsentationen zu adressieren. Das Schwierige an diesem Schritt ist, den Systemprompt so generisch wie möglich zu halten, damit verschiedenste Eingangsdaten erfasst und weiterverarbeitet werden, aber trotzdem präzise genug, um brauchbare Ergebnisse zu erhalten. Das Eingangsformat ist das Ergebnis des letzten Verarbeitungsschritts und das Ausgangsformat ist \texttt{.md}.
+Die probabilistische Kontextualisierung ist der dritte Transformationsschritt, in dem das erste Mal ein LLM in die Pipeline integriert wird. Dieses bekommt die geparsten Objekte aus dem Semantischen Parsing zugeliefert und übergibt sie an ein LLM mit der Anweisung, diese Informationen in einen Fließtext umzuwandeln. Das LLM soll die Datei erfassen, einen Kontext schaffen, indem es die Datei zusammenfasst, selbst Strukturen wie Parameter-/Wert-Paare erkennen, und die in den Kontext einbetten. Der wichtigste Teil dieses Schrittes liegt darin, dass semi- und strukturierte Daten durch das LLM erläutert werden, selbst wenn das bedeutet, dass auf repetetive Weise derselbe Satz immer wieder wiederholt wird.  Das Ziel dieses Schritts ist, die Fähigkeit eines LLMs zur Inferenz zu nutzen, um strukturierte Daten zu verstehen und umzuformen und damit bekannte Schwächen von RAG-Systemen im Umgang mit strukturierten Wissensrepräsentationen zu adressieren. Das Schwierige an diesem Schritt ist, den Systemprompt so generisch wie möglich zu halten, damit verschiedenste Eingangsdaten erfasst und weiterverarbeitet werden, aber trotzdem präzise genug, um brauchbare Ergebnisse zu erhalten. Das Eingangsformat ist das Ergebnis des letzten Verarbeitungsschritts und das Ausgangsformat ist \texttt{.md}.
 
 \subsection{RAG-LLM-Integration}
 
-Hier ist der \textit{Load}-Schritt der klassischen ETL-Pipeline, nur dass der in diesem Projekt die Bereitstellung der transformierten Daten an die Wissensbasis des RAG-Modells umfasst. Das Ergebnis dieses Schritts ist die Integration in die RAG-Wissensbasis. Hier wird dies, genauso wie der Extraktionsschritt händisch durchgeführt, indem die Ergebnisdateien der Probabilistischen Normalisierung in eine Wissensbasis in der Open WebUI-Anwendung überführt werden. Zukünftig sollte auch dieser Schritt automatisiert stattfinden, indem die Übergabe an die RAG-Wissensbasis ebenfalls per API-Schnittstelle stattfindet, um Fehlern vorzubeugen.
+Hier ist der \textit{Load}-Schritt der klassischen ETL-Pipeline, nur dass der in diesem Projekt die Bereitstellung der transformierten Daten an die Wissensbasis des RAG-Modells umfasst. Das Ergebnis dieses Schritts ist die Integration in die RAG-Wissensbasis. Hier wird dies, genauso wie der Extraktionsschritt händisch durchgeführt, indem die Ergebnisdateien der probabilistischen Kontextualisierung in eine Wissensbasis in der Open WebUI-Anwendung überführt werden. Zukünftig sollte auch dieser Schritt automatisiert stattfinden, indem die Übergabe an die RAG-Wissensbasis ebenfalls per API-Schnittstelle stattfindet, um Fehlern vorzubeugen.
 
 	
 	\begin{neu}
@@ -598,7 +598,7 @@ Die Implementierung der LLM-gestützten Vorverarbeitungspipeline wurde in Python
 	
 \subsection{Technischer Rahmen und Projektstruktur}
 
-Die Pipeline wird über eine Kommandozeilenschnittstelle gesteuert, die den Einstiegspunkt des Systems bildet. Die Ausführung erfolgt über den Befehl \texttt{python -m struct2prose}, wobei sowohl einzelne Verarbeitungsschritte als auch ein vollständiger End-to-End-Durchlauf angestoßen werden können. Die einzelnen Schritte sind als Subcommands implementiert und folgen einer linearen Abfolge von der Rohdatenverarbeitung bis zur semantisch normalisierten Ausgabe. Die zugehörige Verzeichnisstruktur orientiert sich an den Pipeline-Stufen und umfasst getrennte Ordner für Rohdaten (\texttt{raw\_data}), bereinigte HTML-Dokumente (\texttt{clean\_data}), strukturierte Zwischenrepräsentationen (\texttt{processed\_data}) sowie normalisierte Markdown-Dokumente (\texttt{normalized\_data}).
+Die Pipeline wird über eine Kommandozeilenschnittstelle gesteuert, die den Einstiegspunkt des Systems bildet. Die Ausführung erfolgt über den Befehl \texttt{python -m struct2prose}, wobei sowohl einzelne Verarbeitungsschritte als auch ein vollständiger End-to-End-Durchlauf angestoßen werden können. Die einzelnen Schritte sind als Subcommands implementiert und folgen einer linearen Abfolge von der Rohdatenverarbeitung bis zur semantisch kontextualisierten Ausgabe. Die zugehörige Verzeichnisstruktur orientiert sich an den Pipeline-Stufen und umfasst getrennte Ordner für Rohdaten (\texttt{raw\_data}), bereinigte HTML-Dokumente (\texttt{clean\_data}), strukturierte Zwischenrepräsentationen (\texttt{processed\_data}) sowie kontextualisierte Markdown-Dokumente (\texttt{normalized\_data}).
 
 \subsection{Interne Datenrepräsentation}\label{sub.interne-datenrep}
 
@@ -608,15 +608,15 @@ Als zentrales internes Datenformat dient eine explizite Objektstruktur, bestehen
 Die Vorverarbeitungsschritte eins bis drei sind vollständig deterministisch implementiert. Im ersten Schritt wird aus den HTML-Exporten der zentrale Inhaltsbereich der Wiki-Seite extrahiert. Hierzu wird heuristisch ein definierter DOM-Knoten als Content-Root ausgewählt, um Navigations- und Metadatenbereiche frühzeitig auszuschließen. Der zweite Schritt entfernt verbliebene UI-Elemente wie Inhaltsverzeichnisse oder Editier-Controls anhand einfacher, regelbasierter Filter. Dieser Schritt ist bewusst minimal gehalten und verfolgt nicht das Ziel eines vollständigen DOM-Cleanings. Im dritten Schritt erfolgt das eigentliche Parsing des bereinigten HTML in ein strukturiertes JSON-Zwischenformat. Überschriften werden dabei als Abschnittsgrenzen interpretiert, während Absätze, Tabellen, Listen und Codeblöcke jeweils als eigenständige Inhaltsblöcke modelliert werden.
 
 
-\subsection{LLM-gestützte semantische Normalisierung (Step 4)}\label{sub.step4}
-Die semantische Normalisierung strukturierter Inhalte erfolgt im vierten Schritt der Pipeline und stellt den zentralen Einsatzpunkt eines Large Language Models dar. Hierzu wird das Groq-Framework verwendet, wobei der Zugriff über einen API-Key erfolgt, der als Environment-Varia\-ble konfiguriert ist. Als Modell kommt \texttt{llama-3.3-70b-versatile} mit einer niedrigen Temperatur zum Einsatz, um möglichst konsistente und reproduzierbare Ausgaben zu erzielen. Die Normalisierung wird selektiv angewendet: Tabellen und optional Listen werden mittels promptbasierter LLM-Anfragen in beschreibenden Fließtext überführt, während bereits gut lesbare Absätze unverändert übernommen werden. Codeblöcke werden ebenfalls nicht inhaltlich verändert, sondern lediglich als zusammenhängende Codeabschnitte in die Ausgabe integriert.
+\subsection{LLM-gestützte semantische Kontextualisierung (Step 4)}\label{sub.step4}
+Die semantische Kontextualisierung strukturierter Inhalte erfolgt im vierten Schritt der Pipeline und stellt den zentralen Einsatzpunkt eines Large Language Models dar. Hierzu wird das Groq-Framework verwendet, wobei der Zugriff über einen API-Key erfolgt, der als Environment-Varia\-ble konfiguriert ist. Als Modell kommt \texttt{llama-3.3-70b-versatile} mit einer niedrigen Temperatur zum Einsatz, um möglichst konsistente und reproduzierbare Ausgaben zu erzielen. Die Kontextualisierung wird selektiv angewendet: Tabellen und optional Listen werden mittels promptbasierter LLM-Anfragen in beschreibenden Fließtext überführt, während bereits gut lesbare Absätze unverändert übernommen werden. Codeblöcke werden ebenfalls nicht inhaltlich verändert, sondern lediglich als zusammenhängende Codeabschnitte in die Ausgabe integriert.
 
-\subsection{Generierung der normalisierten Markdown-Dokumente}\label{sub.generierung-markdown}
-Als Ergebnis der Normalisierung werden die Dokumente im Markdown-Format ausgegeben. Die Struktur der Ausgabedateien folgt dabei der ursprünglichen Abschnittsgliederung der Wiki-Seiten, ersetzt jedoch tabellarische Darstellungen durch prosebasierte Beschreibungen. Dieses Format eignet sich besonders für die spätere Integration in Retrieval-Augmented-Generation-Systeme, da es semantisch kohärente Textsegmente erzeugt und gängige Chunking-Strategien unterstützt.
+\subsection{Generierung der Markdown-Dokumente}\label{sub.generierung-markdown}
+Als Ergebnis der Kontextualisierung werden die Dokumente im Markdown-Format ausgegeben. Die Struktur der Ausgabedateien folgt dabei der ursprünglichen Abschnittsgliederung der Wiki-Seiten, ersetzt jedoch tabellarische Darstellungen durch prosebasierte Beschreibungen. Dieses Format eignet sich besonders für die spätere Integration in Retrieval-Augmented-Generation-Systeme, da es semantisch kohärente Textsegmente erzeugt und gängige Chunking-Strategien unterstützt.
 
 \subsection{Limitationen der Implementierung}\label{sub.limitationen}
 
-Die Implementierung ist bewusst als Minimalprototyp ausgelegt. Sie verzichtet auf komplexe Heuristiken, tiefgreifende HTML-Normalisierung oder umfangreiche Nachbearbeitung der LLM-Ausgaben. Diese Einschränkungen sind bewusst gewählt, um den methodischen Kern der Arbeit – die LLM-gestützte semantische Normalisierung strukturierter Inhalte – klar sichtbar zu machen und eine saubere Grundlage für die nachfolgende Evaluation zu schaffen.
+Die Implementierung ist bewusst als Minimalprototyp ausgelegt. Sie verzichtet auf komplexe Heuristiken, tiefgreifende HTML-Kontextualisierung oder umfangreiche Nachbearbeitung der LLM-Ausgaben. Diese Einschränkungen sind bewusst gewählt, um den methodischen Kern der Arbeit, die LLM-gestützte semantische Kontextualisierung strukturierter Inhalte, klar sichtbar zu machen und eine saubere Grundlage für die nachfolgende Evaluation zu schaffen.
 
 
 \end{neu}
@@ -631,9 +631,9 @@ Die Implementierung ist bewusst als Minimalprototyp ausgelegt. Sie verzichtet au
 		
 		\section{Methode}
 		
-		Für einen Funktionstest wurden zwei Wissensbasen erstellt, eine mit den rohen, unnormalisierten Daten, und eine mit den Dateien, die den Transformationsprozess mit der LLM-basierten ETL-Pipeline durchlaufen haben. Diese werden in einer selbstgehosteten OpenWeb~UI-Anwendung\footnote{https://github.com/open-webui/open-webui} mit einem vortrainierten Large Language Modell verbunden. Dies muss aufgrund der Vergleichbarkeit dasselbe Modell sein und aus Gründen der Verfügbarkeit wurde hier das Modell \texttt{gpt\-oss\-120b} verwendet. Hier soll bewusst kein Modellvergleich stattfinden und auch keine Optimierung. 
+		Für einen Funktionstest wurden zwei Wissensbasen erstellt, eine mit den rohen, unkontextualisierten Daten, und eine mit den Dateien, die den Transformationsprozess mit der LLM-basierten ETL-Pipeline durchlaufen haben. Diese werden in einer selbstgehosteten OpenWeb~UI-Anwendung\footnote{https://github.com/open-webui/open-webui} mit einem vortrainierten Large Language Modell verbunden. Dies muss aufgrund der Vergleichbarkeit dasselbe Modell sein und aus Gründen der Verfügbarkeit wurde hier das Modell \texttt{gpt\-oss\-120b} verwendet. Hier soll bewusst kein Modellvergleich stattfinden und auch keine Optimierung. 
 		
-		Es entstehen zwei RAG-Modelle. Das RAG-Modell mit der rohen Wissensbasis trägt hier die Bezeichnung \texttt{GPT-Wiki-Raw} und das mit der normalisierten Wissensbasis heißt \texttt{GPT-Wiki-Nor\-ma\-lized}. Beiden Modellen wurden stets dieselben Fragen gestellt. Es wurden bewusst Fragen gestellt, deren Antwort in Tabellen zu finden ist. Da der Fokus dieser Arbeit in der Transformation strukturierter Daten liegt, wurden auch diese getestet. 
+		Es entstehen zwei RAG-Modelle. Das RAG-Modell mit der rohen Wissensbasis trägt hier die Bezeichnung \texttt{GPT-Wiki-Raw} und das mit der kontextualisierten Wissensbasis heißt \texttt{GPT-Wiki-Nor\-ma\-lized}. Beiden Modellen wurden stets dieselben Fragen gestellt. Es wurden bewusst Fragen gestellt, deren Antwort in Tabellen zu finden ist. Da der Fokus dieser Arbeit in der Transformation strukturierter Daten liegt, wurden auch diese getestet. 
 		
 		Folgende Bewertungskriterien werden dabei angewendet:
 		\begin{enumerate}
@@ -649,7 +649,7 @@ Die Implementierung ist bewusst als Minimalprototyp ausgelegt. Sie verzichtet au
 			\item relevante Daten in Rohform (Auszug): hier werden aus Gründen der Lesbarkeit die Daten ohne ihre HTML-Tags und sonstige Metainformationen dargestellt. Die vollständigen Daten sind mit allen Zwischenschritten unter \url{https://github.com/free-da/struct2prose} zu finden.
 			\item Antwort des Roh-LLM
 			\item relevante Daten in transformierter Form (Auszug)
-			\item Antwort des Normalisierten LLM
+			\item Antwort des kontextualisierten LLM
 			\item Bewertung der Antworten als "`korrekt"' oder "`inkorrekt"'. Eine Antwort wird als "`inkorrekt"' bewertet, wenn sie entweder faktisch falsche Aussagen enthält,
 			wesentliche Aspekte der Fragestellung nicht beantwortet oder den Kontext der Daten fehlerhaft interpretiert.
 			
@@ -678,7 +678,7 @@ Die Implementierung ist bewusst als Minimalprototyp ausgelegt. Sie verzichtet au
 	\end{lstlisting}
 	Die Antwort von \texttt{GPT-Wiki-RAW} sagte, dass der nachgefragte Begriff ein "`Entwicklungs-Com\-po\-nent"' des Enterprise Integration Service (EIS) sei und zusammen mit weiteren EIS-Modulen eingesetzt werde. Als Quelle nannte er die Datei \texttt{Doc-Gen.htm}.
 	
-	Die normalisierten Daten lagen in folgender Form vor in der Datei \texttt{Doc-Gen.md}:
+	Die kontextualisierten Daten lagen in folgender Form vor in der Datei \texttt{Doc-Gen.md}:
 	
 	\begin{lstlisting}
 		Tabelle: EIS-Server-Konfiguration
@@ -698,13 +698,14 @@ Die Implementierung ist bewusst als Minimalprototyp ausgelegt. Sie verzichtet au
 	\end{lstlisting}
 	Auf dieselbe Frage antwortete \texttt{GPT-Wiki-Normalized}, dass der nachgefragte Begriff einer der autorisierten Datenbank-Benutzer im Doc-Gen-Test-/Entwicklungs-Umfeld sei. Er werde verwendet, um sich an der Oracle-Datenbank [...] zu authentifizieren [...]. Damit diene er als spezieller \emph{Dev-User} für Tests und Entwicklungsarbeiten an der Datenbank-Konfiguration. Als Quelle nannte er die Datei \texttt{Doc-Gen.md}.
 	
-	Dieses Beispiel zeigt, dass zwar beide LLMs die richtigen Stellen mit den gesuchten Informationen gefunden haben, aber dem LLM mit den Rohdaten der Kontext gefehlt hat, um die Daten korrekt einzuordnen. Nur das LLM mit den normalisierten Daten hat die richtige Antwort genannt. Die kompletten Antworten sind als Screenshots im \nameref{chapter.anhang} unter \ref{sub.eval-ex1} zu finden.
+	Dieses Beispiel zeigt, dass zwar beide LLMs die richtigen Stellen mit den gesuchten Informationen gefunden haben, aber dem LLM mit den Rohdaten der Kontext gefehlt hat, um die Daten korrekt einzuordnen. Nur das LLM mit den kontextualisierten Daten hat die richtige Antwort genannt. Die kompletten Antworten sind als Screenshots im \nameref{chapter.anhang} unter \ref{sub.eval-ex1} zu finden.
 	
 	\subsection{Beispiel 2: Modellnummer und Standort}\label{sub.eval-ex-2}
 	
 	Im zweiten Beispiel wurde die Frage gestellt: "`An welchen Standorten ist das Modell "`G7500, TC8"' im Einsatz?"'. Die benötigten Informationen sind in der Rohform in der Datei \texttt{Polycom-\-Video\-konferenz\-systeme.htm} zu finden und liegen folgendermaßen vor:
 	
 	\begin{lstlisting}
+		Standort/Raum	Name	VKA-IP	VKA-MAC	SIP	Modell	TC-IP	TC-MAC	TC-SN	VMR-ID
 		[...]
 		Standort2 A.1.1	Standort2-A.1.1	188.340.8.92	188.34.:74:b7:b4	10	G7500, TC8	188.340.8.93	188.34.:80:ec:17	8L230980EC17FD	44410
 		Standort2 B.0.2.2	Standort2-B.0.2.2	188.340.8.83	188.34.:6a:b9:5e	11	StudioX50, TC8	188.340.8.91	188.34.:80:e3:82	8L230880E382FD	44411
@@ -739,14 +740,14 @@ Die Implementierung ist bewusst als Minimalprototyp ausgelegt. Sie verzichtet au
 	 	Der Standort "Standort2 D.1.10" hat ein Videokonferenzsystem namens "Standort2-D.1.10" mit der IP-Adresse "188.340.8.86" und dem Modell "StudioX50, TC8".
 	 \end{lstlisting}
 	 
-	 Die Antwort von \texttt{GPT-Wiki-Normalized} identifizierte korrekt die drei Standorte A.1.1, B.1.1 sowie B.6.17 am Standort2. Damit erfüllt die Antwort des normalisierten LLM die definierten Bewertungskriterien,
+	 Die Antwort von \texttt{GPT-Wiki-Normalized} identifizierte korrekt die drei Standorte A.1.1, B.1.1 sowie B.6.17 am Standort2. Damit erfüllt die Antwort des kontextualisierten LLM die definierten Bewertungskriterien,
 	 während die Antwort des Roh-LLM diese nicht vollständig erfüllt. Wieder haben beide LLMs die richtigen Dateien als Quellen genannt. Die kompletten Antworten sind den Screenshots im \nameref{chapter.anhang} \ref{sub.eval-ex2} zu entnehmen.
 	 
 	 \subsection{Beispiel 3: Frage nach IP-Adresse}
 	 
 	 Im dritten Beispiel lautete die Fragestellung: "`Was ist 188.340.8.90"'\footnote{Die IP-Adressen wurden wie andere sensible Daten anonymisiert, wodurch nicht-zulässige Zahlen zustande kamen. Dass dies Auswirkungen auf die Identifizierung einer IP-Adresse als solche haben könnte, wurde zu dem Zeitpunkt bedauerlicherweise nicht beachtet. In den späteren Tests schien es aber keine negativen Auswirkungen zu haben.}? Die benötigten Informationen lagen in derselben Tabelle vor wie im obigen Beispiel in \ref{sub.eval-ex-2} gezeigt und soll aus Gründen der Datensparsamkeit nicht wiederholt werden.
 	 
-	 Die Antwort von \texttt{GPT-Wiki-RAW} sagte aus, dass es keine Informationen über die IP-Adresse \texttt{188.340.8.90} finden könne und somit auch keine Angaben zu Geräten oder Servicen hinter dieser Adresse geben könne. Im Gegensatz dazu gab \texttt{GPT-Wiki-Normalized} an, dass die gesuchte IP-Adresse einem Videokonferenzsystem zugeordnet sei, was am Standort 2 in Raum D.2.11 installiert sei. Das Gerät trage den Namen Standort2-D.2.11 und verwende das Modell StudioX50, TC80. Die vom normalisierten LLM gelieferten Aussagen entsprechen alle dem, was die zugrunde liegenden Informationen hergaben und werden somit als korrekt bezeichnet. Dieses Beispiel verdeutlicht insbesondere die Fähigkeit des normalisierten Modells, implizite Zusammenhänge aus prosebasierten Repräsentationen korrekt zu rekonstruieren, selbst wenn die ursprünglichen Rohdaten stark verdichtet vorliegen.
+	 Die Antwort von \texttt{GPT-Wiki-RAW} sagte aus, dass es keine Informationen über die IP-Adresse \texttt{188.340.8.90} finden könne und somit auch keine Angaben zu Geräten oder Servicen hinter dieser Adresse geben könne. Im Gegensatz dazu gab \texttt{GPT-Wiki-Normalized} an, dass die gesuchte IP-Adresse einem Videokonferenzsystem zugeordnet sei, was am Standort 2 in Raum D.2.11 installiert sei. Das Gerät trage den Namen Standort2-D.2.11 und verwende das Modell StudioX50, TC80. Die vom kontextualisierten LLM gelieferten Aussagen entsprechen alle dem, was die zugrunde liegenden Informationen hergaben und werden somit als korrekt bezeichnet. Dieses Beispiel verdeutlicht insbesondere die Fähigkeit des kontextualisierten Modells, implizite Zusammenhänge aus prosebasierten Repräsentationen korrekt zu rekonstruieren, selbst wenn die ursprünglichen Rohdaten stark verdichtet vorliegen.
 	 Auch hierfür sind die entsprechenden Screenshots im \nameref{chapter.anhang} \ref{sub.eval-ex3} zu finden.
 	\end{neu}
 		
@@ -757,53 +758,96 @@ Die Implementierung ist bewusst als Minimalprototyp ausgelegt. Sie verzichtet au
 	
 \section{Einordnung der Ergebnisse}
 
-Die im vorhergehenden Kapitel dargestellten Ergebnisse zeigen, dass eine vorgelagerte Normalisierung strukturierter Daten die Antwortqualität eines RAG-Systems unter bestimmten Bedingungen erhöhen kann.
+Die im vorhergehenden Kapitel dargestellten Ergebnisse zeigen, dass eine vorgelagerte Kontextualisierung strukturierter Daten die Antwortqualität eines RAG-Systems unter bestimmten Bedingungen erhöhen kann.
 Insbesondere dann, wenn Informationen in stark strukturierter oder tabellarischer Form vorliegen und die RAG-Anwendung selbst keine gezielte Einflussnahme auf Chunking oder Indexierungsstrategien erlaubt,
-wirkt sich die semantische Normalisierung positiv auf die Nutzbarkeit der Inhalte aus. Dieser Effekt tritt vor allem bei umfangreicheren Tabellen auf, in denen relevante Informationen über mehrere Zeilen oder Spalten verteilt sind.
+wirkt sich die semantische Kontextualisierung positiv auf die Nutzbarkeit der Inhalte aus. Dieser Effekt tritt vor allem bei umfangreicheren Tabellen auf, in denen relevante Informationen über mehrere Zeilen oder Spalten verteilt sind.
 
-Gleichzeitig wurde beobachtet, dass die Antwortqualität des RAG-Systems auf Basis roher Daten in vielen Fällen mit der des Systems auf Basis normalisierter Daten vergleichbar ist.
+Gleichzeitig wurde beobachtet, dass die Antwortqualität des RAG-Systems auf Basis roher Daten in vielen Fällen mit der des Systems auf Basis kontextualisierter Daten vergleichbar ist.
 Dies verdeutlicht, dass der entscheidende Faktor nicht allein in der Unterscheidung zwischen strukturierter Darstellung und Fließtext liegt.
 Vielmehr ist ausschlaggebend, wie nah die zur Beantwortung einer Frage relevanten Kontextinformationen zueinander positioniert sind.
-Auch strukturierte Daten können somit für RAG-Systeme gut nutzbar sein, sofern zusammengehörige „Parameter“- und „Wert“-Informationen räumlich nahe beieinanderliegen und gemeinsam in einem Chunk repräsentiert werden.
+Auch strukturierte Daten können somit für RAG-Systeme gut nutzbar sein, sofern zusammengehörige Parameter- und Wert-Informationen räumlich nahe beieinanderliegen und gemeinsam in einem Chunk repräsentiert werden.
 
 Die Ergebnisse legen nahe, dass weniger die Datenstruktur an sich, sondern vielmehr das zugrunde liegende Chunking-Verhalten eine zentrale Rolle für die Antwortqualität spielt. In dem hier betrachteten Versuchsaufbau wurde das Chunking bewusst nicht verändert, sodass Unterschiede primär auf die veränderte Repräsentation der Inhalte zurückzuführen sind.
-Insbesondere bei Tabellen mit geringer Spaltenanzahl und einer zeilenweisen Anordnung von „Parameter“-„Wert“-Paaren zeigte sich, dass auch rohe Daten für RAG-Systeme ausreichend kontextuell erschlossen werden können.
+Insbesondere bei Tabellen mit geringer Spaltenanzahl und einer zeilenweisen Anordnung von Parameter-Wert-Paaren zeigte sich, dass auch rohe Daten für RAG-Systeme ausreichend kontextuell erschlossen werden können.
 
-Vor diesem Hintergrund erscheinen neben der hier eingesetzten LLM-basierten Normalisierung auch andere Formen der Vorverarbeitung denkbar, etwa durch die gezielte Wiederholung von Tabellenköpfen oder durch eine strukturwahrende, aber kontextverdichtende Transformation.
-Die vorliegenden Ergebnisse unterstreichen somit, dass die semantische Normalisierung einen wirksamen Ansatz darstellt, insbesondere dann, wenn der Kontextverlust durch automatische Segmentierung nicht anderweitig kompensiert werden kann.
+Vor diesem Hintergrund erscheinen neben der hier eingesetzten LLM-basierten Kontextualisierung auch andere Formen der Vorverarbeitung denkbar, etwa durch die gezielte Wiederholung von Tabellenköpfen unter Beibehaltung der strukturierten Form.
+Die vorliegenden Ergebnisse unterstreichen somit, dass die semantische Kontextualisierung einen wirksamen Ansatz darstellt, insbesondere dann, wenn der Kontextverlust durch automatische Segmentierung nicht anderweitig kompensiert werden kann.
 
 
 \section{Beantwortung der Forschungsfrage}
 
-%Inwiefern trägt eine LLM-gestützte semantische Normalisierung strukturierter Wiki-Inhalte zur verbesserten Nutzbarkeit dieser Inhalte in RAG-Systemen bei?
+%Inwiefern trägt eine LLM-gestützte semantische Kontextualisierung strukturierter Wiki-Inhalte zur verbesserten Nutzbarkeit dieser Inhalte in RAG-Systemen bei?
+In dieser Arbeit wurde untersucht, inwiefern eine LLM-gestützte semantische Kontextualisierung strukturierter Wiki-Inhalte zur verbesserten Nutzbarkeit dieser Inhalte in RAG-Systemen beitragen kann. Zu diesem Zweck wurde eine ETL-ähnliche Vorverarbeitungspipeline entwickelt und exemplarisch auf ausgewählte Wiki-Dokumente angewendet, deren Inhalte anschließend im Rahmen einer qualitativen funktionalen Evaluation untersucht wurden.
 
+Die in Kapitel \ref{chapter.evaluation} dargestellten Ergebnisse zeigen, dass durch die semantische Kontextualisierung eine verbesserte Nutzbarkeit der Wissensbasis erreicht werden kann. Insbesondere wurde deutlich, dass ein RAG-System auf Basis kontextualisierter Inhalte in der Lage ist, Fragen zu beantworten, deren relevante Informationen in umfangreichen tabellarischen Strukturen vorliegen. Durch die Transformation werden zusammengehörige Parameter- und Wert-Informationen explizit miteinander verknüpft und in prosebasierter Form dargestellt, wodurch sie für das RAG-System leichter auffindbar und interpretierbar werden.
 
+Die erhöhte Antwortqualität lässt sich vor allem auf die Reduktion von Kontextverlusten zurückführen, die bei der Verarbeitung strukturierter Daten im Rahmen des Chunkings auftreten. Durch die Segmentierung der Rohdaten gehen Metainformationen wie Tabellenköpfe oder implizite Beziehungen zwischen Einträgen in einzelnen Chunks verloren. Das RAG-LLM kann in solchen Fällen zwar relevante Suchbegriffe identifizieren, diese jedoch
+nicht zuverlässig in ihren fachlichen Kontext einordnen. Die semantische Kontextualisierung adressiert dieses Problem, indem sie implizite Beziehungen explizit macht und dem Modell ermöglicht, gefundene Informationen korrekt zu interpretieren und in Beziehung zu setzen.
+
+Die Aussagekraft dieser Ergebnisse ist jedoch kontextabhängig. Die Qualität der Kontextualisierung hängt maßgeblich von der Fähigkeit des eingesetzten LLM ab, strukturierte Inhalte korrekt zu erfassen und in eine geeignete textuelle Repräsentation zu überführen. Darüber hinaus lassen die vorliegenden Ergebnisse keine allgemeingültigen Aussagen über andere Domänen, Datenformate oder RAG-Konfigurationen zu, sondern beziehen sich auf den hier untersuchten Anwendungsfall.
 
 \section{Limitationen der Evaluation}
+
+Die in dieser Arbeit durchgeführte Evaluation ist in ihrer Aussagekraft bewusst begrenzt. Es handelt sich nicht um eine quantitative oder benchmarkbasierte Untersuchung, sondern
+um einen funktionalen Test, der zeigen soll, ob die vorgestellte Vorverarbeitung unter konkreten Bedingungen zu einer verbesserten Nutzbarkeit der Inhalte in einem RAG-System führen kann.
+
+Die Evaluation basiert auf einer kleinen, manuell ausgewählten Menge von Wiki-Seiten sowie auf einer begrenzten Anzahl von Testfragen. Die Fragestellungen wurden gezielt so gewählt, dass sie sich auf tabellarische und semistrukturierte Inhalte beziehen. Eine systematische Abdeckung unterschiedlicher Fragetypen oder Datenformate fand nicht statt. Daraus ergibt sich, dass die Ergebnisse nicht ohne Weiteres auf andere Kontexte oder Anwendungsfälle übertragbar sind.
+
+Weiterhin wurde in dem Versuchsaufbau nur ein einziges vortrainiertes Large Language Modell verwendet. Ein Vergleich unterschiedlicher Modelle oder RAG-Konfigurationen war nicht Teil dieser Arbeit. Auch Aspekte wie Chunking-Strategien, Indexierungsparameter oder Retrieval-Methoden wurden bewusst nicht variiert, um den Einfluss der semantischen Kontextualisierung isoliert betrachten zu können.
+
+Die Qualität der Kontextualisierung hängt zudem direkt von der Leistungsfähigkeit des eingesetzten LLM ab.
+Fehler bei der Interpretation strukturierter Daten oder unvollständige Umformulierungen können sich unmittelbar auf die Qualität der Wissensbasis auswirken. Typische Risiken beim Einsatz von LLMs, wie etwa Halluzinationen, können daher nicht vollständig ausgeschlossen werden.
+
+Die vorliegenden Ergebnisse sind daher als indikativ zu verstehen. Sie zeigen, dass der gewählte Ansatz unter den gegebenen Rahmenbedingungen funktioniert, treffen jedoch keine allgemeingültigen Aussagen über die Leistungsfähigkeit von RAG-Systemen im Allgemeinen.
+
 \section{Implikationen für RAG-Systeme}
+
+Die Ergebnisse dieser Arbeit zeigen, dass die Nutzbarkeit einer Wissensbasis für RAG-Systeme nicht allein von der Leistungsfähigkeit des eingesetzten Large Language Modells abhängt, sondern in erheblichem Maße von der Aufbereitung der zugrunde liegenden Daten. Insbesondere strukturierte und tabellarische Inhalte stellen für RAG-Systeme eine Herausforderung dar, wenn implizite Beziehungen zwischen Einträgen nicht explizit repräsentiert sind.
+
+Die vorgestellte LLM-gestützte semantische Kontextualisierung bietet einen Ansatz, um diese Problematik bereits vor der eigentlichen Nutzung im RAG-System zu adressieren. Durch die Umwandlung strukturierter Inhalte in prosebasierte Wissenseinheiten können Kontextverluste, die durch \textit{Chunking} und \textit{Retrieval} entstehen, reduziert werden. Dies ist insbesondere in Szenarien relevant, in denen die Konfiguration der RAG-Pipeline nur eingeschränkt angepasst werden kann oder heterogene Datenquellen integriert werden müssen.
+
+Darüber hinaus verdeutlicht der Ansatz, dass Large Language Modelle nicht nur für die Beantwortung von Fragen, sondern auch für die vorgelagerte Wissensaufbereitung sinnvoll eingesetzt werden können.
+Die Trennung zwischen deterministischer Vorverarbeitung und probabilistischer, LLM-basierter Kontextualisierung erweist sich dabei als praktikabler Kompromiss zwischen Kontrollierbarkeit und semantischer Flexibilität.
+
+Für den praktischen Einsatz von RAG-Systemen legt diese Arbeit nahe, der Datenvorverarbeitung eine stärkere Bedeutung beizumessen. Insbesondere bei wissensintensiven Anwendungen mit historisch gewachsenen, strukturierten Dokumenten kann eine semantische Kontextualisierung einen wesentlichen Beitrag zur stabilen und nachvollziehbaren Nutzung der Inhalte leisten.
+
 \end{neu}
 	
 	\chapter{Fazit und Ausblick}\label{chapter.fazit}
 
--Skalierung
--Anwendbarkeit auf andere Daten/Domänen
--Automatisierung von Extract und Load
-
-\begin{itemize}
-	\item Zusammenfassung
-
-	\item Beitrag der Arbeit
-
-	\item Perspektiven:
-
-	\begin{itemize}
-		\item Graph-RAG
+%-Skalierung
+%-Anwendbarkeit auf andere Daten/Domänen
+%-Automatisierung von Extract und Load
+%
+%\begin{itemize}
+%	\item Zusammenfassung
+%
+%	\item Beitrag der Arbeit
+%
+%	\item Perspektiven:
+%
+%	\begin{itemize}
+%		\item Graph-RAG
+%	
+%		\item Mixed-modal embeddings
+%	
+%		\item Automatische Aktualisierung
+%	\end{itemize}
+%\end{itemize}
+\begin{neu}
 	
-		\item Mixed-modal embeddings
-	
-		\item Automatische Aktualisierung
-	\end{itemize}
-\end{itemize}
+Ziel dieser Arbeit war es, ein Vorgehensmodell zur LLM-gestützten Vorverarbeitung strukturierter Wiki-Inhalte zu entwickeln und zu untersuchen, inwiefern eine solche semantische Kontextualisierung zur verbesserten Nutzbarkeit dieser Inhalte in RAG-Systemen beitragen kann. Im Mittelpunkt stand dabei nicht der Vergleich unterschiedlicher Sprachmodelle, sondern die Frage, welchen Einfluss die Repräsentation der Wissensbasis auf die Antwortqualität eines RAG-Systems hat.
+
+Die Ergebnisse der durchgeführten Evaluation zeigen, dass eine semantische Kontextualisierung strukturierter und semistrukturierter Inhalte die Nutzbarkeit der Wissensbasis insbesondere bei tabellarischen Daten erhöhen kann. Durch die Umwandlung impliziter Strukturen in explizite, prosebasierte Wissenseinheiten wird der Kontextverlust reduziert, der bei der Segmentierung und dem Retrieval von Rohdaten auftreten kann. Dadurch ist das RAG-System besser in der Lage, relevante Informationen korrekt zu identifizieren und einzuordnen.
+
+Gleichzeitig wurde deutlich, dass strukturierte Daten nicht grundsätzlich ungeeignet für den Einsatz in RAG-Systemen sind. Vielmehr hängt ihre Nutzbarkeit stark davon ab, wie nah zusammengehörige Informationen in der Wissensbasis positioniert sind und wie das zugrunde liegende Chunking-Verfahren arbeitet. Die vorgestellte Kontextualisierung stellt daher keinen universellen Ersatz für andere Optimierungsmaßnahmen dar, sondern ergänzt bestehende Ansätze zur Aufbereitung von Wissensbasen.
+
+Der Ausblick dieser Arbeit betrifft sowohl methodische als auch praktische Aspekte. Eine weiterführende Untersuchung könnte die vorgestellte Pipeline auf größere und heterogenere Datenbestände anwenden und unterschiedliche Chunking- und Retrieval-Strategien systematisch vergleichen. Auch ein Vergleich verschiedener Large Language Modelle im Kontextualisierungsschritt sowie eine quantitative Evaluation mit Nutzerstudien oder standardisierten Metriken
+wären denkbar.
+
+Darüber hinaus eröffnet der Ansatz Perspektiven für den praktischen Einsatz in wissensintensiven Organisationen, in denen strukturierte Dokumente häufig historisch gewachsen sind und nicht ohne Weiteres angepasst werden können. In solchen Kontexten kann eine LLM-gestützte semantische Kontextualisierung einen pragmatischen Beitrag zur verbesserten Nutzung vorhandenen Wissens in RAG-Systemen leisten.
+\end{neu}
+
 \begin{appendix}
 	\input{anhang.tex}
 \end{appendix}
