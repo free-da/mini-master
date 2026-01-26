@@ -131,7 +131,7 @@ natbib=false
 \autor{Friederike Buchner}
 \edvnr{xxxxxx}
 %\edvnr{904210}
-\titel{Semantische Kontextualisierung\\für RAG-Systeme} 
+\titel{Semantische Kontextualisierung\\in RAG-Systemen} 
 \untertitel{Ein Vorgehensmodell zur LLM-gestützten\\ Vorverarbeitung strukturierter Wiki-Inhalte}
 \betreuerFeld{
   \begin{tabular}{lr}
@@ -313,62 +313,62 @@ Sofern im Rahmen der Erstellung dieser Arbeit Softwarewerkzeuge (z.\,B. Textvera
 %		Modular RAG (New Modules, New Patterns) \\
 %		RAG vs. Fine-Tuning\\
 		
-
+%\textit{TODO: \parencite{wolff_how_2025}}
 		
-		\section{Evaluation von RAG-Modellen}
-%evtl: Evaluation im Kontext von Wissensmanagement & RAG,
-		
-Eine gelungene, durchdachte und gewissenhafte Evaluation ist von großer Bedeutung für den Erfolg von LLMs. Sie kann ein gutes Leitbild für die Verbesserung von Mensch-LLM-Interaktion bieten, was sich positiv auf zukünftige Entwicklungen von Interaktionsdesign und -implementierung auswirkt. Außerdem unterstreicht die weitreichende Anwendbarkeit von LLMs die Wichtigkeit von Sicherheit und Zuverlässigkeit, vor allem in sicherheitssensiblen Sektoren wie Finanzinstitutionen oder staatlichen Behörden. Evaluationsmethoden müssen konstant überprüft und angepasst werden, da LLMs mit steigender Größe und mehr emergenten Fähigkeiten potenzielle neue Risiken entwickeln, die existierende Evaluationsprotokolle nicht abdecken \parencite{chang_survey_2023}.
-
-%Für die Evaluation von LLM allgemein steht durch \parencite{chang_survey_2023} ein Überblick über die Methodik zur Verfügung.
-%Hier gelten vor allem die Grundsatzfragen: "`Was ist zu evaluieren?"', "`Wo ist zu evaluieren?"' und "`Wie ist zu evaluieren"'. Durch \parencite{chang_survey_2023} werden diese Fragen auf LLM angewendet, die den Anspruch haben, als Allgemeine Künstliche Intelligenz (engl. \textit{Artificial General Intelligence, AGI}) zu gelten. Im folgenden wird dies in knapper Form erläutert, da es in dieser Arbeit aber um domänenspezifisches Wissensmanagement geht, wird nicht auf alle Sonderfälle eingegangen. 
+%		\section{Evaluation von RAG-Modellen}
+%%evtl: Evaluation im Kontext von Wissensmanagement & RAG,
+%		
+%Eine gelungene, durchdachte und gewissenhafte Evaluation ist von großer Bedeutung für den Erfolg von LLMs. Sie kann ein gutes Leitbild für die Verbesserung von Mensch-LLM-Interaktion bieten, was sich positiv auf zukünftige Entwicklungen von Interaktionsdesign und -implementie\-rung auswirkt. Außerdem unterstreicht die weitreichende Anwendbarkeit von LLMs die Wichtigkeit von Sicherheit und Zuverlässigkeit, vor allem in sicherheitssensiblen Sektoren wie Finanzinstitutionen oder staatlichen Behörden. Evaluationsmethoden müssen konstant überprüft und angepasst werden, da LLMs mit steigender Größe und mehr emergenten Fähigkeiten potenzielle neue Risiken entwickeln, die existierende Evaluationsprotokolle nicht abdecken \parencite{chang_survey_2023}.
 %
-%\subsection{Was ist zu evaluieren?}
+%%Für die Evaluation von LLM allgemein steht durch \parencite{chang_survey_2023} ein Überblick über die Methodik zur Verfügung.
+%%Hier gelten vor allem die Grundsatzfragen: "`Was ist zu evaluieren?"', "`Wo ist zu evaluieren?"' und "`Wie ist zu evaluieren"'. Durch \parencite{chang_survey_2023} werden diese Fragen auf LLM angewendet, die den Anspruch haben, als Allgemeine Künstliche Intelligenz (engl. \textit{Artificial General Intelligence, AGI}) zu gelten. Im folgenden wird dies in knapper Form erläutert, da es in dieser Arbeit aber um domänenspezifisches Wissensmanagement geht, wird nicht auf alle Sonderfälle eingegangen. 
+%%
+%%\subsection{Was ist zu evaluieren?}
+%%
+%%Zunächst ist zu klären, welche Aufgaben eines LLMs evaluiert werden. Dabei werden die Aufgaben nach \parencite{chang_survey_2023} grundsätzlich in folgende Kategorien aufgeteilt: \textit{Natural Language Processing (NLP)}, Robustheit, Ethik, Voreingenommenheiten (\textit{biases}) und Vertrauenswürdigkeit, Natur- und Ingenieurswissenschaften, Sozialwissenschaften, medizinische Anwendungen und andere Anwendungen. Um den Kontext und Umfang der Arbeit kompakt zu halten, werden die letzten drei Kategorien in der folgenden Darlegung vernachlässigt, da sie für das Ziel der Untersuchung nicht relevant sind.
+%%
+%%NLP-Aufgaben, also das Verstehen und Generieren natürlicher Sprache war von Beginn an eins der Hauptinteressen in der Entwicklung von Sprachmodellen. Das Verstehen von natürlicher Sprache umfasst ein weites Spektrum von Aufgaben, die darauf abzielen, die Eingabesequenz bestmöglich zu verarbeiten. Die Stimmungsanalyse (engl. \textit{sentiment analysis}) ist ein Aufgabenfeld, die einen Text hinsichtlich ihrer emotionalen Neigung analysiert und interpretiert. LLMs haben eine beachtliche Leistung in diesem Gebiet gezeigt. Eine mit der Stimmungsanalyse eng verwandte Aufgabe ist die Text-Klassifikation. Hier geht es neben der Stimmungsanalyse um die Klassifikation eines ganzen Texts, dem ein vordefiniertes Label zugeordnet wird. Auch hier erreichen LLMs sehr gute Ergebnisse.
 %
-%Zunächst ist zu klären, welche Aufgaben eines LLMs evaluiert werden. Dabei werden die Aufgaben nach \parencite{chang_survey_2023} grundsätzlich in folgende Kategorien aufgeteilt: \textit{Natural Language Processing (NLP)}, Robustheit, Ethik, Voreingenommenheiten (\textit{biases}) und Vertrauenswürdigkeit, Natur- und Ingenieurswissenschaften, Sozialwissenschaften, medizinische Anwendungen und andere Anwendungen. Um den Kontext und Umfang der Arbeit kompakt zu halten, werden die letzten drei Kategorien in der folgenden Darlegung vernachlässigt, da sie für das Ziel der Untersuchung nicht relevant sind.
+%Im Folgenden soll auf die Evaluation von RAG-Modellen eingegangen werden. Hierfür liefern \parencite{knollmeyer_benchmarking_2024} einen guten Überblick über die Möglichkeiten vom Benchmarking. Die Resultate ihrer Recherche sollen hier kurz zusammengefasst werden. Sie teilen sich auf in folgende Bereiche: Die Vorhersagen-Evaluation (engl. \textit{predictive evaluation}) und die Datensatz-Evalua\-tion (engl. \textit{dataset evaluation}). Wir wollen uns hier zunächst auf die Evaluation der Vorhersagen konzentrieren.
 %
-%NLP-Aufgaben, also das Verstehen und Generieren natürlicher Sprache war von Beginn an eins der Hauptinteressen in der Entwicklung von Sprachmodellen. Das Verstehen von natürlicher Sprache umfasst ein weites Spektrum von Aufgaben, die darauf abzielen, die Eingabesequenz bestmöglich zu verarbeiten. Die Stimmungsanalyse (engl. \textit{sentiment analysis}) ist ein Aufgabenfeld, die einen Text hinsichtlich ihrer emotionalen Neigung analysiert und interpretiert. LLMs haben eine beachtliche Leistung in diesem Gebiet gezeigt. Eine mit der Stimmungsanalyse eng verwandte Aufgabe ist die Text-Klassifikation. Hier geht es neben der Stimmungsanalyse um die Klassifikation eines ganzen Texts, dem ein vordefiniertes Label zugeordnet wird. Auch hier erreichen LLMs sehr gute Ergebnisse.
-
-Im Folgenden soll auf die Evaluation von RAG-Modellen eingegangen werden. Hierfür liefern \parencite{knollmeyer_benchmarking_2024} einen guten Überblick über die Möglichkeiten vom Benchmarking. Die Resultate ihrer Recherche sollen hier kurz zusammengefasst werden. Sie teilen sich auf in folgende Bereiche: Die Vorhersagen-Evaluation (engl. \textit{predictive evaluation}) und die Datensatz-Evaluation (engl. \textit{dataset evaluation}). Wir wollen uns hier zunächst auf die Evaluation der Vorhersagen konzentrieren.
-
-In der vorgeschlagenen Evaluations-Pipeline werden verschiedene Dimensionen evaluiert und dabei ein Fokus auf die \textit{Retrieval}- und Generierungs-Stufen eines typischen RAG-Systems gelegt. Wie in der Abbildung \ref{fig.RAG_eval_dimensions} zu sehen, startet der Evaluationsprozess mit dem \textit{Retrieval}-Schritt, in dem die Kontextrelevanz als kritische Evaluationsdimension zu betrachten ist. 
-%Die Kontextrelevanz bestimmt, wie effektiv relevante Information abgerufen wird \parencite[S. 142]{knollmeyer_benchmarking_2024}. 
-Danach beginnt die Generierungs-Evaluation, in der die Evaluationsdimensionen Antwortrelevanz, Korrektheit, Faktentreue (engl. \textit{faithfulness}) und Qualität der Quellenangaben (engl. \textit{citation quality}) überprüft werden \parencite[S. 142]{knollmeyer_benchmarking_2024}. 
-
-Für die Auswahl von Metriken und die Kalkulation der jeweiligen Evaluationsdimension ist der ausgewählte Evaluator zuständig. Hier werden durch \parencite[s.142]{knollmeyer_benchmarking_2024} drei verschiedene aufgeführt: Lexikalische Übereinstimmung (engl. \textit{lexical matching}), Semantische Ähnlichkeit (engl. \textit{semantic similarity}), und LLM als Richter (engl. \textit{LLM as a judge}) \parencite[S. 142]{knollmeyer_benchmarking_2024}. Der Unterschied liegt darin, ob der Evaluationsfokus auf exakter wörtlicher Übereinstimmung, konzeptueller Ähnlichkeit oder einer nuancierten Abwägung des Kontexts durch ein LLM liegt.
-
-		\begin{figure}[bht]
-	\begin{center}
-		\includegraphics[width=\textwidth]{../pics/RAG_eval_dimensions.png}
-		\caption{Evaluationsprozess mit Evaluationsdimensionen nach \parencite[S. 142]{knollmeyer_benchmarking_2024}.}
-		\label{fig.RAG_eval_dimensions}
-	\end{center}
-\end{figure}
-
-Durch \parencite[S. 142ff.]{knollmeyer_benchmarking_2024} werden die Evaluationsdimensionen genauer dargelegt
-% mit Fokus auf die nötigen Evaluatoren
-. Hier soll ein kurzer Überblick erfolgen, um eine Grundlage für das spätere Evaluationsdesign zu schaffen. Details zur Implementierung werden dann in Kapitel xxx dargelegt.
-
-\paragraph{Kontextrelevanz}
-
-Kontextrelevanz ist die essentielle Evaluationsdimension aus der \textit{Retrieval}-Phase im RAG-Modell. Es bewertet, inwiefern der abgerufene Kontext nur wichtigen Informationen enthält, die nötig sind, um die Abfrage zu beantworten. Durch die Minimierung irrelevanten Kontexts werden Rechnerressourcen gespart und die Effizienz gesteigert. Zudem ist die Konzentration auf das Wesentliche auch deshalb wichtig, weil LLMs derzeit noch viel schlechter dazu in der Lage sind, aus größeren Sinnzusammenhängen relevante Informationen abzurufen als aus kleineren \parencite[S.142]{knollmeyer_benchmarking_2024}.
-
-\paragraph{Faktentreue}
-
-Die Faktentreue evaluiert (wie die folgenden Evaluationsdimensionen) die Generierungsphase eines LLM. Hier ist die Frage, wie sehr die Antwort des LLMs auf eine Eingabe in dem abgerufenen Kontext eingebettet ist. Das Ziel wäre, dass in einem RAG-Modell alle generierten Fakten direkt aus dem abgerufenen Kontext ableitbar ist. Dies ist ein wichtiger Evaluationsschritt, um Halluzinationen zu identifizieren, indem eine Diskrepanz aus generierter Antwort und zugrundeliegenden Fakten festgestellt wird \parencite[S. 143]{knollmeyer_benchmarking_2024}.
-
-\paragraph{Antwortrelevanz}
-
-Ebenfalls in der Generierungsphase verortet ist die Antwortrelevanz, die bewertet, ob das LLM die Eingabe direkt beantwortet. Hier werden unvollständige oder redundante Antworten bestraft, auch wenn sie inhaltlich korrekt wären.
-
-\paragraph{Korrektheit}
-
-Bei der Korrektheit wird innerhalb der Generierungsphase evaluiert, wie \textit{tbc...}
+%In der vorgeschlagenen Evaluations-Pipeline werden verschiedene Dimensionen evaluiert und dabei ein Fokus auf die \textit{Retrieval}- und Generierungs-Stufen eines typischen RAG-Systems gelegt. Wie in der Abbildung \ref{fig.RAG_eval_dimensions} zu sehen, startet der Evaluationsprozess mit dem \textit{Retrieval}-Schritt, in dem die Kontextrelevanz als kritische Evaluationsdimension zu betrachten ist. 
+%%Die Kontextrelevanz bestimmt, wie effektiv relevante Information abgerufen wird \parencite[S. 142]{knollmeyer_benchmarking_2024}. 
+%Danach beginnt die Generierungs-Evaluation, in der die Evaluationsdimensionen Antwortrelevanz, Korrektheit, Faktentreue (engl. \textit{faithfulness}) und Qualität der Quellenangaben (engl. \textit{citation quality}) überprüft werden \parencite[S. 142]{knollmeyer_benchmarking_2024}. 
+%
+%Für die Auswahl von Metriken und die Kalkulation der jeweiligen Evaluationsdimension ist der ausgewählte Evaluator zuständig. Hier werden durch \parencite[s.142]{knollmeyer_benchmarking_2024} drei verschiedene aufgeführt: Lexikalische Übereinstimmung (engl. \textit{lexical matching}), Semantische Ähnlichkeit (engl. \textit{semantic similarity}), und LLM als Richter (engl. \textit{LLM as a judge}) \parencite[S. 142]{knollmeyer_benchmarking_2024}. Der Unterschied liegt darin, ob der Evaluationsfokus auf exakter wörtlicher Übereinstimmung, konzeptueller Ähnlichkeit oder einer nuancierten Abwägung des Kontexts durch ein LLM liegt.
+%
+%		\begin{figure}[bht]
+%	\begin{center}
+%		\includegraphics[width=\textwidth]{../pics/RAG_eval_dimensions.png}
+%		\caption{Evaluationsprozess mit Evaluationsdimensionen nach \parencite[S. 142]{knollmeyer_benchmarking_2024}.}
+%		\label{fig.RAG_eval_dimensions}
+%	\end{center}
+%\end{figure}
+%
+%Durch \parencite[S. 142ff.]{knollmeyer_benchmarking_2024} werden die Evaluationsdimensionen genauer dargelegt
+%% mit Fokus auf die nötigen Evaluatoren
+%. Hier soll ein kurzer Überblick erfolgen, um eine Grundlage für das spätere Evaluationsdesign zu schaffen. Details zur Implementierung werden dann in Kapitel xxx dargelegt.
+%
+%\paragraph{Kontextrelevanz}
+%
+%Kontextrelevanz ist die essentielle Evaluationsdimension aus der \textit{Retrieval}-Phase im RAG-Modell. Es bewertet, inwiefern der abgerufene Kontext nur wichtigen Informationen enthält, die nötig sind, um die Abfrage zu beantworten. Durch die Minimierung irrelevanten Kontexts werden Rechnerressourcen gespart und die Effizienz gesteigert. Zudem ist die Konzentration auf das Wesentliche auch deshalb wichtig, weil LLMs derzeit noch viel schlechter dazu in der Lage sind, aus größeren Sinnzusammenhängen relevante Informationen abzurufen als aus kleineren \parencite[S.142]{knollmeyer_benchmarking_2024}.
+%
+%\paragraph{Faktentreue}
+%
+%Die Faktentreue evaluiert (wie die folgenden Evaluationsdimensionen) die Generierungsphase eines LLM. Hier ist die Frage, wie sehr die Antwort des LLMs auf eine Eingabe in dem abgerufenen Kontext eingebettet ist. Das Ziel wäre, dass in einem RAG-Modell alle generierten Fakten direkt aus dem abgerufenen Kontext ableitbar ist. Dies ist ein wichtiger Evaluationsschritt, um Halluzinationen zu identifizieren, indem eine Diskrepanz aus generierter Antwort und zugrundeliegenden Fakten festgestellt wird \parencite[S. 143]{knollmeyer_benchmarking_2024}.
+%
+%\paragraph{Antwortrelevanz}
+%
+%Ebenfalls in der Generierungsphase verortet ist die Antwortrelevanz, die bewertet, ob das LLM die Eingabe direkt beantwortet. Hier werden unvollständige oder redundante Antworten bestraft, auch wenn sie inhaltlich korrekt wären.
+%
+%\paragraph{Korrektheit}
+%
+%Bei der Korrektheit wird innerhalb der Generierungsphase evaluiert, wie \textit{tbc...}
 
 
 \chapter{Related Works}
 
-Hier steht ein kluger Einleitungssatz, damit ich nicht direkt mit den Unterkapiteln beginne.
+%Hier steht ein kluger Einleitungssatz, damit ich nicht direkt mit den Unterkapiteln beginne.
 %(ca. 2–3 Seiten)
 
 %\begin{itemize}
@@ -392,8 +392,8 @@ Hier steht ein kluger Einleitungssatz, damit ich nicht direkt mit den Unterkapit
 
 %Um diese nutzbar zu machen, müssen die strukturierten und semi-strukturierten Daten mit Kontext angereichert werden. Hierfür soll eine Pipeline entwickelt werden, die 
 
-\section{LLM und strukturierte Daten}\label{section.strukturierte-daten}
-Verschiedene Arbeiten beschäftigen sich mit der Frage, wie LLM strukturierte und semi-strukturierte Daten erfassen und "`verstehen"' können. In \parencite{sui_table_2023} wird hierfür der Ansatz \textit{self-augmented prompting} verwendet. In Abbildung \ref{fig.table-meets-llm} ist die Funktionsweise dieses Ansatzes dargestellt. Eine Anfrage, die auf strukturierten Daten, wie beispielsweise einer Tabelle, basiert, durchläuft das LLM in zwei Phasen. Bei der ersten werden wichtige Informationen und Wertebereiche der Tabelle durch das LLM identifiziert und beim zweiten Durchlauf werden natürlichsprachige Informationen für die relevanten Bereiche augmentiert.
+%\section{LLM und strukturierte Daten}\label{section.strukturierte-daten}
+Verschiedene Arbeiten beschäftigen sich mit der Frage, wie LLM strukturierte und semi-struk\-tur\-ier\-te Daten erfassen und "`verstehen"' können. In \parencite{sui_table_2023} wird hierfür der Ansatz \textit{self-augmented prompting} verwendet. In Abbildung \ref{fig.table-meets-llm} ist die Funktionsweise dieses Ansatzes dargestellt. Eine Anfrage, die auf struk\-tu\-rier\-ten Daten, wie beispielsweise einer Tabelle, basiert, durchläuft das LLM in zwei Phasen. Bei der ersten werden wichtige Informationen und Wertebereiche der Tabelle durch das LLM identifiziert und beim zweiten Durchlauf werden natürlichsprachige Informationen für die relevanten Bereiche augmentiert.
 
 \begin{figure}[bht]
 	\begin{center}
@@ -403,11 +403,34 @@ Verschiedene Arbeiten beschäftigen sich mit der Frage, wie LLM strukturierte un
 	\end{center}
 \end{figure}
 
-Im Unterschied zu dieser Arbeit ist in \parencite{sui_table_2023} die Serialisierung in dem Abfrageschritt ans LLM enthalten. Hier soll die Datenvorverarbeitung als abgeschlossener Schritt passieren, bevor die Daten in die Wissensdatenbank des RAG-Modells einfließen. Der Vorteil liegt darin, dass die Datenvorverarbeitung so model-agnostisch funktioniert und auf beliebige Anwendungen anwendbar ist. Selbst wenn die Daten durch ein geschlossenes System weiterverarbeitet werden können, in dem kein Zugriff auf den LLM-Lifecycle besteht, können die Daten derart vorverarbeitet werden und die Anwendungen von der Pipeline profitieren.
+Im Unterschied zu der hier vorliegenden Arbeit ist in \parencite{sui_table_2023} die Serialisierung in dem Abfrageschritt ans LLM enthalten. Hier soll die Datenvorverarbeitung als abgeschlossener Schritt passieren, bevor die Daten in die Wissensdatenbank des RAG-Modells einfließen. Der Vorteil liegt darin, dass die Datenvorverarbeitung so model-agnostisch funktioniert und auf beliebige Anwendungen anwendbar ist. Selbst wenn die Daten durch ein geschlossenes System weiterverarbeitet werden können, in dem kein Zugriff auf den LLM-Lifecycle besteht, können die Daten derart vorverarbeitet werden und die Anwendungen von der Pipeline profitieren.
 
-\textit{TODO: \parencite{wolff_how_2025}}
+In \parencite{yu_tablerag_2025} wird ein SQL-basiertes Framework namens \textit{TableRAG} vorgestellt, was zum Ziel hat, die Grenzen des RAG-Ansatzes angewendet auf heterogene Dokumente, zu adressieren. Es besteht aus vier Schritten: 
+\begin{enumerate}
+	\item kontextsensitive Dekonstruktion der Eingabe-Querys
+	\item Text-Abruf
+	\item SQL-Programmierung
+	\item Ausführung
+\end{enumerate}
 
-\section{LLM-gestützte ETL-Pipelines}
+Zusätzlich gibt es ein Benchmark, \textit{HeteQA}, was mehrschrittige heterogene \textit{Reasoning-}Fähigkeiten evaluieren soll. Dieser Ansatz ist sehr fortgeschritten und befähigt sich durch die Nutzung von SQL und der Konstruktion einer Offline-Datenbank. Hier werden als zwei zentrale Defizite in der Verarbeitung von Tabellen durch RAG der Verlust struktureller Informationen und die fehlende globale Sicht auf die Daten genannt, denen entgegengewirkt werden will.
+
+Dieser Ansatz strebt an, den \textit{Retriever} im RAG-Ansatz zu verbessern, während in der vorliegenden Arbeit die Wissensbasis transformiert wird, sodass der RAG-Ansatz keine Besonderheit mehr zu bewältigen hat. Somit bleibt der hier vorliegende Versuch eine niedrigschwellig implementierbare Alternative zu aufwendigen RAG-Implementierungen. 
+%\section{LLM-gestützte ETL-Pipelines}
+
+\begin{figure}[bht]
+	\begin{center}
+		\includegraphics[width=\textwidth]{../pics/TabRAG_pipeline.png}
+		\caption{Illustration der TabRAG-Pipeline nach \parencite{si_tabrag_2025}}
+		\label{fig.table-meets-llm}
+	\end{center}
+\end{figure}
+
+Ein für die vorliegende Arbeit sehr interessanter Ansatz ist der von TabRAG \parencite{si_tabrag_2025}. Auch hier wird eine Pipeline vorgeschlagen, die heterogene Daten vorverarbeitet, um die Extraktionsergebnisse von RAG zu verbessern. 
+
+TabRAG zeigt implizit, dass selbst hochspezialisierte, tabellenzentrierte RAG-Architekturen am Ende auf natürlichsprachliche Repräsentationen angewiesen sind. Im Gegensatz dazu setzt diese Arbeit bewusst früher an und transformiert strukturierte Wiki-Inhalte vollständig in prosebasierte Wissenseinheiten, sodass keine tabellenspezifischen Mechanismen im RAG-System erforderlich sind.
+
+Der hier vorgeschlagene Ansatz soll implementierungsarm, leichtgewichtig und technologieoffen sein, indem er die Daten, die der RAG-Wissensbasis zugrundeliegen in Prosa transformiert. 
 
 	\chapter{Methode}\label{chapter.methode}
 
@@ -598,7 +621,7 @@ Die Implementierung der LLM-gestützten Vorverarbeitungspipeline wurde in Python
 	
 \subsection{Technischer Rahmen und Projektstruktur}
 
-Die Pipeline wird über eine Kommandozeilenschnittstelle gesteuert, die den Einstiegspunkt des Systems bildet. Die Ausführung erfolgt über den Befehl \texttt{python -m struct2prose}, wobei sowohl einzelne Verarbeitungsschritte als auch ein vollständiger End-to-End-Durchlauf angestoßen werden können. Die einzelnen Schritte sind als Subcommands implementiert und folgen einer linearen Abfolge von der Rohdatenverarbeitung bis zur semantisch kontextualisierten Ausgabe. Die zugehörige Verzeichnisstruktur orientiert sich an den Pipeline-Stufen und umfasst getrennte Ordner für Rohdaten (\texttt{raw\_data}), bereinigte HTML-Dokumente (\texttt{clean\_data}), strukturierte Zwischenrepräsentationen (\texttt{processed\_data}) sowie kontextualisierte Markdown-Dokumente (\texttt{normalized\_data}).
+Die Pipeline wird über eine Kommandozeilenschnittstelle gesteuert, die den Einstiegspunkt des Systems bildet. Die Ausführung erfolgt über den Befehl \texttt{python -m struct2prose}, wobei sowohl einzelne Verarbeitungsschritte als auch ein vollständiger End-to-End-Durchlauf angestoßen werden können. Die einzelnen Schritte sind als Subcommands implementiert und folgen einer linearen Abfolge von der Rohdatenverarbeitung bis zur semantisch kontextualisierten Ausgabe. Die zugehörige Verzeichnisstruktur orientiert sich an den Pipeline-Stufen und umfasst getrennte Ordner für Rohdaten (\texttt{raw\_data}), bereinigte HTML-Dokumente (\texttt{clean\_data}), strukturierte Zwischenrepräsentationen (\texttt{processed\_data}) sowie kontextualisierte Mark\-down-Do\-ku\-men\-te (\texttt{normalized\_data}).
 
 \subsection{Interne Datenrepräsentation}\label{sub.interne-datenrep}
 
@@ -631,7 +654,7 @@ Die Implementierung ist bewusst als Minimalprototyp ausgelegt. Sie verzichtet au
 		
 		\section{Methode}
 		
-		Für einen Funktionstest wurden zwei Wissensbasen erstellt, eine mit den rohen, unkontextualisierten Daten, und eine mit den Dateien, die den Transformationsprozess mit der LLM-basierten ETL-Pipeline durchlaufen haben. Diese werden in einer selbstgehosteten OpenWeb~UI-Anwendung\footnote{https://github.com/open-webui/open-webui} mit einem vortrainierten Large Language Modell verbunden. Dies muss aufgrund der Vergleichbarkeit dasselbe Modell sein und aus Gründen der Verfügbarkeit wurde hier das Modell \texttt{gpt\-oss\-120b} verwendet. Hier soll bewusst kein Modellvergleich stattfinden und auch keine Optimierung. 
+		Für einen Funktionstest wurden zwei Wissensbasen erstellt, eine mit den rohen, unkontextualisierten Daten, und eine mit den Dateien, die den Transformationsprozess mit der LLM-basierten ETL-Pipeline durchlaufen haben. Diese werden in einer selbstgehosteten OpenWeb~UI-An\-wen\-dung\footnote{https://github.com/open-webui/open-webui} mit einem vortrainierten Large Language Modell verbunden. Dies muss aufgrund der Vergleichbarkeit dasselbe Modell sein und aus Gründen der Verfügbarkeit wurde hier das Modell \texttt{gpt\-oss\-120b} verwendet. Hier soll bewusst kein Modellvergleich stattfinden und auch keine Optimierung. 
 		
 		Es entstehen zwei RAG-Modelle. Das RAG-Modell mit der rohen Wissensbasis trägt hier die Bezeichnung \texttt{GPT-Wiki-Raw} und das mit der kontextualisierten Wissensbasis heißt \texttt{GPT-Wiki-Nor\-ma\-lized}. Beiden Modellen wurden stets dieselben Fragen gestellt. Es wurden bewusst Fragen gestellt, deren Antwort in Tabellen zu finden ist. Da der Fokus dieser Arbeit in der Transformation strukturierter Daten liegt, wurden auch diese getestet. 
 		
