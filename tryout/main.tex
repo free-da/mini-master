@@ -121,7 +121,7 @@ natbib=false
 \typeout{----> main.tex ---- Zentrales Dokument---------------------}
 \typeout{-----------------------------------------------------------}
 
-\version{0.5$\alpha$}    % wird im Entwurf auf der Titelseite vermerkt
+\version{1.0$\alpha$}    % wird im Entwurf auf der Titelseite vermerkt
 \datum{\today}
 %%
 %% Titel, Autor und Betreuer
@@ -175,42 +175,56 @@ Sofern im Rahmen der Erstellung dieser Arbeit Softwarewerkzeuge (z.\,B. Textvera
 
 %Inwiefern verbessert eine LLM-basierte Prosa-Transformation tabellarischer Wiki-Inhalte die Nutzbarkeit dieser Inhalte als Wissensbasis für RAG-Systeme?
 	
-	Ein oft unterschätztes Problem in großen Organisationen ist neben dem Wissenserwerb das Wissensmanagement und insbesondere der Wissenstransfer. Über Jahre und Jahrzehnte entwickeln sich Strukturen und das Wissen darüber wird über verschiedene Stellen verteilt dokumentiert. Je nach Bedarf und oft auch Motivation, kann die Qualität der Dokumentation sehr unterschiedlich ausfallen.
+In großen Organisationen stellt nicht nur der Wissenserwerb, sondern insbesondere der nachhaltige Wissenstransfer eine zentrale Herausforderung dar. Über Jahre gewachsene Strukturen, verteilte Zuständigkeiten und heterogene Dokumentationspraktiken führen dazu, dass relevantes Wissen über IT-Systeme auf verschiedene Stellen, Formate und Verantwortlichkeiten verteilt ist. Insbesondere im behördlichen IT-Umfeld wird dieses Wissen häufig in internen Wikis, Servicedokumentationen und herstellerspezifischen PDF-Handbüchern festgehalten, deren Qualität, Aktualität und Struktur stark variieren. Dadurch entsteht eine hohe Abhängigkeit von einzelnen Administrator*innen, während Vertretungs- oder Übergabesituationen nur eingeschränkt unterstützt werden. Obwohl diese Dokumentationen grundsätzlich ein hohes Potenzial für das Wissensmanagement besitzen, erschweren ihre Verstreutheit sowie eingeschränkte Such- und Zugriffsmöglichkeiten eine effektive Nutzung. Vor diesem Hintergrund liegt es nahe, bestehende Wissensquellen mithilfe von Large Language Models (LLMs) aufzubereiten und über einen Chatbot-gestützten Zugriff nutzbar zu machen.
 	
-	Im Falle von großen IT-Organisationen, insbesondere im Behördenumfeld, sind die Zuständigkeiten oft ebenso verteilt. IT-Infrastruktur und Virtualisierung liegt in einem Referat, IT-An\-wen\-dun\-gen und Betrieb im anderen, IT-Service-Helpdesk und Arbeitsplatzausstattung im nächsten. Alle arbeiten Hand in Hand, aber unter unterschiedlicher Leitung, mit selbst definierten Prozessen. Die Schnittstellen sind teilweise undefiniert und beruhen nur auf der Zuarbeit der Kolleg*innen untereinander.
 	
-	Das Herzstück der internen Dokumentationen ist ein Wiki, in dem mit wenig Struktur die IT-Systeme dokumentiert werden. Darin enthalten sind Servertagebücher, Installationsanleitungen, Vorlagen für Anträge (bspw. für die Bereitstellung virtueller Maschinen). Dieses wird ergänzt durch offizielle Softwaredokumentationen der Hersteller, die meistens im PDF-Format vorliegen. Mit einer Vielzahl von Systemen und Prozessen sind nur ein, höchstens zwei Administrator*innen vertraut, Vertretungen sind nur sehr rudimentär möglich und bei Ausfall der Haupt-Administrator*innen wird der IT-Betrieb nur mit viel Glück und Daumendrücken aufrecht erhalten.
+	
+%	Mithilfe des RAG-Ansatzes (\textit{Retrieval Augmented Generation}, s. Abschnitt \ref{section.rag}) können die zugrundeliegenden Informationen an ein vortrainiertes LLM (\textit{Large Langage Modell}, s. Abschnitt \ref{section.llm}) übergeben werden. Dies kann diese Dokumente nach Relevanz bezogen auf den ebenfalls mitgelieferten Prompt überprüfen und quellenbasiert Stellung zu der Anfrage beziehen. Ein Problem dabei gibt es allerdings bei strukturierten und semi-strukturierten Daten wie Tabellen und Übersichten (s. Abschnitt \ref{section.strukturierte-daten}), da diese dem LLM zu wenig Kontext liefern, um adequat verarbeitet zu werden. Es existiert kaum Forschung zu RAG-Systemen im Kontext von domänenspezifischen, semi-strukturierten IT-Administrationsdaten, wie Wiki-Tabellen oder Konfigurationsübersichten.
+%	Während RAG gut mit Fließtext funktioniert \parencite{lewis_retrieval-augmented_2021}, ist die automatische Verarbeitung von Tabellen und strukturierten Daten weiterhin ein aktives Forschungsproblem \parencite{sui_table_2023}. Dies zeigt sich besonders schwer im IT-Betrieb, da insbesondere IT-Dokumentationen sehr stark von strukturierten Daten geprägt sind, wie beispielsweise Übersichsdokumentationen zu IP-Adressräumen, Portfreigaben oder Systemumfeldern.
 
-	Das IT-Wiki ist eine gute Quelle von Administrations-Interna. Zusammen mit den offiziellen Dokumentation hat es das Potenzial, im Falle von Urlaubsvertretung oder Personalwechsel einen guten Überblick über spezifische IT-Systeme zu geben. Das Problem liegt in der weiten Verstreutheit der Informationen und die schlechte Qualtität der Schlagwort-Suche. Auch Veraltung und Irrelevanz der Informationen kann zum Problem werden. Um das Wissensmanagement effizienter zu gestalten, entstand die Idee, die Informationen aus dem Wiki mithilfe eines LLM-Chatbots aufzubereiten.
-	
-	
-	
-	Mithilfe des RAG-Ansatzes (\textit{Retrieval Augmented Generation}, s. Abschnitt \ref{section.rag}) können die zugrundeliegenden Informationen an ein vortrainiertes LLM (\textit{Large Langage Modell}, s. Abschnitt \ref{section.llm}) übergeben werden. Dies kann diese Dokumente nach Relevanz bezogen auf den ebenfalls mitgelieferten Prompt überprüfen und quellenbasiert Stellung zu der Anfrage beziehen. 
-	
-	Ein Problem dabei gibt es allerdings bei strukturierten und semi-strukturierten Daten wie Tabellen und Übersichten (s. Abschnitt \ref{section.strukturierte-daten}), da diese dem LLM zu wenig Kontext liefern, um adequat verarbeitet zu werden. Es existiert kaum Forschung zu RAG-Systemen im Kontext von domänenspezifischen, semi-strukturierten IT-Administrationsdaten, wie Wiki-Tabellen oder Konfigurationsübersichten.
-	Während RAG gut mit Fließtext funktioniert \parencite{lewis_retrieval-augmented_2021}, ist die automatische Verarbeitung von Tabellen und strukturierten Daten weiterhin ein aktives Forschungsproblem \parencite{sui_table_2023}. Dies zeigt sich besonders schwer im IT-Betrieb, da insbesondere IT-Dokumentationen sehr stark von strukturierten Daten geprägt sind, wie beispielsweise Übersichsdokumentationen zu IP-Adressräumen, Portfreigaben oder Systemumfeldern.
-	
-	Daraus ergibt sich die folgende Forschungsfrage:
-	Wie kann eine LLM-basierte Preprocessing-Pipeline strukturierte Wiki-Daten so transformieren, dass sie zur Verbesserung eines RAG-Sys\-tems für IT-administratives Wissensmanagement beitragen? Die zugrunde liegende Hypothese lautet:
-	Eine automatische LLM-basierte Semantisierung strukturierter Wiki-Daten führt zu qualitativ hochwertigeren Wissensdokumenten und damit zu besseren Antworten eines RAG-Systems.
-	
-	Um diese Frage zu beantworten und die Hyptothese zu beweisen, ist eine Pipeline\footnote{\url{https://github.com/free-da/struct2prose}} geplant, die die Daten aus dem Wiki vorverarbeitet, bevor sie an das RAG-LLM übergeben wird. Diese Vorverarbeitung enthält zunächst ein Parsing, da die Daten nach der Extraktion aus dem Wiki zunächst im HTML-Format vorliegen werden. Im zweiten Schritt werden die Dokumente LLM-basiert umgewandelt, sodass aus Tabellen und Übersichten kontextreiche Fließtexte enstehen, die vom RAG-LLM verarbeitet werden können. 
-	In Kapitel \ref{chapter.preprocessing-pipeline} wird diese Pipeline genauer erläutert. Nach der Vorverarbeitung können die angereicherten Dokumente in eine Wissensbasis transformiert werden, die die Grundlage für den Chatbot bildet. 
-	In Kapitel \ref{chapter.evaluation} wird das resultierende RAG-Modell evaluiert, was schlussendlich ebenso eine Evaluation der Qualität der Vorverarbeitung darbietet. In Kapitel \ref{chapter.diskussion} werden die Ergebnisse und Erkenntnisse diskutiert und in Kapitel \ref{chapter.fazit} ein Fazit gegeben.
-	
-	Diese Arbeit adressiert damit die Forschungslücke zwischen RAG-Modellen und domänenspezifischem, strukturiertem Wissen aus administrativen Wikis und entwickelt eine prototypische Pipeline zur datengetriebenen Vorbereitung solcher Wissensbestände.
-	
-	
-		\section{KI-Nutzung}
-
-	Als Hilfsmittel für die Erstellung der Arbeit wurde KI benutzt, namentlich OpenAI ChatGPT 5.0. Zunächst wurde für die Themenfindung viel mit der KI gechattet, wobei eine grobe Idee in Richtung "`RAG-LLM für Wissensmanagement in IT-Organisation"' von der Verfasserin dieser Arbeit vorgeschlagen wurde. Diese hat sich mit der Zeit immer weiter verfeinert, während von der KI wertvolle Hinweise gegeben wurden. Die KI hat auch bei einem theoretischen Einstieg in das Thema geholfen, indem sie Literaturvorschläge gemacht hat, und das Forschungsfeld erläuterte. Auch beim Lesen und Verstehen der Texte hat die KI geholfen, Sachverhalte zu erläutern, sowie beim Übersetzen von englischen Fachbegriffen ins Deutsche. Später hat die KI dazu beigetragen, die Arbeit zu strukturieren und zu gliedern und auch bei der Herangehensweise konnte sie wertvolle Tipps geben. Die KI hat die ganze Arbeit begleitet, indem sie bei technischen und auch psychologischen Hürden half, einen neuen Ansatz zu finden.
-	
-	Inhaltlich hat die KI die ersten Dummy-Daten und auch erste Code-Snippets für die Python-Skripte erzeugt. Diese wurden von der Verfasserin der Arbeit kuratiert, bewertet, überarbeitet, verbessert und weiterentwickelt. Die Nutzung der KI diente immer dem Einstieg, dem Befähigen zur Weiterentwicklung. Die daraus entstandenen Gedanken, Texte und Skripte sind die der Verfasserin. An keiner Stelle wurden generierte Texte übernommen und in die Arbeit eingefügt.
+Der RAG-Ansatz (\textit{Retrieval Augmented Generation}, vgl. Abschnitt \ref{section.rag}) ermöglicht es, externe Dokumente in die Antwortgenerierung vortrainierter Large Language Models (LLMs, vgl. Abschnitt \ref{section.llm}) einzubeziehen. Die relevanten Dokumente werden anhand einer Anfrage abgerufen und dem LLM zusammen mit dem Prompt bereitgestellt, sodass quellenbasierte Antworten erzeugt werden können. Während dieser Ansatz für natürlichsprachlichen Fließtext gut funktioniert \parencite{lewis_retrieval-augmented_2021}, stößt er bei der Verarbeitung strukturierter und semistrukturierter Inhalte an seine Grenzen.
+Insbesondere tabellarische Darstellungen und Übersichten liefern dem LLM häufig zu wenig expliziten Kontext, um die enthaltenen Informationen adäquat zu erfassen und in Beziehung zu setzen \parencite{sui_table_2023}. Dieses Problem tritt im IT-Betrieb besonders deutlich auf, da technische Dokumentationen stark von strukturierten Darstellungen wie Tabellen zu IP-Adressräumen, Portfreigaben oder Systemumgebungen geprägt sind. Für domänenspezifische, semistrukturierte IT-Administrationsdaten, wie sie typischerweise in internen Wikis vorliegen, existiert bislang nur begrenzte Forschung im Kontext von RAG-Systemen.
 
 	
-	\chapter{Theoretische Grundlagen}
+%	Daraus ergibt sich die folgende Forschungsfrage:
+%	Wie kann eine LLM-basierte Preprocessing-Pipeline strukturierte Wiki-Daten so transformieren, dass sie zur Verbesserung eines RAG-Sys\-tems für IT-administratives Wissensmanagement beitragen? Die zugrunde liegende Hypothese lautet:
+%	Eine automatische LLM-basierte Semantisierung strukturierter Wiki-Daten führt zu qualitativ hochwertigeren Wissensdokumenten und damit zu besseren Antworten eines RAG-Systems.
+%	
+
+Daraus ergibt sich die folgende Forschungsfrage:
+Inwiefern trägt eine LLM-gestützte semantische Kontextualisierung strukturierter Wiki-Inhalte zur verbesserten Nutzbarkeit dieser Inhalte in RAG-Systemen für das IT-administrative Wissensmanagement bei? Der Arbeit liegt die folgende Hypothese zugrunde:
+Die LLM-gestützte semantische Kontextualisierung strukturierter Wiki-Inhalte führt im Vergleich zu nicht kontextualisierten Tabellen zu einer verbesserten funktionalen Nutzbarkeit der resultierenden Wissensdokumente in RAG-Systemen.
+
+Zur Beantwortung der Forschungsfrage und zur Überprüfung der zugrunde liegenden Hypothese wird in dieser Arbeit ein LLM-gestütztes Vorgehensmodell zur Vorverarbeitung strukturierter Wiki-Daten entwickelt. Die Vorverarbeitung erfolgt vor der Integration der Daten in eine RAG-Wissensbasis und zielt darauf ab, strukturierte und semistrukturierte Inhalte für die nachgelagerte Nutzung durch ein RAG-System aufzubereiten.
+
+Die Vorverarbeitung umfasst zunächst ein Parsing der extrahierten Wiki-Dokumente, da diese initial im HTML-Format vorliegen. Dieses Parsing umfasst zunächst eine Bereinigung der Daten sowie die Umwandlung in eine Objektstruktur. Im nächsten Schritt werden ausgewählte Inhalte, insbesondere Tabellen und Übersichten, mithilfe eines LLMs semantisch kontextualisiert und in erklärenden Fließtext überführt. Dadurch entstehen prosebasierte Wissenseinheiten, die von einem RAG-System ohne spezielle Behandlung strukturierter Daten verarbeitet werden können.
+
+Zunächst werden in Kapitel \ref{chapter.theoretische-grundlagen} die Grundlagen zu Large Language Models und Retrieval Augmented Generation dargelegt. Danach wird in Kapitel \ref{chapter.related-works} der Forschungsstand zu RAG im Zusammenhang mit strukturierten Daten beschrieben und in Kapitel \ref{chapter.methode} die hier vorgeschlagene Methode zur Überbrückung der Forschungslücke.
+
+Die entwickelte Pipeline\footnote{\url{https://github.com/free-da/struct2prose}} wird in Kapitel \ref{chapter.preprocessing-pipeline} näher beschrieben. Die so aufbereiteten Dokumente bilden anschließend die Grundlage einer Wissensbasis, die für einen Chatbot im Rahmen eines RAG-Ansatzes genutzt wird. In Kapitel \ref{chapter.evaluation} erfolgt eine qualitative, funktionale Evaluation des resultierenden RAG-Systems, die zugleich Rückschlüsse auf die Qualität der Vorverarbeitung erlaubt. Die Ergebnisse werden in Kapitel \ref{chapter.diskussion} diskutiert und in Kapitel \ref{chapter.fazit} zusammengefasst.
+
+Die Beiträge dieser Arbeit lassen sich wie folgt zusammenfassen:
+\begin{itemize}
+	\item Entwicklung eines LLM-gestützten Vorgehensmodells zur semantischen Kontextualisierung strukturierter Wiki-Inhalte als vorgelagerter Schritt in RAG-Systemen.
+	\item Konzeptionelle Trennung zwischen deterministischer Vorverarbeitung (Parsing, Strukturierung) und probabilistischer, LLM-basierter Transformation strukturierter Inhalte in prosebasierte Wissenseinheiten.
+	\item Qualitative, funktionale Evaluation der Auswirkungen der kontextualisierten Wissensbasis auf die Nutzbarkeit eines RAG-Systems im domänenspezifischen Kontext des IT-administrativen Wissensmanagements.
+\end{itemize}
+
+
+Diese Arbeit adressiert damit eine Forschungslücke im Spannungsfeld zwischen RAG-Systemen und domänenspezifischem, strukturiertem Wissen aus administrativen Wikis und zeigt anhand einer prototypischen Umsetzung, wie eine LLM-gestützte Vorverarbeitung zur verbesserten Nutzbarkeit solcher Wissensbestände beitragen kann.
+
 	
-	In dieser Arbeit werden Grundlagen zu verschiedenen Phasen des AI-Lifecycle unabdingbar sein. Zunächst soll der Begriff der Large Language Models allgemein und der \textit{Foundation Models} im Speziellen geklärt werden. Danach wird der RAG-Ansatz stärker beleuchtet. Zum Schluss wird sich mit der Evaluation von RAG-Modellen beschäftigt.
+	
+		\chapter{KI-Nutzung}
+
+	Als Hilfsmittel für die Erstellung der Arbeit wurde KI benutzt, speziell in der Form von OpenAI ChatGPT 5.0, ChatGPT 5.1 sowie ChatGPT 5.2\footnote{\url{https://chatgpt.com/}}. Zunächst wurde für die Themenfindung viel mit dem Chatbot gechattet, wobei eine grobe Idee in Richtung "`RAG-LLM für Wissensmanagement in IT-Organisation"' von der Verfasserin dieser Arbeit vorgeschlagen wurde. Diese hat sich mit der Zeit immer weiter verfeinert, während von dem Chatbot wertvolle Hinweise gegeben wurden. Der Chatbot hat auch bei einem theoretischen Einstieg in das Thema geholfen, indem er Literaturvorschläge gemacht hat, und das Forschungsfeld erläuterte. Auch beim Lesen und Verstehen der Texte hat der Chatbot geholfen, Sachverhalte zu erläutern, sowie beim Übersetzen von englischen Fachbegriffen ins Deutsche. Später hat der Chatbot dazu beigetragen, die Arbeit zu strukturieren und zu gliedern und auch bei der Herangehensweise konnte er wertvolle Tipps geben. Der Chatbot hat die ganze Arbeit begleitet, indem er bei technischen und auch psychologischen Hürden half, einen neuen Ansatz zu finden. Er diente der Verfasserin sowohl als Coach als auch als "`Sparring-Partner"' in der Evaluation von Ideen, Konzepten und Herangehensweisen.
+	
+	Inhaltlich hat der Chatbot die ersten Dummy-Daten und auch erste Code-Snippets für die Python-Skripte erzeugt. Diese wurden von der Verfasserin der Arbeit kuratiert, bewertet, überarbeitet, verbessert und weiterentwickelt. Die Nutzung der KI diente immer dem Einstieg und dem Befähigen zur Weiterentwicklung. Die daraus entstandenen Gedanken, Texte und Skripte sind die der Verfasserin. 
+
+	
+	\chapter{Theoretische Grundlagen}\label{chapter.theoretische-grundlagen}
+	
+	In dieser Arbeit werden Grundlagen zu Large Language Modellen unabdingbar sein. Zunächst soll der Begriff der Large Language Models allgemein und der \textit{Foundation Models} im Speziellen geklärt werden. Danach wird der RAG-Ansatz stärker beleuchtet. %Zum Schluss wird sich mit der Evaluation von RAG-Modellen beschäftigt.
 	
 	 
 %		\section{Wissensmanagement in Organisationen}
@@ -366,7 +380,7 @@ Sofern im Rahmen der Erstellung dieser Arbeit Softwarewerkzeuge (z.\,B. Textvera
 %Bei der Korrektheit wird innerhalb der Generierungsphase evaluiert, wie \textit{tbc...}
 
 
-\chapter{Related Works}
+\chapter{Related Works}\label{chapter.related-works}
 
 %Hier steht ein kluger Einleitungssatz, damit ich nicht direkt mit den Unterkapiteln beginne.
 %(ca. 2–3 Seiten)
